@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jehovah Jire Ministry</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .hero-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1505506874110-6a7a69069a08?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .mission-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .mission-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        .staff-card {
+            transition: all 0.3s ease;
+        }
+        .staff-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+        .photo-modal {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+        }
+        .photo-modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .photo-modal-caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #fff;
+            padding: 10px 0;
+            height: 150px;
+            overflow: auto;
+        }
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            z-index: 3001;
+        }
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+        }
+        .photo-clickable {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <img class="h-10 w-10 rounded-full photo-clickable" src="media/photos/1768200744316.jpg" alt="Jehovah Jire Ministry Logo">
+                        <span class="ml-3 text-xl font-bold text-blue-800 hidden sm:block">Jehovah Jire Ministry</span>
+                        <span class="ml-3 text-lg font-bold text-blue-800 sm:hidden">JJM</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                    <a href="#home" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Home</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">About</a>
+                    <a href="missions.html" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Missions</a>
+                    <a href="gallery.html" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Gallery</a>
+                    <a href="team.html" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Team</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Contact</a>
+                    <button id="donateBtn" class="bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 text-white px-4 py-2 rounded-full font-semibold transition duration-300 shadow-md">Donate</button>
+                    <button id="adminLoginBtn" class="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white px-4 py-2 rounded-full font-semibold transition duration-300 shadow-md">Admin</button>
+                </div>
+                <div class="-mr-2 flex items-center md:hidden">
+                    <button id="mobileMenuButton" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <i class="fas fa-bars h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="hidden md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg">
+                <a href="#home" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-home mr-3"></i> Home</a>
+                <a href="about.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-info-circle mr-3"></i> About</a>
+                <a href="missions.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-bullseye mr-3"></i> Missions</a>
+                <a href="gallery.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-images mr-3"></i> Gallery</a>
+                <a href="team.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-users mr-3"></i> Team</a>
+                <a href="contact.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-address-book mr-3"></i> Contact</a>
+                <button id="donateBtnMobile" class="w-full mt-2 bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 text-white px-4 py-3 rounded-full font-semibold flex items-center justify-center"><i class="fas fa-donate mr-2"></i> Donate</button>
+                <button id="adminLoginBtnMobile" class="w-full mt-2 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white px-4 py-3 rounded-full font-semibold flex items-center justify-center"><i class="fas fa-lock mr-2"></i> Admin</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg pt-24 pb-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6">
+                    Jehovah Jire Ministry
+                </h1>
+                <p class="text-xl text-white max-w-3xl mx-auto mb-10">
+                    Led by the Holy Spirit, serving the needs of widows and orphans by sharing God's love, hope, and Word
+                </p>
+                <div class="flex justify-center space-x-4">
+                    <a href="#missions" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold text-lg transition duration-300">
+                        Our Mission
+                    </a>
+                    <a href="#contact" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-semibold text-lg transition duration-300">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">About Our Ministry</h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+                <div class="mt-4">
+                    <label for="languageSelector" class="text-gray-700 mr-2">Select Language:</label>
+                    <select id="languageSelector" class="bg-white border border-gray-300 rounded-md px-3 py-1 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="en" selected>English</option>
+                        <option value="sw">Swahili</option>
+                        <option value="fr">French</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                    <div class="text-blue-600 text-4xl mb-4 text-center">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center text-gray-900 mb-3">Our Vision</h3>
+                    <p class="text-gray-700 text-center">
+                        Restoring hope and dignity through God's provision
+                    </p>
+                    <div class="mt-4">
+                        <div class="language-content" data-language="en">
+                            <p class="text-gray-700">Our vision is to restore hope and dignity to the most vulnerable members of society through the compassionate provision of God's love. We envision a world where widows and orphans experience security, love, and opportunity through our ministry's dedicated service.</p>
+                        </div>
+                        <div class="language-content hidden" data-language="sw">
+                            <p class="text-gray-700">Mtazamo wetu ni kurejesha tumaini na utukufu kwa washirika wa chini kabisa wa jamii kupitia upako wa upendo wa Mungu. Tunawaza ulimwengu ambapo mjane na yatima watajiona salama, na upendo, na fursa kupitia huduma ya kina cha shirika letu.</p>
+                        </div>
+                        <div class="language-content hidden" data-language="fr">
+                            <p class="text-gray-700">Notre vision est de restaurer l'espérance et la dignité des membres les plus vulnérables de la société grâce à la disposition compatissante de l'amour de Dieu. Nous imaginons un monde où les veuves et les orphelins connaissent la sécurité, l'amour et l'opportunité grâce au service dévoué de notre ministère.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                    <div class="text-blue-600 text-4xl mb-4 text-center">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center text-gray-900 mb-3">Our Mission</h3>
+                    <p class="text-gray-700 text-center">
+                        Showing God's love through care, compassion and empowerment
+                    </p>
+                    <div class="mt-4">
+                        <div class="language-content" data-language="en">
+                            <p class="text-gray-700">Our mission is to demonstrate God's unconditional love by providing holistic care, compassion, and empowerment to widows and orphans. Through our dedicated service, we aim to meet both physical and spiritual needs, offering sustainable solutions that honor God and transform lives.</p>
+                        </div>
+                        <div class="language-content hidden" data-language="sw">
+                            <p class="text-gray-700">Misioni yetu ni kuonyesha upendo usio na masharti wa Mungu kwa kutoa utunzaji kamili, huruma, na uwezo wa kuwezesha mjane na yatima. Kupitia huduma yetu iliyojitoa, tunamaanisha kukutana na mahitaji ya mwili na roho, na kutoa suluhisho ambazo zinamtukuza Mungu na kubadilisha maisha.</p>
+                        </div>
+                        <div class="language-content hidden" data-language="fr">
+                            <p class="text-gray-700">Notre mission est de démontrer l'amour inconditionnel de Dieu en prodiguant des soins complets, de la compassion et de l'autonomisation aux veuves et aux orphelins. Par notre service dévoué, nous visons à répondre aux besoins physiques et spirituels, en offrant des solutions durables qui honorent Dieu et transforment les vies.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                    <div class="text-blue-600 text-4xl mb-4 text-center">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center text-gray-900 mb-3">Our Purpose</h3>
+                    <p class="text-gray-700 text-center">
+                        Serving God by caring for the vulnerable
+                    </p>
+                    <div class="mt-4">
+                        <div class="language-content" data-language="en">
+                            <p class="text-gray-700">Our purpose is to serve God by caring for the most vulnerable members of society. Guided by the Holy Spirit, we are committed to addressing the critical needs of widows and orphans, providing them with resources, support, and spiritual guidance that reflect the heart of God.</p>
+                        </div>
+                        <div class="language-content hidden" data-language="sw">
+                            <p class="text-gray-700">Kusudi letu ni kutumikia Mungu kwa kuwatunza washirika wa chini kabisa wa jamii. Tukiongozwa na Roho Mtakatifu, tunaazimia kujibu mahitaji muhimu ya mjane na yatima, kuwapa rasilimali, usaidizi, na mwelekeo wa kiroho ambao unaonyesha moyo wa Mungu.</p>
+                        </div>
+                        <div class="language-content hidden" data-language="fr">
+                            <p class="text-gray-700">Notre objectif est de servir Dieu en prenant soin des membres les plus vulnérables de la société. Guidés par le Saint-Esprit, nous nous engageons à répondre aux besoins critiques des veuves et des orphelins, en leur fournissant des ressources, du soutien et un guide spirituel qui reflètent le cœur de Dieu.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Missions Section -->
+    <section id="missions" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Missions</h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="mission-card bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-blue-600 text-3xl mb-4">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Housing Support</h3>
+                    <p class="text-gray-700">Providing safe, stable housing solutions for widows and orphans, ensuring they have a secure foundation to rebuild their lives and thrive in dignity.</p>
+                </div>
+
+                <div class="mission-card bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-blue-600 text-3xl mb-4">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Food Distribution</h3>
+                    <p class="text-gray-700">Implementing sustainable food programs that provide nutritious meals to families facing hunger and poverty, with a focus on long-term food security solutions.</p>
+                </div>
+
+                <div class="mission-card bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-blue-600 text-3xl mb-4">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Education Support</h3>
+                    <p class="text-gray-700">Creating pathways to education through scholarships, school supplies, and learning resources, empowering children to break the cycle of poverty through knowledge.</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12" id="moreMissionsButton">
+                <button onclick="showMoreMissions()" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold text-lg transition duration-300 shadow-lg">
+                    View All Missions
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8" id="additionalMissions" style="display: none;">
+                <div class="mission-card bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-blue-600 text-3xl mb-4">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Healthcare</h3>
+                    <p class="text-gray-700">Delivering essential medical care and health services to underserved communities, promoting wellness and preventing disease through education and prevention programs.</p>
+                </div>
+
+                <div class="mission-card bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-blue-600 text-3xl mb-4">
+                        <i class="fas fa-bible"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Spiritual Guidance</h3>
+                    <p class="text-gray-700">Offering spiritual support and biblical teachings to strengthen faith, providing hope and purpose through God's Word and community fellowship.</p>
+                </div>
+
+                <div class="mission-card bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-blue-600 text-3xl mb-4">
+                        <i class="fas fa-hands"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Community Outreach</h3>
+                    <p class="text-gray-700">Actively engaging with communities to identify and address their most pressing needs, fostering partnerships that create lasting positive change.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Leadership Team</h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md">
+                    <img src="media/photos/coordinator.png" alt="Aimeciane Wembakoy Dorcas" class="w-full h-48 object-cover photo-clickable">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">Aimeciane Wembakoy Dorcas</h3>
+                        <p class="text-blue-600 font-semibold">Coordinator</p>
+                        <p class="mt-2 text-gray-700">Leads the overall ministry operations with vision and dedication, ensuring our mission reaches those in need.</p>
+                    </div>
+                </div>
+
+                <div class="staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md">
+                    <img src="media/photos/vice _president.jpeg" alt="Byaombe Mshikongwe" class="w-full h-48 object-cover photo-clickable">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">Byaombe Mshikongwe</h3>
+                        <p class="text-blue-600 font-semibold">Vice Coordinator</p>
+                        <p class="mt-2 text-gray-700">Supports the coordinator in managing daily operations and provides strategic guidance for ministry initiatives.</p>
+                    </div>
+                </div>
+
+                <div class="staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md">
+                    <img src="media/photos/secre.jpeg" alt="Cambasita Miriam Sarahi" class="w-full h-48 object-cover photo-clickable">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">Cambasita Miriam Sarahi</h3>
+                        <p class="text-blue-600 font-semibold">Secretary</p>
+                        <p class="mt-2 text-gray-700">Manages administrative functions and ensures effective communication within the ministry and with stakeholders.</p>
+                    </div>
+                </div>
+
+                <div class="staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md">
+                    <img src="media/photos/tressure.jpeg" alt="Nyota Christine" class="w-full h-48 object-cover photo-clickable">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">Nyota Christine</h3>
+                        <p class="text-blue-600 font-semibold">Treasurer</p>
+                        <p class="mt-2 text-gray-700">Oversees financial management and ensures responsible stewardship of resources donated to the ministry.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Contact Us</h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-lg p-8 max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Get in Touch</h3>
+                        <p class="text-gray-700 mb-6">
+                            Have questions or want to get involved? Reach out to us through any of the following channels:
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-blue-100 p-3 rounded-full">
+                                    <i class="fas fa-phone text-blue-600"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-semibold text-gray-900">Contact Numbers</h4>
+                                    <p class="text-gray-700 mt-1">
+                                        <a href="https://wa.me/265993506106" class="text-blue-600 hover:underline flex items-center">
+                                            <i class="fab fa-whatsapp mr-2"></i>+265 993 506 106 (WhatsApp)
+                                        </a>
+                                        <a href="https://wa.me/265984345690" class="text-blue-600 hover:underline flex items-center mt-2">
+                                            <i class="fab fa-whatsapp mr-2"></i>+265 984 345 690 (WhatsApp)
+                                        </a>
+                                        <a href="tel:+265894846843" class="text-blue-600 hover:underline flex items-center mt-2">
+                                            <i class="fas fa-phone-alt mr-2"></i>+265 894 846 843 (Voice Call)
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 bg-blue-100 p-3 rounded-full">
+                                    <i class="fas fa-envelope text-blue-600"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-semibold text-gray-900">Email Address</h4>
+                                    <p class="text-gray-700 mt-1">
+                                        <a href="mailto:jehovahjireministry@gmail.com" class="text-blue-600 hover:underline flex items-center">
+                                            <i class="fas fa-envelope mr-2"></i>jehovahjireministry@gmail.com
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Send Us a Message</h3>
+                        <form id="contactForm">
+                            <div class="mb-4">
+                                <label for="name" class="block text-gray-700 font-medium mb-2">Name</label>
+                                <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                                <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            <div class="mb-4">
+                                <label for="message" class="block text-gray-700 font-medium mb-2">Message</label>
+                                <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Donation Section -->
+    <section class="py-16 bg-gradient-to-r from-blue-900 to-green-800 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Partner With Us Today</h2>
+                <p class="text-xl max-w-3xl mx-auto mb-8">
+                    Your generous donations help us continue our mission of serving widows, orphans, and the vulnerable. Every contribution makes a difference in someone's life.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                    <a href="https://wa.me/265993506106" class="inline-block bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-bold text-lg transition duration-300 shadow-lg">
+                        <i class="fas fa-donate mr-2"></i>Donate Now via WhatsApp
+                    </a>
+                    <a href="https://wa.me/265993506106" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-gray-900 px-8 py-4 rounded-full font-bold text-lg transition duration-300 shadow-lg">
+                        <i class="fab fa-whatsapp mr-2"></i>Contact for More Info
+                    </a>
+                </div>
+                <p class="mt-6 text-blue-200 max-w-2xl mx-auto">
+                    Join us in our mission to bring hope, healing, and transformation to those who need it most. Your partnership enables us to extend God's love to the most vulnerable members of society.
+                </p>
+            </div>
+
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white bg-opacity-10 p-6 rounded-lg backdrop-blur-sm">
+                    <div class="text-4xl mb-4 text-center">
+                        <i class="fas fa-hand-holding-usd text-yellow-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-2">Financial Support</h3>
+                    <p class="text-center">Your monetary contributions help us provide essential services like food, shelter, and healthcare to those in need.</p>
+                </div>
+
+                <div class="bg-white bg-opacity-10 p-6 rounded-lg backdrop-blur-sm">
+                    <div class="text-4xl mb-4 text-center">
+                        <i class="fas fa-gift text-yellow-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-2">Material Donations</h3>
+                    <p class="text-center">Donate clothing, school supplies, hygiene products, and other essentials to support our beneficiaries.</p>
+                </div>
+
+                <div class="bg-white bg-opacity-10 p-6 rounded-lg backdrop-blur-sm">
+                    <div class="text-4xl mb-4 text-center">
+                        <i class="fas fa-hands-helping text-yellow-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-2">Volunteer Services</h3>
+                    <p class="text-center">Give your time and skills to directly impact lives through our various ministry programs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-white" id="testimonials">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Testimonials</h2>
+                <p class="text-xl text-gray-700 max-w-3xl mx-auto">Hear from those whose lives have been transformed through our ministry</p>
+                <div class="w-20 h-1 bg-blue-600 mx-auto mt-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gray-200 border-2 border-dashed rounded-full w-16 h-16 flex items-center justify-center text-gray-500">
+                            <i class="fas fa-user text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-bold text-gray-900">Grace M.</h4>
+                            <p class="text-blue-600">Beneficiary</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic">"Jehovah Jire Ministry changed my life when I had lost all hope. Through their food program, I was able to feed my children when I had no means. Their spiritual guidance gave me strength to persevere."</p>
+                    <div class="flex text-yellow-400 mt-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gray-200 border-2 border-dashed rounded-full w-16 h-16 flex items-center justify-center text-gray-500">
+                            <i class="fas fa-user text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-bold text-gray-900">Michael T.</h4>
+                            <p class="text-blue-600">Widow Support Recipient</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic">"After my husband passed away, I didn't know how I would support my family. Jehovah Jire Ministry provided not just material help, but emotional and spiritual support that helped me rebuild my life."</p>
+                    <div class="flex text-yellow-400 mt-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gray-200 border-2 border-dashed rounded-full w-16 h-16 flex items-center justify-center text-gray-500">
+                            <i class="fas fa-user text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-bold text-gray-900">Sarah K.</h4>
+                            <p class="text-blue-600">Orphan</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic">"The education support I received through Jehovah Jire Ministry allowed me to continue my studies. Without their help, I would never have been able to pursue my dream of becoming a teacher."</p>
+                    <div class="flex text-yellow-400 mt-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6">Share Your Story</h3>
+                <p class="text-gray-700 max-w-2xl mx-auto mb-8">Have you been impacted by our ministry? We'd love to hear your story and potentially feature it to inspire others.</p>
+                <a href="#contact" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold transition duration-300">
+                    Contact Us
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Media Gallery Section -->
+    <section class="py-16 bg-gray-50" id="gallery">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Ministry in Action</h2>
+                <p class="text-xl text-gray-700 max-w-3xl mx-auto">Experience the impact of our work through photos and videos from our various ministry activities</p>
+                <div class="w-20 h-1 bg-blue-600 mx-auto mt-4"></div>
+            </div>
+
+            <!-- Photo Gallery -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Photo Gallery</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg">
+                        <img src="media/photos/1768200744111.jpg" alt="Ministry activity" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Ministry Outreach</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg">
+                        <img src="media/photos/1768200744123.jpg" alt="Community service" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Community Service</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg">
+                        <img src="media/photos/1768200744137.jpg" alt="Feeding program" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Feeding Program</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg">
+                        <img src="media/photos/1768200744159.jpg" alt="Educational support" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Educational Support</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg">
+                        <img src="media/photos/1768200744172.jpg" alt="Healthcare initiative" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Healthcare Initiative</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg">
+                        <img src="media/photos/1768200744183.jpg" alt="Widow support" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Widow Support</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg">
+                        <img src="media/photos/1768200744192.jpg" alt="Orphan care" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Orphan Care</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg">
+                        <img src="media/photos/1768200744202.jpg" alt="Spiritual guidance" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Spiritual Guidance</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Gallery -->
+            <div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Video Gallery</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div class="relative pb-[56.25%] h-0"> <!-- 16:9 Aspect Ratio -->
+                            <video id="video1" class="w-full h-full absolute top-0 left-0" controls poster="media/photos/1768200744111.jpg">
+                                <source src="media/videos/VID-20260110-WA0045.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-gray-900">Ministry Overview</h4>
+                            <p class="text-gray-700 text-sm">An introduction to our mission and work</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div class="relative pb-[56.25%] h-0"> <!-- 16:9 Aspect Ratio -->
+                            <video id="video2" class="w-full h-full absolute top-0 left-0" controls poster="media/photos/1768200744137.jpg">
+                                <source src="media/videos/VID-20260110-WA0046.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-gray-900">Community Outreach</h4>
+                            <p class="text-gray-700 text-sm">Our work in the local community</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div class="relative pb-[56.25%] h-0"> <!-- 16:9 Aspect Ratio -->
+                            <video id="video3" class="w-full h-full absolute top-0 left-0" controls poster="media/photos/1768200744172.jpg">
+                                <source src="media/videos/VID-20260110-WA0047.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-gray-900">Impact Stories</h4>
+                            <p class="text-gray-700 text-sm">Stories of hope and transformation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-br from-blue-900 to-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center">
+                        <img class="h-12 w-12 rounded-full border-2 border-white" src="media/photos/1768200744316.jpg" alt="Jehovah Jire Ministry Logo">
+                        <span class="ml-3 text-xl font-bold">Jehovah Jire Ministry</span>
+                    </div>
+                    <p class="mt-4 text-gray-300">
+                        Led by the Holy Spirit, serving the needs of widows and orphans by sharing God's love, hope, and Word.
+                    </p>
+                    <div class="mt-4 flex space-x-4">
+                        <a href="https://wa.me/265993506106" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-whatsapp text-2xl"></i>
+                        </a>
+                        <a href="mailto:jehovahjireministry@gmail.com" class="text-gray-400 hover:text-white">
+                            <i class="fas fa-envelope text-2xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html#home" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Home</a></li>
+                        <li><a href="about.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> About</a></li>
+                        <li><a href="missions.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Missions</a></li>
+                        <li><a href="team.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Team</a></li>
+                        <li><a href="contact.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Our Ministries</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Housing Support</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Food Distribution</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Education Support</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Healthcare</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Spiritual Guidance</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Info</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start">
+                            <i class="fas fa-phone mt-1 mr-3 text-green-500"></i>
+                            <span>
+                                <a href="https://wa.me/265993506106" class="hover:text-white block">+265 993 506 106 (WhatsApp)</a>
+                                <a href="https://wa.me/265984345690" class="hover:text-white block mt-1">+265 984 345 690 (WhatsApp)</a>
+                                <a href="tel:+265894846843" class="hover:text-white block mt-1">+265 894 846 843 (Voice Call)</a>
+                            </span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-3 text-green-500"></i>
+                            <span><a href="mailto:jehovahjireministry@gmail.com" class="hover:text-white">jehovahjireministry@gmail.com</a></span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-green-500"></i>
+                            <span>Malawi</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-10 pt-6 text-center text-gray-400">
+                <p>&copy; 2026 Jehovah Jire Ministry. All rights reserved. | Serving with Love, Faith, and Dedication</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Admin Login Modal -->
+    <div id="adminModal" class="admin-panel">
+        <div class="relative max-w-md mx-auto mt-20 bg-white rounded-lg shadow-xl p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-900">Admin Login</h3>
+                <button id="closeAdminModal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="adminLoginForm">
+                <div class="mb-4">
+                    <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
+                    <input type="text" id="username" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Enter username">
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
+                    <input type="password" id="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Enter password">
+                </div>
+                <div class="mb-4 text-center">
+                    <button type="button" id="forgotPasswordBtn" class="text-blue-600 hover:text-blue-800 font-medium">
+                        Forgot Password?
+                    </button>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold">
+                    Login
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="admin-panel">
+        <div class="max-w-7xl mx-auto p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">Admin Dashboard</h2>
+                <div class="flex space-x-2">
+                    <button id="changePasswordBtn" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg mr-2">
+                        Change Password
+                    </button>
+                    <button id="logoutBtn" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
+                        Logout
+                    </button>
+                </div>
+            </div>
+
+            <!-- Change Password Modal -->
+            <div id="changePasswordModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+                <div class="bg-white p-6 rounded-lg w-96">
+                    <h3 class="text-xl font-bold mb-4">Change Admin Password</h3>
+                    <form id="changePasswordForm">
+                        <div class="mb-4">
+                            <label for="currentPassword" class="block text-gray-700 font-medium mb-2">Current Password</label>
+                            <input type="password" id="currentPassword" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Enter current password" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="newPassword" class="block text-gray-700 font-medium mb-2">New Password</label>
+                            <input type="password" id="newPassword" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Enter new password" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="confirmNewPassword" class="block text-gray-700 font-medium mb-2">Confirm New Password</label>
+                            <input type="password" id="confirmNewPassword" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Confirm new password" required>
+                        </div>
+                        <div class="flex justify-end space-x-2">
+                            <button type="button" id="cancelChangePassword" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">Cancel</button>
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Change Password</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Website Content Management -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Website Content</h3>
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-2">Edit Hero Section</h4>
+                        <form id="editHeroForm">
+                            <div class="mb-4">
+                                <label for="heroTitle" class="block text-gray-700 font-medium mb-2">Title</label>
+                                <input type="text" id="heroTitle" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Hero Title">
+                            </div>
+                            <div class="mb-4">
+                                <label for="heroSubtitle" class="block text-gray-700 font-medium mb-2">Subtitle</label>
+                                <textarea id="heroSubtitle" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Hero Subtitle"></textarea>
+                            </div>
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                                Update Hero
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-2">Edit Vision Statement</h4>
+                        <form id="editVisionForm">
+                            <div class="mb-4">
+                                <label for="visionText" class="block text-gray-700 font-medium mb-2">Vision</label>
+                                <textarea id="visionText" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Vision Statement"></textarea>
+                            </div>
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                                Update Vision
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Staff Management -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Staff Management</h3>
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-2">Add/Edit Staff Member</h4>
+                        <form id="addStaffForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" id="staffName" class="px-4 py-2 border border-gray-300 rounded-lg" placeholder="Full Name">
+                            <input type="text" id="staffPosition" class="px-4 py-2 border border-gray-300 rounded-lg" placeholder="Position">
+                            <input type="text" id="staffImage" class="px-4 py-2 border border-gray-300 rounded-lg" placeholder="Image URL">
+                            <div class="md:col-span-2">
+                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                                    Add Staff
+                                </button>
+                                <button type="button" id="updateStaffBtn" class="hidden bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg ml-2">
+                                    Update Staff
+                                </button>
+                                <button type="button" id="cancelEditBtn" class="hidden bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg ml-2">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Current Staff</h4>
+                        <div id="staffList" class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Position</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="staffTableBody" class="bg-white divide-y divide-gray-200">
+                                    <!-- Staff will be added dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonials Management -->
+                <div class="lg:col-span-3 bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Testimonials Management</h3>
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-2">Add/Edit Testimonial</h4>
+                        <form id="addTestimonialForm">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="mb-4 md:mb-0">
+                                    <label for="testimonialName" class="block text-gray-700 font-medium mb-2">Name</label>
+                                    <input type="text" id="testimonialName" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Full Name">
+                                </div>
+                                <div class="mb-4 md:mb-0">
+                                    <label for="testimonialRole" class="block text-gray-700 font-medium mb-2">Role</label>
+                                    <input type="text" id="testimonialRole" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Role/Position">
+                                </div>
+                                <div class="mb-4 md:mb-0">
+                                    <label for="testimonialRating" class="block text-gray-700 font-medium mb-2">Rating</label>
+                                    <select id="testimonialRating" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                                        <option value="5">5 Stars</option>
+                                        <option value="4">4 Stars</option>
+                                        <option value="3">3 Stars</option>
+                                        <option value="2">2 Stars</option>
+                                        <option value="1">1 Star</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="testimonialContent" class="block text-gray-700 font-medium mb-2">Testimonial</label>
+                                <textarea id="testimonialContent" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Testimonial content"></textarea>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                                    Add Testimonial
+                                </button>
+                                <button type="button" id="updateTestimonialBtn" class="hidden bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg">
+                                    Update Testimonial
+                                </button>
+                                <button type="button" id="cancelTestimonialEditBtn" class="hidden bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Recent Testimonials</h4>
+                        <div id="testimonialsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Testimonials will be added dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Post Management -->
+                <div class="lg:col-span-3 bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Post Management</h3>
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-2">Create/Edit Post</h4>
+                        <form id="addPostForm">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="mb-4 md:mb-0">
+                                    <label for="postTitle" class="block text-gray-700 font-medium mb-2">Title</label>
+                                    <input type="text" id="postTitle" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Post Title">
+                                </div>
+                                <div class="mb-4 md:mb-0">
+                                    <label for="postCategory" class="block text-gray-700 font-medium mb-2">Category</label>
+                                    <select id="postCategory" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                                        <option value="announcement">Announcement</option>
+                                        <option value="event">Event</option>
+                                        <option value="testimony">Testimony</option>
+                                        <option value="news">News</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="postContent" class="block text-gray-700 font-medium mb-2">Content</label>
+                                <textarea id="postContent" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Post Content"></textarea>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                                    Publish Post
+                                </button>
+                                <button type="button" id="updatePostBtn" class="hidden bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg">
+                                    Update Post
+                                </button>
+                                <button type="button" id="cancelPostEditBtn" class="hidden bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Recent Posts</h4>
+                        <div id="postsList" class="space-y-3">
+                            <!-- Posts will be added dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Container -->
+    <div class="chatbot-container">
+        <button id="chatbotToggle" class="bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700">
+            <i class="fas fa-robot text-xl"></i>
+        </button>
+        <div id="chatbotPanel" class="hidden bg-white rounded-lg shadow-xl w-80 h-96 flex flex-col">
+            <div class="bg-blue-600 text-white p-4 rounded-t-lg flex justify-between items-center">
+                <h3 class="font-bold">Ministry Assistant</h3>
+                <button id="closeChatbot" class="text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="chatMessages" class="flex-grow p-4 overflow-y-auto">
+                <div class="mb-4">
+                    <div class="bg-gray-200 p-3 rounded-lg inline-block">
+                        Hello! I'm your Jehovah Jire Ministry assistant. How can I help you today?
+                    </div>
+                </div>
+            </div>
+            <div class="p-3 border-t">
+                <div class="flex">
+                    <input type="text" id="chatInput" class="flex-grow px-3 py-2 border rounded-l-lg focus:outline-none" placeholder="Type your message...">
+                    <button id="sendChat" class="bg-blue-600 text-white px-4 py-2 rounded-r-lg">Send</button>
+                </div>
+                <div class="mt-2 text-sm text-center">
+                    <a href="https://wa.me/265993506106" class="text-blue-600 hover:underline">For more info, contact us on WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Admin Login
+        document.getElementById('adminLoginBtn').addEventListener('click', function() {
+            document.getElementById('adminModal').style.display = 'block';
+        });
+
+        document.getElementById('adminLoginBtnMobile').addEventListener('click', function() {
+            document.getElementById('adminModal').style.display = 'block';
+        });
+
+        document.getElementById('closeAdminModal').addEventListener('click', function() {
+            document.getElementById('adminModal').style.display = 'none';
+        });
+
+        // Default admin credentials
+        const adminCredentials = {
+            username: 'admin',
+            password: 'admin123'
+        };
+
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === adminCredentials.username && password === adminCredentials.password) {
+                document.getElementById('adminModal').style.display = 'none';
+                document.getElementById('adminDashboard').style.display = 'block';
+                // Clear form
+                document.getElementById('adminLoginForm').reset();
+            } else {
+                alert('Invalid credentials. Default: Username: admin, Password: admin123');
+            }
+        });
+
+        // Close admin dashboard
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            document.getElementById('adminDashboard').style.display = 'none';
+        });
+
+        // Forgot Password functionality
+        document.getElementById('forgotPasswordBtn').addEventListener('click', function() {
+            alert('Password reset instructions:\n\nDefault Username: admin\nDefault Password: admin123\n\nPlease use these credentials to log in to the admin panel.');
+        });
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            document.getElementById('adminDashboard').style.display = 'none';
+        });
+
+        // Change Password functionality
+        document.getElementById('changePasswordBtn').addEventListener('click', function() {
+            document.getElementById('changePasswordModal').classList.remove('hidden');
+        });
+
+        document.getElementById('cancelChangePassword').addEventListener('click', function() {
+            document.getElementById('changePasswordModal').classList.add('hidden');
+            document.getElementById('changePasswordForm').reset();
+        });
+
+        document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+            // Check if current password matches
+            if (currentPassword !== adminCredentials.password) {
+                alert('Current password is incorrect.');
+                return;
+            }
+
+            // Check if new passwords match
+            if (newPassword !== confirmNewPassword) {
+                alert('New passwords do not match.');
+                return;
+            }
+
+            // Check password strength (at least 6 characters)
+            if (newPassword.length < 6) {
+                alert('Password must be at least 6 characters long.');
+                return;
+            }
+
+            // Update the password
+            adminCredentials.password = newPassword;
+            alert('Password changed successfully!');
+
+            // Reset and close the form
+            document.getElementById('changePasswordForm').reset();
+            document.getElementById('changePasswordModal').classList.add('hidden');
+        });
+
+        // Chatbot functionality
+        document.getElementById('chatbotToggle').addEventListener('click', function() {
+            document.getElementById('chatbotPanel').classList.toggle('hidden');
+        });
+
+        document.getElementById('closeChatbot').addEventListener('click', function() {
+            document.getElementById('chatbotPanel').classList.add('hidden');
+        });
+
+        document.getElementById('sendChat').addEventListener('click', function() {
+            sendMessage();
+        });
+
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+
+            if (message) {
+                // Add user message
+                const chatMessages = document.getElementById('chatMessages');
+                const userMessageDiv = document.createElement('div');
+                userMessageDiv.className = 'mb-4 text-right';
+                userMessageDiv.innerHTML = `<div class="bg-blue-100 text-gray-800 p-3 rounded-lg inline-block">${message}</div>`;
+                chatMessages.appendChild(userMessageDiv);
+
+                // Clear input
+                input.value = '';
+
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // Simulate bot response after a delay
+                setTimeout(() => {
+                    const botResponse = getBotResponse(message);
+                    const botMessageDiv = document.createElement('div');
+                    botMessageDiv.className = 'mb-4';
+                    botMessageDiv.innerHTML = `<div class="bg-gray-200 p-3 rounded-lg inline-block">${botResponse}</div>`;
+                    chatMessages.appendChild(botMessageDiv);
+
+                    // Scroll to bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            }
+        }
+
+        function getBotResponse(message) {
+            const lowerMsg = message.toLowerCase();
+
+            if (lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {
+                return "Hello! Welcome to Jehovah Jire Ministry. How can I assist you today?";
+            } else if (lowerMsg.includes('donate') || lowerMsg.includes('contribute')) {
+                return "Thank you for considering a donation! You can donate by clicking the 'Donate' button on our website or contacting us directly on WhatsApp at +265 993 506 106";
+            } else if (lowerMsg.includes('contact') || lowerMsg.includes('phone') || lowerMsg.includes('email')) {
+                return "You can reach us at +265 993 506 106 (WhatsApp), +265 984 345 690 (WhatsApp), +265 894 846 843 (Call), or email us at jehovahjireministry@gmail.com";
+            } else if (lowerMsg.includes('mission') || lowerMsg.includes('purpose') || lowerMsg.includes('vision')) {
+                return "Our mission is to show God's love through care, compassion and empowerment. We serve widows, orphans, and the vulnerable by providing housing, food, education, healthcare, and spiritual guidance.";
+            } else if (lowerMsg.includes('team') || lowerMsg.includes('leader') || lowerMsg.includes('members')) {
+                return "Our leadership team includes: Coordinator - Aimeciane Wembakoy Dorcas, Vice Coordinator - Byaombe Mshikongwe, Secretary - Cambasita Miriam Sarahi, and Treasurer - Nyota Christine. We also have dedicated members: Botonga Idi, Shabani, Sadiki, and Veronica.";
+            } else if (lowerMsg.includes('help') || lowerMsg.includes('support')) {
+                return "We offer various support services including housing assistance, food distribution, education support, healthcare, and spiritual guidance. For more information, contact us on WhatsApp at +265 993 506 106";
+            } else if (lowerMsg.includes('gallery') || lowerMsg.includes('photos') || lowerMsg.includes('videos')) {
+                return "Explore our gallery to see the impact of our ministry through photos and videos of our outreach activities. You can find inspiring stories of hope and transformation!";
+            } else {
+                return "Thank you for your message. For more detailed information about our ministry, please contact us directly on WhatsApp at +265 993 506 106 or visit our contact page.";
+            }
+        }
+
+        // Donate button functionality
+        document.getElementById('donateBtn').addEventListener('click', function() {
+            window.open('https://wa.me/265993506106', '_blank');
+        });
+
+        document.getElementById('donateBtnMobile').addEventListener('click', function() {
+            window.open('https://wa.me/265993506106', '_blank');
+        });
+
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            document.getElementById('contactForm').reset();
+        });
+
+        // Sample staff data
+        const sampleStaff = [
+            { name: "Aimeciane Wembakoy Dorcas", position: "Coordinator" },
+            { name: "Byaombe Mshikongwe", position: "Vice Coordinator" },
+            { name: "Cambasita Miriam Sarahi", position: "Secretary" },
+            { name: "Nyota Christine", position: "Treasurer" },
+            { name: "Botonga Idi", position: "Member" },
+            { name: "Shabani", position: "Member" },
+            { name: "Sadiki", position: "Member" },
+            { name: "Veronica", position: "Member" }
+        ];
+
+        // Populate staff table
+        function populateStaffTable() {
+            const tableBody = document.getElementById('staffTableBody');
+            tableBody.innerHTML = '';
+
+            sampleStaff.forEach((staff, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">${staff.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${staff.position}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <button onclick="editStaff(${index})" class="text-blue-600 hover:text-blue-900 mr-2">Edit</button>
+                        <button onclick="deleteStaff(${index})" class="text-red-600 hover:text-red-900">Delete</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Initialize staff table
+        populateStaffTable();
+
+        // Staff management functions
+        function editStaff(index) {
+            alert(`Edit functionality for ${sampleStaff[index].name}`);
+        }
+
+        function deleteStaff(index) {
+            if (confirm(`Are you sure you want to remove ${sampleStaff[index].name} from the staff list?`)) {
+                sampleStaff.splice(index, 1);
+                populateStaffTable();
+            }
+        }
+
+        document.getElementById('addStaffForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('staffName').value;
+            const position = document.getElementById('staffPosition').value;
+
+            if (name && position) {
+                sampleStaff.push({ name, position });
+                populateStaffTable();
+                document.getElementById('addStaffForm').reset();
+            }
+        });
+
+        // Sample posts data
+        const samplePosts = [
+            { title: "Feeding Program Success", content: "Our recent feeding program helped 200 families in need." },
+            { title: "New Education Initiative", content: "We've launched a scholarship program for 50 underprivileged children." }
+        ];
+
+        // Populate posts list
+        function populatePostsList() {
+            const postsList = document.getElementById('postsList');
+            postsList.innerHTML = '';
+
+            samplePosts.forEach((post, index) => {
+                const postDiv = document.createElement('div');
+                postDiv.className = 'bg-gray-50 p-3 rounded-lg';
+                postDiv.innerHTML = `
+                    <h4 class="font-semibold">${post.title}</h4>
+                    <p class="text-sm text-gray-600 mt-1">${post.content.substring(0, 80)}...</p>
+                    <div class="mt-2 flex space-x-2">
+                        <button onclick="editPost(${index})" class="text-blue-600 hover:text-blue-900 text-sm">Edit</button>
+                        <button onclick="deletePost(${index})" class="text-red-600 hover:text-red-900 text-sm">Delete</button>
+                    </div>
+                `;
+                postsList.appendChild(postDiv);
+            });
+        }
+
+        // Initialize posts list
+        populatePostsList();
+
+        // Post management functions
+        function editPost(index) {
+            alert(`Edit functionality for post: ${samplePosts[index].title}`);
+        }
+
+        function deletePost(index) {
+            if (confirm(`Are you sure you want to delete the post "${samplePosts[index].title}"?`)) {
+                samplePosts.splice(index, 1);
+                populatePostsList();
+            }
+        }
+
+        document.getElementById('addPostForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('postTitle').value;
+            const content = document.getElementById('postContent').value;
+
+            if (title && content) {
+                samplePosts.unshift({ title, content });
+                populatePostsList();
+                document.getElementById('addPostForm').reset();
+            }
+        });
+
+        // Video player functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const videos = document.querySelectorAll('video');
+
+            videos.forEach(video => {
+                // Add play/pause functionality
+                video.addEventListener('click', function() {
+                    if (this.paused) {
+                        this.play();
+                    } else {
+                        this.pause();
+                    }
+                });
+
+                // Add keyboard controls
+                video.addEventListener('keydown', function(e) {
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                        if (this.paused) {
+                            this.play();
+                        } else {
+                            this.pause();
+                        }
+                    }
+                });
+            });
+        });
+
+        // Admin Dashboard Functions
+        // Initialize forms
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial values for hero section
+            document.getElementById('heroTitle').value = "Jehovah Jire Ministry";
+            document.getElementById('heroSubtitle').value = "Led by the Holy Spirit, serving the needs of widows and orphans by sharing God's love, hope, and Word";
+            document.getElementById('visionText').value = "Our vision is to restore hope and dignity to the most vulnerable members of society through the compassionate provision of God's love. We envision a world where widows and orphans experience security, love, and opportunity through our ministry's dedicated service.";
+        });
+
+        // Update hero section
+        document.getElementById('editHeroForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newTitle = document.getElementById('heroTitle').value;
+            const newSubtitle = document.getElementById('heroSubtitle').value;
+
+            // Update the hero section on the page
+            document.querySelector('#home h1').textContent = newTitle;
+            document.querySelector('#home .max-w-3xl.mx-auto').textContent = newSubtitle;
+
+            alert('Hero section updated successfully!');
+        });
+
+        // Update vision statement
+        document.getElementById('editVisionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newVision = document.getElementById('visionText').value;
+
+            // Update the vision statement on the page
+            document.querySelector('#about .bg-gray-50 p.text-center').textContent = newVision;
+
+            alert('Vision statement updated successfully!');
+        });
+
+        // Function to refresh page content after updates
+        function refreshPageContent() {
+            // This would typically reload the page or update content from a data source
+            alert('Content updated successfully! Page would refresh in a live environment.');
+        }
+
+        // Sample testimonials data
+        const sampleTestimonials = [
+            { name: "Grace M.", role: "Beneficiary", content: "Jehovah Jire Ministry changed my life when I had lost all hope. Through their food program, I was able to feed my children when I had no means. Their spiritual guidance gave me strength to persevere.", rating: 5 },
+            { name: "Michael T.", role: "Widow Support Recipient", content: "After my husband passed away, I didn't know how I would support my family. Jehovah Jire Ministry provided not just material help, but emotional and spiritual support that helped me rebuild my life.", rating: 5 },
+            { name: "Sarah K.", role: "Orphan", content: "The education support I received through Jehovah Jire Ministry allowed me to continue my studies. Without their help, I would never have been able to pursue my dream of becoming a teacher.", rating: 5 }
+        ];
+
+        // Populate testimonials list
+        function populateTestimonialsList() {
+            const testimonialsList = document.getElementById('testimonialsList');
+            testimonialsList.innerHTML = '';
+
+            sampleTestimonials.forEach((testimonial, index) => {
+                const testimonialDiv = document.createElement('div');
+                testimonialDiv.className = 'bg-gray-50 p-4 rounded-lg shadow-sm';
+                testimonialDiv.innerHTML = `
+                    <div class="flex items-center mb-2">
+                        <div class="bg-gray-200 border-2 border-dashed rounded-full w-10 h-10 flex items-center justify-center text-gray-500 text-xs">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="font-semibold text-gray-900">${testimonial.name}</h4>
+                            <p class="text-blue-600 text-sm">${testimonial.role}</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 text-sm mb-2">"${testimonial.content.substring(0, 80)}..."</p>
+                    <div class="flex text-yellow-400">
+                        ${'<i class="fas fa-star"></i>'.repeat(testimonial.rating)}
+                        ${'<i class="far fa-star"></i>'.repeat(5 - testimonial.rating)}
+                    </div>
+                    <div class="mt-3 flex space-x-2">
+                        <button onclick="editTestimonial(${index})" class="text-blue-600 hover:text-blue-900 text-sm">Edit</button>
+                        <button onclick="deleteTestimonial(${index})" class="text-red-600 hover:text-red-900 text-sm">Delete</button>
+                    </div>
+                `;
+                testimonialsList.appendChild(testimonialDiv);
+            });
+        }
+
+        // Initialize testimonials list
+        populateTestimonialsList();
+
+        // Testimonial management functions
+        function editTestimonial(index) {
+            const testimonial = sampleTestimonials[index];
+            document.getElementById('testimonialName').value = testimonial.name;
+            document.getElementById('testimonialRole').value = testimonial.role;
+            document.getElementById('testimonialContent').value = testimonial.content;
+            document.getElementById('testimonialRating').value = testimonial.rating;
+
+            // Show update and cancel buttons, hide add button
+            document.getElementById('updateTestimonialBtn').classList.remove('hidden');
+            document.getElementById('cancelTestimonialEditBtn').classList.remove('hidden');
+            document.querySelector('#addTestimonialForm button[type="submit"]').classList.add('hidden');
+
+            // Change the form submit handler to update instead of add
+            const form = document.getElementById('addTestimonialForm');
+            form.onsubmit = function(e) {
+                e.preventDefault();
+                testimonial.name = document.getElementById('testimonialName').value;
+                testimonial.role = document.getElementById('testimonialRole').value;
+                testimonial.content = document.getElementById('testimonialContent').value;
+                testimonial.rating = document.getElementById('testimonialRating').value;
+                populateTestimonialsList();
+
+                // Reset the form and handler
+                document.getElementById('addTestimonialForm').reset();
+                document.getElementById('updateTestimonialBtn').classList.add('hidden');
+                document.getElementById('cancelTestimonialEditBtn').classList.add('hidden');
+                document.querySelector('#addTestimonialForm button[type="submit"]').classList.remove('hidden');
+
+                document.getElementById('addTestimonialForm').onsubmit = function(e) {
+                    e.preventDefault();
+                    const name = document.getElementById('testimonialName').value;
+                    const role = document.getElementById('testimonialRole').value;
+                    const content = document.getElementById('testimonialContent').value;
+                    const rating = document.getElementById('testimonialRating').value;
+
+                    if (name && role && content) {
+                        sampleTestimonials.unshift({ name, role, content, rating: parseInt(rating) });
+                        populateTestimonialsList();
+                        document.getElementById('addTestimonialForm').reset();
+                    }
+                };
+            };
+        }
+
+        // Cancel testimonial edit
+        document.getElementById('cancelTestimonialEditBtn').addEventListener('click', function() {
+            document.getElementById('addTestimonialForm').reset();
+            document.getElementById('updateTestimonialBtn').classList.add('hidden');
+            document.getElementById('cancelTestimonialEditBtn').classList.add('hidden');
+            document.querySelector('#addTestimonialForm button[type="submit"]').classList.remove('hidden');
+
+            // Reset the form handler
+            document.getElementById('addTestimonialForm').onsubmit = function(e) {
+                e.preventDefault();
+                const name = document.getElementById('testimonialName').value;
+                const role = document.getElementById('testimonialRole').value;
+                const content = document.getElementById('testimonialContent').value;
+                const rating = document.getElementById('testimonialRating').value;
+
+                if (name && role && content) {
+                    sampleTestimonials.unshift({ name, role, content, rating: parseInt(rating) });
+                    populateTestimonialsList();
+                    document.getElementById('addTestimonialForm').reset();
+                }
+            };
+        });
+
+        function deleteTestimonial(index) {
+            if (confirm(`Are you sure you want to delete the testimonial from "${sampleTestimonials[index].name}"?`)) {
+                sampleTestimonials.splice(index, 1);
+                populateTestimonialsList();
+            }
+        }
+
+        // Add testimonial form submission
+        document.getElementById('addTestimonialForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('testimonialName').value;
+            const role = document.getElementById('testimonialRole').value;
+            const content = document.getElementById('testimonialContent').value;
+            const rating = document.getElementById('testimonialRating').value;
+
+            if (name && role && content) {
+                sampleTestimonials.unshift({ name, role, content, rating: parseInt(rating) });
+                populateTestimonialsList();
+                document.getElementById('addTestimonialForm').reset();
+            }
+        });
+
+        function editStaff(index) {
+            const staff = sampleStaff[index];
+            document.getElementById('staffName').value = staff.name;
+            document.getElementById('staffPosition').value = staff.position;
+            // In a real app, you would also set the image field
+
+            // Show update and cancel buttons, hide add button
+            document.getElementById('updateStaffBtn').classList.remove('hidden');
+            document.getElementById('cancelEditBtn').classList.remove('hidden');
+            document.querySelector('#addStaffForm button[type="submit"]').classList.add('hidden');
+
+            // Change the form submit handler to update instead of add
+            const form = document.getElementById('addStaffForm');
+            form.onsubmit = function(e) {
+                e.preventDefault();
+                staff.name = document.getElementById('staffName').value;
+                staff.position = document.getElementById('staffPosition').value;
+                // In a real app, you would also update the image
+                populateStaffTable();
+
+                // Reset the form and handler
+                document.getElementById('addStaffForm').reset();
+                document.getElementById('updateStaffBtn').classList.add('hidden');
+                document.getElementById('cancelEditBtn').classList.add('hidden');
+                document.querySelector('#addStaffForm button[type="submit"]').classList.remove('hidden');
+
+                document.getElementById('addStaffForm').onsubmit = function(e) {
+                    e.preventDefault();
+                    const name = document.getElementById('staffName').value;
+                    const position = document.getElementById('staffPosition').value;
+
+                    if (name && position) {
+                        sampleStaff.push({ name, position });
+                        populateStaffTable();
+                        document.getElementById('addStaffForm').reset();
+                    }
+                };
+            };
+        }
+
+        // Cancel staff edit
+        document.getElementById('cancelEditBtn').addEventListener('click', function() {
+            document.getElementById('addStaffForm').reset();
+            document.getElementById('updateStaffBtn').classList.add('hidden');
+            document.getElementById('cancelEditBtn').classList.add('hidden');
+            document.querySelector('#addStaffForm button[type="submit"]').classList.remove('hidden');
+
+            // Reset the form handler
+            document.getElementById('addStaffForm').onsubmit = function(e) {
+                e.preventDefault();
+                const name = document.getElementById('staffName').value;
+                const position = document.getElementById('staffPosition').value;
+
+                if (name && position) {
+                    sampleStaff.push({ name, position });
+                    populateStaffTable();
+                    document.getElementById('addStaffForm').reset();
+                }
+            };
+        });
+
+        function deleteStaff(index) {
+            if (confirm(`Are you sure you want to remove ${sampleStaff[index].name} from the staff list?`)) {
+                sampleStaff.splice(index, 1);
+                populateStaffTable();
+            }
+        }
+
+        function editPost(index) {
+            const post = samplePosts[index];
+            document.getElementById('postTitle').value = post.title;
+            document.getElementById('postContent').value = post.content;
+
+            // Show update and cancel buttons, hide publish button
+            document.getElementById('updatePostBtn').classList.remove('hidden');
+            document.getElementById('cancelPostEditBtn').classList.remove('hidden');
+            document.querySelector('#addPostForm button[type="submit"]').classList.add('hidden');
+
+            // Change the form submit handler to update instead of add
+            const form = document.getElementById('addPostForm');
+            form.onsubmit = function(e) {
+                e.preventDefault();
+                post.title = document.getElementById('postTitle').value;
+                post.content = document.getElementById('postContent').value;
+                populatePostsList();
+
+                // Reset the form and handler
+                document.getElementById('addPostForm').reset();
+                document.getElementById('updatePostBtn').classList.add('hidden');
+                document.getElementById('cancelPostEditBtn').classList.add('hidden');
+                document.querySelector('#addPostForm button[type="submit"]').classList.remove('hidden');
+
+                document.getElementById('addPostForm').onsubmit = function(e) {
+                    e.preventDefault();
+                    const title = document.getElementById('postTitle').value;
+                    const content = document.getElementById('postContent').value;
+
+                    if (title && content) {
+                        samplePosts.unshift({ title, content });
+                        populatePostsList();
+                        document.getElementById('addPostForm').reset();
+                    }
+                };
+            };
+        }
+
+        // Cancel post edit
+        document.getElementById('cancelPostEditBtn').addEventListener('click', function() {
+            document.getElementById('addPostForm').reset();
+            document.getElementById('updatePostBtn').classList.add('hidden');
+            document.getElementById('cancelPostEditBtn').classList.add('hidden');
+            document.querySelector('#addPostForm button[type="submit"]').classList.remove('hidden');
+
+            // Reset the form handler
+            document.getElementById('addPostForm').onsubmit = function(e) {
+                e.preventDefault();
+                const title = document.getElementById('postTitle').value;
+                const content = document.getElementById('postContent').value;
+
+                if (title && content) {
+                    samplePosts.unshift({ title, content });
+                    populatePostsList();
+                    document.getElementById('addPostForm').reset();
+                }
+            };
+        });
+
+        // Photo modal functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById("photoModal");
+            const modalImg = document.getElementById("modalImage");
+            const captionText = document.getElementById("caption");
+            const closeSpan = document.querySelector(".close");
+
+            // Get all images with the photo-clickable class
+            const clickableImages = document.querySelectorAll('.photo-clickable');
+
+            // Add click event to each clickable image
+            clickableImages.forEach(img => {
+                img.onclick = function() {
+                    modal.style.display = "block";
+                    modalImg.src = this.src;
+                    captionText.innerHTML = this.alt || this.title || "";
+                }
+            });
+
+            // Close the modal when the close button is clicked
+            if(closeSpan) {
+                closeSpan.onclick = function() {
+                    modal.style.display = "none";
+                }
+            }
+
+            // Close the modal when clicking outside the image
+            if(modal) {
+                modal.onclick = function(event) {
+                    if (event.target === modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            }
+        });
+
+        // Close the modal when pressing ESC key
+        document.addEventListener('keydown', function(event) {
+            const modal = document.getElementById("photoModal");
+            if (event.key === 'Escape' && modal && modal.style.display === 'block') {
+                modal.style.display = "none";
+            }
+        });
+
+        function deletePost(index) {
+            if (confirm(`Are you sure you want to delete the post "${samplePosts[index].title}"?`)) {
+                samplePosts.splice(index, 1);
+                populatePostsList();
+            }
+        }
+
+        // Show more missions functionality
+        function showMoreMissions() {
+            const additionalMissions = document.getElementById('additionalMissions');
+            const moreMissionsButton = document.getElementById('moreMissionsButton');
+
+            if (additionalMissions.style.display === 'none') {
+                additionalMissions.style.display = 'grid';
+                moreMissionsButton.style.display = 'none';
+            } else {
+                additionalMissions.style.display = 'none';
+                moreMissionsButton.style.display = 'block';
+            }
+        }
+
+        // Language switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageSelector = document.getElementById('languageSelector');
+            if (languageSelector) {
+                const languageContents = document.querySelectorAll('.language-content');
+
+                // Set initial language to English
+                showLanguageContent('en');
+
+                languageSelector.addEventListener('change', function() {
+                    const selectedLanguage = languageSelector.value;
+                    showLanguageContent(selectedLanguage);
+                });
+
+                function showLanguageContent(language) {
+                    // Hide all language content
+                    languageContents.forEach(content => {
+                        content.classList.add('hidden');
+                    });
+
+                    // Show content for selected language
+                    const selectedContents = document.querySelectorAll(`.language-content[data-language="${language}"]`);
+                    selectedContents.forEach(content => {
+                        content.classList.remove('hidden');
+                    });
+                }
+            }
+        });
+    </script>
+
+    <!-- Photo Modal -->
+    <div id="photoModal" class="photo-modal">
+        <span class="close">&times;</span>
+        <img class="photo-modal-content" id="modalImage">
+        <div class="photo-modal-caption" id="caption"></div>
+    </div>
+</body>
+</html>

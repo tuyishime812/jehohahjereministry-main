@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Team - Jehovah Jire Ministry</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .staff-card {
+            transition: all 0.3s ease;
+        }
+        .staff-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+        .photo-modal {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+        }
+        .photo-modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .photo-modal-caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #fff;
+            padding: 10px 0;
+            height: 150px;
+            overflow: auto;
+        }
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            z-index: 3001;
+        }
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+        }
+        .photo-clickable {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <img class="h-10 w-10 rounded-full photo-clickable" src="media/photos/1768200744316.jpg" alt="Jehovah Jire Ministry Logo">
+                        <span class="ml-3 text-xl font-bold text-blue-800 hidden sm:block">Jehovah Jire Ministry</span>
+                        <span class="ml-3 text-lg font-bold text-blue-800 sm:hidden">JJM</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                    <a href="index.html#home" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Home</a>
+                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">About</a>
+                    <a href="missions.html" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Missions</a>
+                    <a href="gallery.html" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Gallery</a>
+                    <a href="team.html" class="text-blue-600 font-medium transition duration-300 font-semibold">Team</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Contact</a>
+                    <button id="donateBtn" class="bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 text-white px-4 py-2 rounded-full font-semibold transition duration-300 shadow-md">Donate</button>
+                    <button id="adminLoginBtn" class="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white px-4 py-2 rounded-full font-semibold transition duration-300 shadow-md">Admin</button>
+                </div>
+                <div class="-mr-2 flex items-center md:hidden">
+                    <button id="mobileMenuButton" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <i class="fas fa-bars h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="hidden md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg">
+                <a href="index.html#home" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-home mr-3"></i> Home</a>
+                <a href="about.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-info-circle mr-3"></i> About</a>
+                <a href="missions.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-bullseye mr-3"></i> Missions</a>
+                <a href="gallery.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-images mr-3"></i> Gallery</a>
+                <a href="team.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-users mr-3"></i> Team</a>
+                <a href="contact.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-address-book mr-3"></i> Contact</a>
+                <button id="donateBtnMobile" class="w-full mt-2 bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 text-white px-4 py-3 rounded-full font-semibold flex items-center justify-center"><i class="fas fa-donate mr-2"></i> Donate</button>
+                <button id="adminLoginBtnMobile" class="w-full mt-2 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white px-4 py-3 rounded-full font-semibold flex items-center justify-center"><i class="fas fa-lock mr-2"></i> Admin</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Team Section -->
+    <div class="pt-24 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h1 class="text-3xl font-bold text-gray-900 mb-4">Our Leadership Team</h1>
+                <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md">
+                    <img src="media/photos/coordinator.png" alt="Aimeciane Wembakoy Dorcas" class="w-full h-48 object-cover photo-clickable">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">Aimeciane Wembakoy Dorcas</h3>
+                        <p class="text-blue-600 font-semibold">Coordinator</p>
+                        <p class="mt-2 text-gray-700">Leads the overall ministry operations with vision and dedication, ensuring our mission reaches those in need.</p>
+                    </div>
+                </div>
+
+                <div class="staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md">
+                    <img src="media/photos/vice _president.jpeg" alt="Byaombe Mshikongwe" class="w-full h-48 object-cover photo-clickable">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">Byaombe Mshikongwe</h3>
+                        <p class="text-blue-600 font-semibold">Vice Coordinator</p>
+                        <p class="mt-2 text-gray-700">Supports the coordinator in managing daily operations and provides strategic guidance for ministry initiatives.</p>
+                    </div>
+                </div>
+
+                <div class="staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md">
+                    <img src="media/photos/secre.jpeg" alt="Cambasita Miriam Sarahi" class="w-full h-48 object-cover photo-clickable">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">Cambasita Miriam Sarahi</h3>
+                        <p class="text-blue-600 font-semibold">Secretary</p>
+                        <p class="mt-2 text-gray-700">Manages administrative functions and ensures effective communication within the ministry and with stakeholders.</p>
+                    </div>
+                </div>
+
+                <div class="staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md">
+                    <img src="media/photos/tressure.jpeg" alt="Nyota Christine" class="w-full h-48 object-cover photo-clickable">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">Nyota Christine</h3>
+                        <p class="text-blue-600 font-semibold">Treasurer</p>
+                        <p class="mt-2 text-gray-700">Oversees financial management and ensures responsible stewardship of resources donated to the ministry.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Our Dedicated Members</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="text-center p-4 bg-gray-50 rounded-lg shadow-sm photo-clickable">
+                        <i class="fas fa-user-circle text-3xl text-blue-600 mb-2"></i>
+                        <p class="font-semibold">Botonga Idi</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-lg shadow-sm photo-clickable">
+                        <i class="fas fa-user-circle text-3xl text-blue-600 mb-2"></i>
+                        <p class="font-semibold">Shabani</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-lg shadow-sm photo-clickable">
+                        <i class="fas fa-user-circle text-3xl text-blue-600 mb-2"></i>
+                        <p class="font-semibold">Sadiki</p>
+                    </div>
+                    <div class="text-center p-4 bg-gray-50 rounded-lg shadow-sm photo-clickable">
+                        <i class="fas fa-user-circle text-3xl text-blue-600 mb-2"></i>
+                        <p class="font-semibold">Veronica</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-br from-blue-900 to-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center">
+                        <img class="h-12 w-12 rounded-full border-2 border-white" src="media/photos/1768200744316.jpg" alt="Jehovah Jire Ministry Logo">
+                        <span class="ml-3 text-xl font-bold">Jehovah Jire Ministry</span>
+                    </div>
+                    <p class="mt-4 text-gray-300">
+                        Led by the Holy Spirit, serving the needs of widows and orphans by sharing God's love, hope, and Word.
+                    </p>
+                    <div class="mt-4 flex space-x-4">
+                        <a href="https://wa.me/265993506106" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-whatsapp text-2xl"></i>
+                        </a>
+                        <a href="mailto:jehovahjireministry@gmail.com" class="text-gray-400 hover:text-white">
+                            <i class="fas fa-envelope text-2xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html#home" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Home</a></li>
+                        <li><a href="about.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> About</a></li>
+                        <li><a href="missions.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Missions</a></li>
+                        <li><a href="team.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Team</a></li>
+                        <li><a href="contact.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Our Ministries</h3>
+                    <ul class="space-y-2">
+                        <li><a href="missions.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Housing Support</a></li>
+                        <li><a href="missions.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Food Distribution</a></li>
+                        <li><a href="missions.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Education Support</a></li>
+                        <li><a href="missions.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Healthcare</a></li>
+                        <li><a href="missions.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Spiritual Guidance</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Info</h3>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start">
+                            <i class="fas fa-phone mt-1 mr-3 text-green-500"></i>
+                            <span>
+                                <a href="https://wa.me/265993506106" class="hover:text-white block">+265 993 506 106 (WhatsApp)</a>
+                                <a href="https://wa.me/265984345690" class="hover:text-white block mt-1">+265 984 345 690 (WhatsApp)</a>
+                                <a href="tel:+265894846843" class="hover:text-white block mt-1">+265 894 846 843 (Voice Call)</a>
+                            </span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-3 text-green-500"></i>
+                            <span><a href="mailto:jehovahjireministry@gmail.com" class="hover:text-white">jehovahjireministry@gmail.com</a></span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-green-500"></i>
+                            <span>Malawi</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-10 pt-6 text-center text-gray-400">
+                <p>&copy; 2026 Jehovah Jire Ministry. All rights reserved. | Serving with Love, Faith, and Dedication</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot Container -->
+    <div class="chatbot-container">
+        <button id="chatbotToggle" class="bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700">
+            <i class="fas fa-robot text-xl"></i>
+        </button>
+        <div id="chatbotPanel" class="hidden bg-white rounded-lg shadow-xl w-80 h-96 flex flex-col">
+            <div class="bg-blue-600 text-white p-4 rounded-t-lg flex justify-between items-center">
+                <h3 class="font-bold">Ministry Assistant</h3>
+                <button id="closeChatbot" class="text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="chatMessages" class="flex-grow p-4 overflow-y-auto">
+                <div class="mb-4">
+                    <div class="bg-gray-200 p-3 rounded-lg inline-block">
+                        Hello! I'm your Jehovah Jire Ministry assistant. How can I help you today?
+                    </div>
+                </div>
+            </div>
+            <div class="p-3 border-t">
+                <div class="flex">
+                    <input type="text" id="chatInput" class="flex-grow px-3 py-2 border rounded-l-lg focus:outline-none" placeholder="Type your message...">
+                    <button id="sendChat" class="bg-blue-600 text-white px-4 py-2 rounded-r-lg">Send</button>
+                </div>
+                <div class="mt-2 text-sm text-center">
+                    <a href="https://wa.me/265993506106" class="text-blue-600 hover:underline">For more info, contact us on WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Donate button functionality
+        document.getElementById('donateBtn').addEventListener('click', function() {
+            window.open('https://wa.me/265993506106', '_blank');
+        });
+
+        document.getElementById('donateBtnMobile').addEventListener('click', function() {
+            window.open('https://wa.me/265993506106', '_blank');
+        });
+
+        // Chatbot functionality
+        document.getElementById('chatbotToggle').addEventListener('click', function() {
+            document.getElementById('chatbotPanel').classList.toggle('hidden');
+        });
+
+        document.getElementById('closeChatbot').addEventListener('click', function() {
+            document.getElementById('chatbotPanel').classList.add('hidden');
+        });
+
+        document.getElementById('sendChat').addEventListener('click', function() {
+            sendMessage();
+        });
+
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+
+            if (message) {
+                // Add user message
+                const chatMessages = document.getElementById('chatMessages');
+                const userMessageDiv = document.createElement('div');
+                userMessageDiv.className = 'mb-4 text-right';
+                userMessageDiv.innerHTML = `<div class="bg-blue-100 text-gray-800 p-3 rounded-lg inline-block">${message}</div>`;
+                chatMessages.appendChild(userMessageDiv);
+
+                // Clear input
+                input.value = '';
+
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // Simulate bot response after a delay
+                setTimeout(() => {
+                    const botResponse = getBotResponse(message);
+                    const botMessageDiv = document.createElement('div');
+                    botMessageDiv.className = 'mb-4';
+                    botMessageDiv.innerHTML = `<div class="bg-gray-200 p-3 rounded-lg inline-block">${botResponse}</div>`;
+                    chatMessages.appendChild(botMessageDiv);
+
+                    // Scroll to bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            }
+        }
+
+        function getBotResponse(message) {
+            const lowerMsg = message.toLowerCase();
+
+            if (lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {
+                return "Hello! Welcome to Jehovah Jire Ministry. How can I assist you today?";
+            } else if (lowerMsg.includes('donate') || lowerMsg.includes('contribute')) {
+                return "Thank you for considering a donation! You can donate by clicking the 'Donate' button on our website or contacting us directly on WhatsApp at +265 993 506 106";
+            } else if (lowerMsg.includes('contact') || lowerMsg.includes('phone') || lowerMsg.includes('email')) {
+                return "You can reach us at +265 993 506 106 (WhatsApp), +265 984 345 690 (WhatsApp), +265 894 846 843 (Call), or email us at jehovahjireministry@gmail.com";
+            } else if (lowerMsg.includes('mission') || lowerMsg.includes('purpose') || lowerMsg.includes('vision')) {
+                return "Our mission is to show God's love through care, compassion and empowerment. We serve widows, orphans, and the vulnerable by providing housing, food, education, healthcare, and spiritual guidance.";
+            } else if (lowerMsg.includes('team') || lowerMsg.includes('leader') || lowerMsg.includes('members')) {
+                return "Our leadership team includes: Coordinator - Aimeciane Wembakoy Dorcas, Vice Coordinator - Byaombe Mshikongwe, Secretary - Cambasita Miriam Sarahi, and Treasurer - Nyota Christine. We also have dedicated members: Botonga Idi, Shabani, Sadiki, and Veronica.";
+            } else if (lowerMsg.includes('help') || lowerMsg.includes('support')) {
+                return "We offer various support services including housing assistance, food distribution, education support, healthcare, and spiritual guidance. For more information, contact us on WhatsApp at +265 993 506 106";
+            } else if (lowerMsg.includes('gallery') || lowerMsg.includes('photos') || lowerMsg.includes('videos')) {
+                return "Explore our gallery to see the impact of our ministry through photos and videos of our outreach activities. You can find inspiring stories of hope and transformation!";
+            } else {
+                return "Thank you for your message. For more detailed information about our ministry, please contact us directly on WhatsApp at +265 993 506 106 or visit our contact page.";
+            }
+        }
+
+        // Photo modal functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById("photoModal");
+            const modalImg = document.getElementById("modalImage");
+            const captionText = document.getElementById("caption");
+            const closeSpan = document.querySelector(".close");
+
+            // Get all images with the photo-clickable class
+            const clickableImages = document.querySelectorAll('.photo-clickable');
+
+            // Add click event to each clickable image
+            clickableImages.forEach(img => {
+                img.onclick = function() {
+                    modal.style.display = "block";
+                    modalImg.src = this.src;
+                    captionText.innerHTML = this.alt || this.title || "";
+                }
+            });
+
+            // Close the modal when the close button is clicked
+            if(closeSpan) {
+                closeSpan.onclick = function() {
+                    modal.style.display = "none";
+                }
+            }
+
+            // Close the modal when clicking outside the image
+            if(modal) {
+                modal.onclick = function(event) {
+                    if (event.target === modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            }
+        });
+
+        // Close the modal when pressing ESC key
+        document.addEventListener('keydown', function(event) {
+            const modal = document.getElementById("photoModal");
+            if (event.key === 'Escape' && modal && modal.style.display === 'block') {
+                modal.style.display = "none";
+            }
+        });
+    </script>
+
+    <!-- Photo Modal -->
+    <div id="photoModal" class="photo-modal">
+        <span class="close">&times;</span>
+        <img class="photo-modal-content" id="modalImage">
+        <div class="photo-modal-caption" id="caption"></div>
+    </div>
+</body>
+</html>
