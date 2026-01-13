@@ -522,30 +522,36 @@
                             <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Educational Support</span>
                         </div>
                     </div>
-                    <div class="group relative overflow-hidden rounded-lg shadow-lg">
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
                         <img src="media/photos/1768200744172.jpg" alt="Healthcare initiative" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                             <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Healthcare Initiative</span>
                         </div>
                     </div>
-                    <div class="group relative overflow-hidden rounded-lg shadow-lg">
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
                         <img src="media/photos/1768200744183.jpg" alt="Widow support" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                             <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Widow Support</span>
                         </div>
                     </div>
-                    <div class="group relative overflow-hidden rounded-lg shadow-lg">
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
                         <img src="media/photos/1768200744192.jpg" alt="Orphan care" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                             <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Orphan Care</span>
                         </div>
                     </div>
-                    <div class="group relative overflow-hidden rounded-lg shadow-lg">
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
                         <img src="media/photos/1768200744202.jpg" alt="Spiritual guidance" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                             <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Spiritual Guidance</span>
                         </div>
                     </div>
+                </div>
+
+                <div class="text-center mt-8">
+                    <button id="togglePhotos" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold transition duration-300 shadow-lg">
+                        See More Photos
+                    </button>
                 </div>
             </div>
 
@@ -1900,6 +1906,29 @@
                         content.classList.remove('hidden');
                     });
                 }
+            }
+        });
+
+        // Toggle photos functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePhotosBtn = document.getElementById('togglePhotos');
+
+            if (togglePhotosBtn) {
+                togglePhotosBtn.addEventListener('click', function() {
+                    const extraPhotos = document.querySelectorAll('.extra-photo');
+                    const isVisible = !extraPhotos[0] || !extraPhotos[0].classList.contains('hidden');
+
+                    extraPhotos.forEach(photo => {
+                        if (isVisible) {
+                            photo.classList.add('hidden');
+                        } else {
+                            photo.classList.remove('hidden');
+                        }
+                    });
+
+                    // Update button text
+                    this.textContent = isVisible ? 'See More Photos' : 'Hide Photos';
+                });
             }
         });
     </script>
