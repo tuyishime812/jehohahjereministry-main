@@ -1213,7 +1213,14 @@
         function getStaffData() {
             const stored = localStorage.getItem('ministryStaff');
             if (stored) {
-                return JSON.parse(stored);
+                let storedStaff = JSON.parse(stored);
+
+                // Filter out the unwanted members if they exist in storage
+                storedStaff = storedStaff.filter(staff =>
+                    !['Botonga Idi', 'Shabani', 'Sadiki', 'Veronica'].includes(staff.name)
+                );
+
+                return storedStaff;
             } else {
                 return [
                     { name: "Aimeciane Wembakoy Dorcas", position: "Coordinator" },
@@ -1809,6 +1816,10 @@
 
             if (stored) {
                 staff = JSON.parse(stored);
+                // Filter out the unwanted members if they exist in storage
+                staff = staff.filter(member =>
+                    !['Botonga Idi', 'Shabani', 'Sadiki', 'Veronica'].includes(member.name)
+                );
             } else {
                 // Default staff if none in storage
                 staff = [
