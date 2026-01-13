@@ -1183,7 +1183,7 @@
             } else if (lowerMsg.includes('mission') || lowerMsg.includes('purpose') || lowerMsg.includes('vision')) {
                 return "Our mission is to show God's love through care, compassion and empowerment. We serve widows, orphans, and the vulnerable by providing housing, food, education, healthcare, and spiritual guidance.";
             } else if (lowerMsg.includes('team') || lowerMsg.includes('leader') || lowerMsg.includes('members')) {
-                return "Our leadership team includes: Coordinator - Aimeciane Wembakoy Dorcas, Vice Coordinator - Byaombe Mshikongwe, Secretary - Cambasita Miriam Sarahi, and Treasurer - Nyota Christine. We also have dedicated members: Botonga Idi, Shabani, Sadiki, and Veronica.";
+                return "Our leadership team includes: Coordinator - Aimeciane Wembakoy Dorcas, Vice Coordinator - Byaombe Mshikongwe, Secretary - Cambasita Miriam Sarahi, and Treasurer - Nyota Christine.";
             } else if (lowerMsg.includes('help') || lowerMsg.includes('support')) {
                 return "We offer various support services including housing assistance, food distribution, education support, healthcare, and spiritual guidance. For more information, contact us on WhatsApp at +265 993 506 106";
             } else if (lowerMsg.includes('gallery') || lowerMsg.includes('photos') || lowerMsg.includes('videos')) {
@@ -1219,11 +1219,7 @@
                     { name: "Aimeciane Wembakoy Dorcas", position: "Coordinator" },
                     { name: "Byaombe Mshikongwe", position: "Vice Coordinator" },
                     { name: "Cambasita Miriam Sarahi", position: "Secretary" },
-                    { name: "Nyota Christine", position: "Treasurer" },
-                    { name: "Botonga Idi", position: "Member" },
-                    { name: "Shabani", position: "Member" },
-                    { name: "Sadiki", position: "Member" },
-                    { name: "Veronica", position: "Member" }
+                    { name: "Nyota Christine", position: "Treasurer" }
                 ];
             }
         }
@@ -1271,9 +1267,10 @@
             e.preventDefault();
             const name = document.getElementById('staffName').value;
             const position = document.getElementById('staffPosition').value;
+            const image = document.getElementById('staffImage').value;
 
             if (name && position) {
-                sampleStaff.push({ name, position });
+                sampleStaff.push({ name, position, image: image || '' });
                 populateStaffTable();
                 document.getElementById('addStaffForm').reset();
             }
@@ -1569,7 +1566,7 @@
             const staff = sampleStaff[index];
             document.getElementById('staffName').value = staff.name;
             document.getElementById('staffPosition').value = staff.position;
-            // In a real app, you would also set the image field
+            document.getElementById('staffImage').value = staff.image || '';
 
             // Show update and cancel buttons, hide add button
             document.getElementById('updateStaffBtn').classList.remove('hidden');
@@ -1582,7 +1579,7 @@
                 e.preventDefault();
                 staff.name = document.getElementById('staffName').value;
                 staff.position = document.getElementById('staffPosition').value;
-                // In a real app, you would also update the image
+                staff.image = document.getElementById('staffImage').value;
                 populateStaffTable();
 
                 // Reset the form and handler
@@ -1595,9 +1592,10 @@
                     e.preventDefault();
                     const name = document.getElementById('staffName').value;
                     const position = document.getElementById('staffPosition').value;
+                    const image = document.getElementById('staffImage').value;
 
                     if (name && position) {
-                        sampleStaff.push({ name, position });
+                        sampleStaff.push({ name, position, image: image || '' });
                         populateStaffTable();
                         document.getElementById('addStaffForm').reset();
                     }
@@ -1617,9 +1615,10 @@
                 e.preventDefault();
                 const name = document.getElementById('staffName').value;
                 const position = document.getElementById('staffPosition').value;
+                const image = document.getElementById('staffImage').value;
 
                 if (name && position) {
-                    sampleStaff.push({ name, position });
+                    sampleStaff.push({ name, position, image: image || '' });
                     populateStaffTable();
                     document.getElementById('addStaffForm').reset();
                 }
@@ -1824,10 +1823,32 @@
 
             for (let i = 0; i < staff.length; i++) {
                 const member = staff[i];
+
+                // Map position to correct image if image is not defined
+                let imageSrc = member.image;
+                if (!imageSrc) {
+                    switch(member.position) {
+                        case "Coordinator":
+                            imageSrc = "media/photos/coordinator.png";
+                            break;
+                        case "Vice Coordinator":
+                            imageSrc = "media/photos/vice _president.jpeg";
+                            break;
+                        case "Secretary":
+                            imageSrc = "media/photos/secre.jpeg";
+                            break;
+                        case "Treasurer":
+                            imageSrc = "media/photos/tressure.jpeg";
+                            break;
+                        default:
+                            imageSrc = "media/photos/coordinator.png";
+                    }
+                }
+
                 const staffElement = document.createElement('div');
                 staffElement.className = 'staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md';
                 staffElement.innerHTML = `
-                    <img src="${member.image || 'media/photos/coordinator.png'}" alt="${member.name}" class="w-full h-48 object-cover photo-clickable">
+                    <img src="${imageSrc}" alt="${member.name}" class="w-full h-48 object-cover photo-clickable">
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900">${member.name}</h3>
                         <p class="text-blue-600 font-semibold">${member.position}</p>
