@@ -81,6 +81,30 @@
         .photo-clickable {
             cursor: pointer;
         }
+
+        /* Enhanced responsive lightbox */
+        @media (max-width: 768px) {
+            .photo-modal-content {
+                max-width: 95%;
+                max-height: 80%;
+            }
+
+            .photo-modal-caption {
+                width: 90%;
+                font-size: 14px;
+            }
+
+            .close {
+                font-size: 30px;
+                top: 10px;
+                right: 20px;
+            }
+        }
+
+        /* Prevent scrolling when modal is open */
+        body.modal-open {
+            overflow: hidden;
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -187,6 +211,78 @@
                         <img src="media/photos/1768200744202.jpg" alt="Spiritual guidance" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110 photo-clickable">
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                             <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Spiritual Guidance</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
+                        <img src="media/photos/1768200744211.jpg" alt="Team meeting" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110 photo-clickable">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Team Meeting</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
+                        <img src="media/photos/1768200744222.jpg" alt="Community gathering" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110 photo-clickable">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Community Gathering</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
+                        <img src="media/photos/1768200744234.jpg" alt="Food distribution" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110 photo-clickable">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Food Distribution</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
+                        <img src="media/photos/1768200744250.jpg" alt="Education program" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110 photo-clickable">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Education Program</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
+                        <img src="media/photos/1768200744262.jpg" alt="Healthcare outreach" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110 photo-clickable">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Healthcare Outreach</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
+                        <img src="media/photos/1768200744273.jpg" alt="Prayer session" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110 photo-clickable">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Prayer Session</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
+                        <img src="media/photos/1768200744284.jpg" alt="Mission trip" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110 photo-clickable">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Mission Trip</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
+                        <img src="media/photos/1768200744300.jpg" alt="Community event" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110 photo-clickable">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Community Event</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
+                        <img src="media/photos/coordinator.png" alt="Coordinator" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110 photo-clickable">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Coordinator</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
+                        <img src="media/photos/secre.jpeg" alt="Secretary" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110 photo-clickable">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Secretary</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
+                        <img src="media/photos/tressure.jpeg" alt="Treasurer" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110 photo-clickable">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Treasurer</span>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
+                        <img src="media/photos/vice _president.jpeg" alt="Vice President" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110 photo-clickable">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                            <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Vice President</span>
                         </div>
                     </div>
                 </div>
@@ -457,8 +553,9 @@
             clickableImages.forEach(img => {
                 img.onclick = function() {
                     modal.style.display = "block";
+                    document.body.classList.add('modal-open');
                     modalImg.src = this.src;
-                    captionText.innerHTML = this.alt || this.title || "";
+                    captionText.innerHTML = this.parentElement.querySelector('span')?.textContent || this.alt || this.title || "";
                 }
             });
 
@@ -466,6 +563,7 @@
             if(closeSpan) {
                 closeSpan.onclick = function() {
                     modal.style.display = "none";
+                    document.body.classList.remove('modal-open');
                 }
             }
 
@@ -474,6 +572,7 @@
                 modal.onclick = function(event) {
                     if (event.target === modal) {
                         modal.style.display = "none";
+                        document.body.classList.remove('modal-open');
                     }
                 }
             }

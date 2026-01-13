@@ -1039,8 +1039,8 @@
 
         // Default admin credentials
         const adminCredentials = {
-            username: 'admin',
-            password: 'admin123'
+            username: 'jehovah1',
+            password: 'jehovah1#'
         };
 
         document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
@@ -1054,7 +1054,7 @@
                 // Clear form
                 document.getElementById('adminLoginForm').reset();
             } else {
-                alert('Invalid credentials. Default: Username: admin, Password: admin123');
+                alert('Invalid credentials. Default: Username: jehovah1, Password: jehovah1#');
             }
         });
 
@@ -1074,7 +1074,23 @@
 
         // Forgot Password functionality
         document.getElementById('forgotPasswordBtn').addEventListener('click', function() {
-            alert('Password reset instructions:\n\nDefault Username: admin\nDefault Password: admin123\n\nPlease use these credentials to log in to the admin panel.');
+            // Show options for password recovery
+            const recoveryOption = confirm('How would you like to recover your password?\n\nOK: Send email to Jehovah Jire Ministry\nCancel: Send WhatsApp message');
+
+            if (recoveryOption) {
+                // Open email client with pre-filled message
+                const subject = encodeURIComponent('Admin Password Recovery Request');
+                const body = encodeURIComponent(
+                    'Dear Jehovah Jire Ministry,\n\nI am requesting assistance with recovering the admin password for the website.\n\nCould you please provide the current admin credentials?\n\nThank you.'
+                );
+                window.location.href = `mailto:jehovahjireministry@gmail.com?subject=${subject}&body=${body}`;
+            } else {
+                // Open WhatsApp with pre-filled message
+                const whatsappMessage = encodeURIComponent(
+                    'Hello Jehovah Jire Ministry,\n\nI am requesting assistance with recovering the admin password for the website.\n\nCould you please provide the current admin credentials?\n\nThank you.'
+                );
+                window.open(`https://wa.me/265993506106?text=${whatsappMessage}`, '_blank');
+            }
         });
 
         // Logout
