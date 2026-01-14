@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Content Management System - Jehovah Jire Ministry</title>
+    <title>Admin Login - Jehovah Jire Ministry</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome for icons -->
@@ -13,6 +13,24 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
+        }
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .login-box {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px;
+        }
+        .dashboard-container {
+            display: none;
         }
         .sidebar {
             width: 250px;
@@ -63,90 +81,127 @@
     </style>
 </head>
 <body class="bg-gray-100">
-    <!-- Sidebar -->
-    <div id="sidebar" class="sidebar fixed top-0 left-0 h-screen bg-gray-800 text-white z-50 flex flex-col">
-        <div class="p-5 border-b border-gray-700">
-            <h1 class="text-xl font-bold flex items-center">
-                <i class="fas fa-cog mr-2"></i>
-                <span class="sidebar-text">Jehovah Jire Dashboard</span>
-            </h1>
-        </div>
-        <ul class="flex-1 py-4">
-            <li>
-                <a href="#" class="menu-item active flex items-center p-4 hover:bg-gray-700">
-                    <i class="fas fa-home mr-3"></i>
-                    <span class="sidebar-text">Home Content</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="menu-item flex items-center p-4 hover:bg-gray-700">
-                    <i class="fas fa-info-circle mr-3"></i>
-                    <span class="sidebar-text">About Page</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="menu-item flex items-center p-4 hover:bg-gray-700">
-                    <i class="fas fa-bullseye mr-3"></i>
-                    <span class="sidebar-text">Missions Page</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="menu-item flex items-center p-4 hover:bg-gray-700">
-                    <i class="fas fa-users mr-3"></i>
-                    <span class="sidebar-text">Team Page</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="menu-item flex items-center p-4 hover:bg-gray-700">
-                    <i class="fas fa-images mr-3"></i>
-                    <span class="sidebar-text">Gallery</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="menu-item flex items-center p-4 hover:bg-gray-700">
-                    <i class="fas fa-address-book mr-3"></i>
-                    <span class="sidebar-text">Contact Page</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="menu-item flex items-center p-4 hover:bg-gray-700">
-                    <i class="fas fa-blog mr-3"></i>
-                    <span class="sidebar-text">Blog Posts</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="menu-item flex items-center p-4 hover:bg-gray-700">
-                    <i class="fas fa-comments mr-3"></i>
-                    <span class="sidebar-text">Testimonials</span>
-                </a>
-            </li>
-        </ul>
-        <div class="p-4 border-t border-gray-700">
-            <button id="toggleSidebar" class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded flex items-center justify-center">
-                <i class="fas fa-arrows-alt-h"></i>
-                <span class="sidebar-text ml-2">Collapse</span>
-            </button>
-            <button id="logoutBtn" class="w-full mt-2 bg-red-600 hover:bg-red-700 py-2 rounded flex items-center justify-center">
-                <i class="fas fa-sign-out-alt mr-2"></i>
-                <span>Logout</span>
-            </button>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-box">
+            <div class="text-center mb-8">
+                <i class="fas fa-cog text-blue-600 text-5xl mb-4"></i>
+                <h1 class="text-2xl font-bold text-gray-800">Jehovah Jire Dashboard</h1>
+                <p class="text-gray-600 mt-2">Please sign in to continue</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-2" for="username">
+                        Username
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Enter username">
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-medium mb-2" for="password">
+                        Password
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Enter password">
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Sign In
+                    </button>
+                </div>
+
+                <div id="loginError" class="hidden mt-4 p-3 bg-red-100 text-red-700 rounded text-sm"></div>
+            </form>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div id="mainContent" class="main-content">
-        <!-- Top Navigation -->
-        <nav class="bg-white shadow-md">
-            <div class="px-6 py-4 flex justify-between items-center">
-                <h2 id="pageTitle" class="text-xl font-semibold text-gray-800">Home Content</h2>
-                <div class="flex items-center space-x-4">
-                    <span class="text-gray-600">Welcome, Administrator</span>
-                    <button id="saveChanges" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center">
-                        <i class="fas fa-save mr-2"></i> Save Changes
-                    </button>
-                </div>
+    <!-- Dashboard -->
+    <div id="dashboardContainer" class="dashboard-container">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar fixed top-0 left-0 h-screen bg-gray-800 text-white z-50 flex flex-col">
+            <div class="p-5 border-b border-gray-700">
+                <h1 class="text-xl font-bold flex items-center">
+                    <i class="fas fa-cog mr-2"></i>
+                    <span class="sidebar-text">Jehovah Jire Dashboard</span>
+                </h1>
             </div>
-        </nav>
+            <ul class="flex-1 py-4">
+                <li>
+                    <a href="#" class="menu-item active flex items-center p-4 hover:bg-gray-700">
+                        <i class="fas fa-home mr-3"></i>
+                        <span class="sidebar-text">Home Content</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item flex items-center p-4 hover:bg-gray-700">
+                        <i class="fas fa-info-circle mr-3"></i>
+                        <span class="sidebar-text">About Page</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item flex items-center p-4 hover:bg-gray-700">
+                        <i class="fas fa-bullseye mr-3"></i>
+                        <span class="sidebar-text">Missions Page</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item flex items-center p-4 hover:bg-gray-700">
+                        <i class="fas fa-users mr-3"></i>
+                        <span class="sidebar-text">Team Page</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item flex items-center p-4 hover:bg-gray-700">
+                        <i class="fas fa-images mr-3"></i>
+                        <span class="sidebar-text">Gallery</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item flex items-center p-4 hover:bg-gray-700">
+                        <i class="fas fa-address-book mr-3"></i>
+                        <span class="sidebar-text">Contact Page</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item flex items-center p-4 hover:bg-gray-700">
+                        <i class="fas fa-blog mr-3"></i>
+                        <span class="sidebar-text">Blog Posts</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item flex items-center p-4 hover:bg-gray-700">
+                        <i class="fas fa-comments mr-3"></i>
+                        <span class="sidebar-text">Testimonials</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="p-4 border-t border-gray-700">
+                <button id="toggleSidebar" class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded flex items-center justify-center">
+                    <i class="fas fa-arrows-alt-h"></i>
+                    <span class="sidebar-text ml-2">Collapse</span>
+                </button>
+                <button id="logoutBtn" class="w-full mt-2 bg-red-600 hover:bg-red-700 py-2 rounded flex items-center justify-center">
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div id="mainContent" class="main-content">
+            <!-- Top Navigation -->
+            <nav class="bg-white shadow-md">
+                <div class="px-6 py-4 flex justify-between items-center">
+                    <h2 id="pageTitle" class="text-xl font-semibold text-gray-800">Home Content</h2>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-600">Welcome, Administrator</span>
+                        <button id="saveChanges" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center">
+                            <i class="fas fa-save mr-2"></i> Save Changes
+                        </button>
+                    </div>
+                </div>
+            </nav>
 
         <!-- Page Content Sections -->
         <div class="p-6">
@@ -1066,11 +1121,76 @@
             });
         });
 
+        // Authentication functionality
+        const loginScreen = document.getElementById('loginScreen');
+        const dashboardContainer = document.getElementById('dashboardContainer');
+        const loginForm = document.getElementById('loginForm');
+        const loginError = document.getElementById('loginError');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // Check if user is already logged in
+        if(localStorage.getItem('adminLoggedIn') === 'true') {
+            // User is already logged in, show dashboard
+            loginScreen.style.display = 'none';
+            dashboardContainer.style.display = 'block';
+        } else {
+            // User is not logged in, show login screen
+            loginScreen.style.display = 'flex';
+            dashboardContainer.style.display = 'none';
+        }
+
+        // Login form submission
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Simple authentication - in a real app, this would be more secure
+            if(username === 'admin' && password === 'jehovah123') {
+                // Successful login
+                localStorage.setItem('adminLoggedIn', 'true');
+                loginScreen.style.display = 'none';
+                dashboardContainer.style.display = 'block';
+
+                // Clear form
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+
+                // Show success message
+                loginError.className = 'hidden mt-4 p-3 bg-green-100 text-green-700 rounded text-sm';
+                loginError.textContent = 'Login successful! Redirecting...';
+                loginError.style.display = 'block';
+
+                // Hide error after 2 seconds
+                setTimeout(function() {
+                    loginError.style.display = 'none';
+                }, 2000);
+            } else {
+                // Failed login
+                loginError.className = 'mt-4 p-3 bg-red-100 text-red-700 rounded text-sm';
+                loginError.textContent = 'Invalid username or password. Please try again.';
+                loginError.style.display = 'block';
+
+                // Clear password field
+                document.getElementById('password').value = '';
+            }
+        });
+
         // Logout functionality
-        document.getElementById('logoutBtn').addEventListener('click', () => {
+        logoutBtn.addEventListener('click', () => {
             if(confirm('Are you sure you want to logout?')) {
-                // In a real application, you would handle authentication here
-                window.location.href = 'index.html';
+                // Clear login status
+                localStorage.removeItem('adminLoggedIn');
+
+                // Show login screen
+                loginScreen.style.display = 'flex';
+                dashboardContainer.style.display = 'none';
+
+                // Clear form and error message
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                loginError.style.display = 'none';
             }
         });
     </script>
