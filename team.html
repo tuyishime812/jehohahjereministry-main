@@ -386,6 +386,51 @@
             }
         }
 
+        // Load content from CMS system
+        document.addEventListener('DOMContentLoaded', function() {
+            // Watch for changes in localStorage and update content accordingly
+            window.addEventListener('storage', function(e) {
+                if(e.key === 'cmsContentData') {
+                    loadContentFromCMS();
+                }
+            });
+        });
+
+        // Function to load content from CMS
+        function loadContentFromCMS() {
+            // Load saved content from localStorage
+            const savedData = localStorage.getItem('cmsContentData');
+            if(savedData) {
+                const data = JSON.parse(savedData);
+
+                // Update team members if data exists
+                if(data.teamMembers) {
+                    loadTeamMembersFromCMS(data.teamMembers);
+                }
+            }
+        }
+
+        // Load team members from CMS data
+        function loadTeamMembersFromCMS(members) {
+            const staffContainer = document.getElementById('staffContainer');
+            staffContainer.innerHTML = '';
+
+            for (let i = 0; i < members.length; i++) {
+                const member = members[i];
+                const staffElement = document.createElement('div');
+                staffElement.className = 'staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md';
+                staffElement.innerHTML = `
+                    <img src="${member.image}" alt="${member.name}" class="w-full h-48 object-cover photo-clickable">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">${member.name}</h3>
+                        <p class="text-blue-600 font-semibold">${member.position}</p>
+                        <p class="mt-2 text-gray-700">Serves as ${member.position} and contributes to the ministry's mission.</p>
+                    </div>
+                `;
+                staffContainer.appendChild(staffElement);
+            }
+        }
+
         // Photo modal functionality
         document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById("photoModal");

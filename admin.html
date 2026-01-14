@@ -68,7 +68,7 @@
         <div class="p-5 border-b border-gray-700">
             <h1 class="text-xl font-bold flex items-center">
                 <i class="fas fa-cog mr-2"></i>
-                <span class="sidebar-text">CMS Dashboard</span>
+                <span class="sidebar-text">Jehovah Jire Dashboard</span>
             </h1>
         </div>
         <ul class="flex-1 py-4">
@@ -509,17 +509,54 @@
                 blogPosts: blogPosts,
                 testimonials: testimonials
             };
-            
+
             localStorage.setItem('cmsContentData', JSON.stringify(contentData));
+
+            // Update live website content if windows are open
+            updateLiveWebsite(contentData);
+
             alert('Changes saved successfully!');
         });
+
+        // Update live website content function
+        function updateLiveWebsite(contentData) {
+            // Update hero section if homepage is open
+            if(window.opener && !window.opener.closed) {
+                try {
+                    const openerDoc = window.opener.document;
+                    if(openerDoc.querySelector('#home h1')) {
+                        openerDoc.querySelector('#home h1').textContent = contentData.heroTitle;
+                    }
+                    if(openerDoc.querySelector('#home .max-w-3xl.mx-auto')) {
+                        openerDoc.querySelector('#home .max-w-3xl.mx-auto').textContent = contentData.heroSubtitle;
+                    }
+                    if(openerDoc.querySelector('#about .bg-gray-50 p.text-center')) {
+                        openerDoc.querySelector('#about .bg-gray-50 p.text-center').textContent = contentData.visionText;
+                    }
+                } catch(e) {
+                    // Ignore cross-origin errors
+                }
+            }
+
+            // Update current window if it's the website
+            if(document.querySelector('#home h1')) {
+                document.querySelector('#home h1').textContent = contentData.heroTitle;
+            }
+            if(document.querySelector('#home .max-w-3xl.mx-auto')) {
+                document.querySelector('#home .max-w-3xl.mx-auto').textContent = contentData.heroSubtitle;
+            }
+            if(document.querySelector('#about .bg-gray-50 p.text-center')) {
+                document.querySelector('#about .bg-gray-50 p.text-center').textContent = contentData.visionText;
+            }
+        }
+
 
         // Load saved content on page load
         window.addEventListener('DOMContentLoaded', () => {
             const savedData = localStorage.getItem('cmsContentData');
             if(savedData) {
                 const data = JSON.parse(savedData);
-                
+
                 // Populate form fields with saved data
                 if(data.heroTitle) document.getElementById('heroTitle').value = data.heroTitle;
                 if(data.heroSubtitle) document.getElementById('heroSubtitle').value = data.heroSubtitle;
@@ -530,37 +567,90 @@
                 if(data.aboutIntro) document.getElementById('aboutIntro').value = data.aboutIntro;
                 if(data.missionsTitle) document.getElementById('missionsTitle').value = data.missionsTitle;
                 if(data.missionsIntro) document.getElementById('missionsIntro').value = data.missionsIntro;
-                
+
                 // Reload data arrays if they exist
                 if(data.teamMembers) teamMembers = data.teamMembers;
                 if(data.galleryItems) galleryItems = data.galleryItems;
                 if(data.blogPosts) blogPosts = data.blogPosts;
                 if(data.testimonials) testimonials = data.testimonials;
             }
-            
+
             // Populate team members table
             renderTeamMembers();
-            
+
             // Populate gallery items
             renderGalleryItems();
-            
+
             // Populate blog posts
             renderBlogPosts();
-            
+
             // Populate testimonials
             renderTestimonials();
+
+            // Add event listener to automatically save changes as they happen
+            setupAutoSave();
         });
+
+        // Setup auto-save functionality
+        function setupAutoSave() {
+            // Add input event listeners to save changes automatically
+            document.getElementById('heroTitle').addEventListener('input', debounce(autoSave, 1000));
+            document.getElementById('heroSubtitle').addEventListener('input', debounce(autoSave, 1000));
+            document.getElementById('visionText').addEventListener('input', debounce(autoSave, 1000));
+            document.getElementById('missionText').addEventListener('input', debounce(autoSave, 1000));
+            document.getElementById('purposeText').addEventListener('input', debounce(autoSave, 1000));
+        }
+
+        // Auto-save function
+        function autoSave() {
+            const contentData = {
+                heroTitle: document.getElementById('heroTitle').value,
+                heroSubtitle: document.getElementById('heroSubtitle').value,
+                visionText: document.getElementById('visionText').value,
+                missionText: document.getElementById('missionText').value,
+                purposeText: document.getElementById('purposeText').value,
+                aboutTitle: document.getElementById('aboutTitle').value,
+                aboutIntro: document.getElementById('aboutIntro').value,
+                missionsTitle: document.getElementById('missionsTitle').value,
+                missionsIntro: document.getElementById('missionsIntro').value,
+                teamMembers: teamMembers,
+                galleryItems: galleryItems,
+                blogPosts: blogPosts,
+                testimonials: testimonials
+            };
+
+            localStorage.setItem('cmsContentData', JSON.stringify(contentData));
+
+            // Update live website content
+            updateLiveWebsite(contentData);
+        }
+
+        // Debounce function to limit how often a function can run
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
 
         // Team member management
         document.getElementById('addTeamMember').addEventListener('click', () => {
             const name = document.getElementById('teamMemberName').value;
             const position = document.getElementById('teamMemberPosition').value;
             const image = document.getElementById('teamMemberImage').value;
-            
+
             if(name && position) {
                 teamMembers.push({ name, position, image: image || 'media/photos/default.jpg' });
                 renderTeamMembers();
-                
+
+                // Save to localStorage and update website
+                saveAndRefresh();
+
                 // Clear form
                 document.getElementById('teamMemberName').value = '';
                 document.getElementById('teamMemberPosition').value = '';
@@ -573,7 +663,7 @@
         function renderTeamMembers() {
             const tbody = document.getElementById('teamMembersTableBody');
             tbody.innerHTML = '';
-            
+
             teamMembers.forEach((member, index) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -588,12 +678,36 @@
             });
         }
 
+        // Save and refresh function
+        function saveAndRefresh() {
+            const contentData = {
+                heroTitle: document.getElementById('heroTitle').value,
+                heroSubtitle: document.getElementById('heroSubtitle').value,
+                visionText: document.getElementById('visionText').value,
+                missionText: document.getElementById('missionText').value,
+                purposeText: document.getElementById('purposeText').value,
+                aboutTitle: document.getElementById('aboutTitle').value,
+                aboutIntro: document.getElementById('aboutIntro').value,
+                missionsTitle: document.getElementById('missionsTitle').value,
+                missionsIntro: document.getElementById('missionsIntro').value,
+                teamMembers: teamMembers,
+                galleryItems: galleryItems,
+                blogPosts: blogPosts,
+                testimonials: testimonials
+            };
+
+            localStorage.setItem('cmsContentData', JSON.stringify(contentData));
+
+            // Update live website content
+            updateLiveWebsite(contentData);
+        }
+
         window.editTeamMember = function(index) {
             const member = teamMembers[index];
             document.getElementById('teamMemberName').value = member.name;
             document.getElementById('teamMemberPosition').value = member.position;
             document.getElementById('teamMemberImage').value = member.image;
-            
+
             // Change button to update
             const addButton = document.getElementById('addTeamMember');
             addButton.textContent = 'Update Team Member';
@@ -601,9 +715,12 @@
                 member.name = document.getElementById('teamMemberName').value;
                 member.position = document.getElementById('teamMemberPosition').value;
                 member.image = document.getElementById('teamMemberImage').value || 'media/photos/default.jpg';
-                
+
                 renderTeamMembers();
-                
+
+                // Save and refresh
+                saveAndRefresh();
+
                 // Reset form and button
                 document.getElementById('teamMemberName').value = '';
                 document.getElementById('teamMemberPosition').value = '';
@@ -613,11 +730,14 @@
                     const name = document.getElementById('teamMemberName').value;
                     const position = document.getElementById('teamMemberPosition').value;
                     const image = document.getElementById('teamMemberImage').value;
-                    
+
                     if(name && position) {
                         teamMembers.push({ name, position, image: image || 'media/photos/default.jpg' });
                         renderTeamMembers();
-                        
+
+                        // Save and refresh
+                        saveAndRefresh();
+
                         document.getElementById('teamMemberName').value = '';
                         document.getElementById('teamMemberPosition').value = '';
                         document.getElementById('teamMemberImage').value = '';
@@ -632,6 +752,9 @@
             if(confirm(`Are you sure you want to remove ${teamMembers[index].name} from the team list?`)) {
                 teamMembers.splice(index, 1);
                 renderTeamMembers();
+
+                // Save and refresh
+                saveAndRefresh();
             }
         };
 
@@ -639,11 +762,14 @@
         document.getElementById('addGalleryItem').addEventListener('click', () => {
             const url = document.getElementById('galleryImageUrl').value;
             const caption = document.getElementById('galleryCaption').value;
-            
+
             if(url && caption) {
                 galleryItems.push({ url, caption });
                 renderGalleryItems();
-                
+
+                // Save to localStorage and update website
+                saveAndRefresh();
+
                 // Clear form
                 document.getElementById('galleryImageUrl').value = '';
                 document.getElementById('galleryCaption').value = '';
@@ -655,7 +781,7 @@
         function renderGalleryItems() {
             const container = document.getElementById('galleryItemsList');
             container.innerHTML = '';
-            
+
             galleryItems.forEach((item, index) => {
                 const div = document.createElement('div');
                 div.className = 'border rounded p-2';
@@ -675,16 +801,19 @@
             const item = galleryItems[index];
             document.getElementById('galleryImageUrl').value = item.url;
             document.getElementById('galleryCaption').value = item.caption;
-            
+
             // Change button to update
             const addButton = document.getElementById('addGalleryItem');
             addButton.textContent = 'Update Gallery Item';
             addButton.onclick = function() {
                 item.url = document.getElementById('galleryImageUrl').value;
                 item.caption = document.getElementById('galleryCaption').value;
-                
+
                 renderGalleryItems();
-                
+
+                // Save and refresh
+                saveAndRefresh();
+
                 // Reset form and button
                 document.getElementById('galleryImageUrl').value = '';
                 document.getElementById('galleryCaption').value = '';
@@ -692,11 +821,14 @@
                 addButton.onclick = function() {
                     const url = document.getElementById('galleryImageUrl').value;
                     const caption = document.getElementById('galleryCaption').value;
-                    
+
                     if(url && caption) {
                         galleryItems.push({ url, caption });
                         renderGalleryItems();
-                        
+
+                        // Save and refresh
+                        saveAndRefresh();
+
                         document.getElementById('galleryImageUrl').value = '';
                         document.getElementById('galleryCaption').value = '';
                     } else {
@@ -710,6 +842,9 @@
             if(confirm(`Are you sure you want to remove this gallery item?`)) {
                 galleryItems.splice(index, 1);
                 renderGalleryItems();
+
+                // Save and refresh
+                saveAndRefresh();
             }
         };
 
@@ -718,11 +853,14 @@
             const title = document.getElementById('postTitle').value;
             const category = document.getElementById('postCategory').value;
             const content = document.getElementById('postContent').innerHTML;
-            
+
             if(title && content) {
                 blogPosts.unshift({ title, category, content });
                 renderBlogPosts();
-                
+
+                // Save to localStorage and update website
+                saveAndRefresh();
+
                 // Clear form
                 document.getElementById('postTitle').value = '';
                 document.getElementById('postCategory').value = 'announcement';
@@ -735,7 +873,7 @@
         function renderBlogPosts() {
             const container = document.getElementById('postsList');
             container.innerHTML = '';
-            
+
             blogPosts.forEach((post, index) => {
                 const div = document.createElement('div');
                 div.className = 'border rounded p-4 mb-4';
@@ -757,7 +895,7 @@
             document.getElementById('postTitle').value = post.title;
             document.getElementById('postCategory').value = post.category;
             document.getElementById('postContent').innerHTML = post.content;
-            
+
             // Change button to update
             const publishButton = document.getElementById('publishPost');
             publishButton.textContent = 'Update Post';
@@ -765,9 +903,12 @@
                 post.title = document.getElementById('postTitle').value;
                 post.category = document.getElementById('postCategory').value;
                 post.content = document.getElementById('postContent').innerHTML;
-                
+
                 renderBlogPosts();
-                
+
+                // Save and refresh
+                saveAndRefresh();
+
                 // Reset form and button
                 document.getElementById('postTitle').value = '';
                 document.getElementById('postCategory').value = 'announcement';
@@ -777,11 +918,14 @@
                     const title = document.getElementById('postTitle').value;
                     const category = document.getElementById('postCategory').value;
                     const content = document.getElementById('postContent').innerHTML;
-                    
+
                     if(title && content) {
                         blogPosts.unshift({ title, category, content });
                         renderBlogPosts();
-                        
+
+                        // Save and refresh
+                        saveAndRefresh();
+
                         document.getElementById('postTitle').value = '';
                         document.getElementById('postCategory').value = 'announcement';
                         document.getElementById('postContent').innerHTML = '';
@@ -796,6 +940,9 @@
             if(confirm(`Are you sure you want to delete the post "${blogPosts[index].title}"?`)) {
                 blogPosts.splice(index, 1);
                 renderBlogPosts();
+
+                // Save and refresh
+                saveAndRefresh();
             }
         };
 
@@ -805,11 +952,14 @@
             const role = document.getElementById('testimonialRole').value;
             const content = document.getElementById('testimonialContent').value;
             const rating = document.getElementById('testimonialRating').value;
-            
+
             if(name && role && content) {
                 testimonials.unshift({ name, role, content, rating: parseInt(rating) });
                 renderTestimonials();
-                
+
+                // Save to localStorage and update website
+                saveAndRefresh();
+
                 // Clear form
                 document.getElementById('testimonialName').value = '';
                 document.getElementById('testimonialRole').value = '';
@@ -823,7 +973,7 @@
         function renderTestimonials() {
             const container = document.getElementById('testimonialsList');
             container.innerHTML = '';
-            
+
             testimonials.forEach((testimonial, index) => {
                 const div = document.createElement('div');
                 div.className = 'border rounded p-4 mb-4';
@@ -852,7 +1002,7 @@
             document.getElementById('testimonialRole').value = testimonial.role;
             document.getElementById('testimonialContent').value = testimonial.content;
             document.getElementById('testimonialRating').value = testimonial.rating;
-            
+
             // Change button to update
             const addButton = document.getElementById('addTestimonial');
             addButton.textContent = 'Update Testimonial';
@@ -861,9 +1011,12 @@
                 testimonial.role = document.getElementById('testimonialRole').value;
                 testimonial.content = document.getElementById('testimonialContent').value;
                 testimonial.rating = document.getElementById('testimonialRating').value;
-                
+
                 renderTestimonials();
-                
+
+                // Save and refresh
+                saveAndRefresh();
+
                 // Reset form and button
                 document.getElementById('testimonialName').value = '';
                 document.getElementById('testimonialRole').value = '';
@@ -875,11 +1028,14 @@
                     const role = document.getElementById('testimonialRole').value;
                     const content = document.getElementById('testimonialContent').value;
                     const rating = document.getElementById('testimonialRating').value;
-                    
+
                     if(name && role && content) {
                         testimonials.unshift({ name, role, content, rating: parseInt(rating) });
                         renderTestimonials();
-                        
+
+                        // Save and refresh
+                        saveAndRefresh();
+
                         document.getElementById('testimonialName').value = '';
                         document.getElementById('testimonialRole').value = '';
                         document.getElementById('testimonialContent').value = '';
@@ -895,6 +1051,9 @@
             if(confirm(`Are you sure you want to delete the testimonial from "${testimonials[index].name}"?`)) {
                 testimonials.splice(index, 1);
                 renderTestimonials();
+
+                // Save and refresh
+                saveAndRefresh();
             }
         };
 

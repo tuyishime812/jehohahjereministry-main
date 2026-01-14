@@ -1013,6 +1013,18 @@
 
         // Load content from CMS system
         document.addEventListener('DOMContentLoaded', function() {
+            loadContentFromCMS();
+
+            // Watch for changes in localStorage and update content accordingly
+            window.addEventListener('storage', function(e) {
+                if(e.key === 'cmsContentData') {
+                    loadContentFromCMS();
+                }
+            });
+        });
+
+        // Function to load content from CMS
+        function loadContentFromCMS() {
             // Load saved content from localStorage
             const savedData = localStorage.getItem('cmsContentData');
             if(savedData) {
@@ -1051,7 +1063,7 @@
                     loadTeamMembersFromCMS(data.teamMembers);
                 }
             }
-        });
+        }
 
         // Load testimonials from CMS data
         function loadTestimonialsFromCMS(testimonials) {

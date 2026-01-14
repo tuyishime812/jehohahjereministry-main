@@ -379,6 +379,35 @@
             }
         }
 
+        // Load content from CMS system
+        document.addEventListener('DOMContentLoaded', function() {
+            // Watch for changes in localStorage and update content accordingly
+            window.addEventListener('storage', function(e) {
+                if(e.key === 'cmsContentData') {
+                    loadContentFromCMS();
+                }
+            });
+        });
+
+        // Function to load content from CMS
+        function loadContentFromCMS() {
+            // Load saved content from localStorage
+            const savedData = localStorage.getItem('cmsContentData');
+            if(savedData) {
+                const data = JSON.parse(savedData);
+
+                // Update page title if data exists
+                if(data.missionsTitle) {
+                    document.querySelector('h1.text-3xl').textContent = data.missionsTitle;
+                }
+
+                // Update intro text if data exists
+                if(data.missionsIntro) {
+                    document.querySelector('p.text-xl.max-w-3xl.mx-auto').textContent = data.missionsIntro;
+                }
+            }
+        }
+
         // Photo modal functionality
         document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById("photoModal");

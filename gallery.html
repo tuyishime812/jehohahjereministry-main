@@ -526,6 +526,28 @@
             }
         }
 
+        // Load content from CMS system
+        document.addEventListener('DOMContentLoaded', function() {
+            // Watch for changes in localStorage and update content accordingly
+            window.addEventListener('storage', function(e) {
+                if(e.key === 'cmsContentData') {
+                    loadContentFromCMS();
+                }
+            });
+        });
+
+        // Function to load content from CMS
+        function loadContentFromCMS() {
+            // Load saved content from localStorage
+            const savedData = localStorage.getItem('cmsContentData');
+            if(savedData) {
+                const data = JSON.parse(savedData);
+
+                // Update gallery content if data exists
+                // Currently no specific gallery content in CMS, but keeping function for future use
+            }
+        }
+
         // Photo modal functionality
         document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById("photoModal");

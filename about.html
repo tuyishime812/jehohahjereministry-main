@@ -399,6 +399,54 @@
             }
         }
 
+        // Load content from CMS system
+        document.addEventListener('DOMContentLoaded', function() {
+            // Watch for changes in localStorage and update content accordingly
+            window.addEventListener('storage', function(e) {
+                if(e.key === 'cmsContentData') {
+                    loadContentFromCMS();
+                }
+            });
+        });
+
+        // Function to load content from CMS
+        function loadContentFromCMS() {
+            // Load saved content from localStorage
+            const savedData = localStorage.getItem('cmsContentData');
+            if(savedData) {
+                const data = JSON.parse(savedData);
+
+                // Update vision statement if data exists
+                if(data.visionText) {
+                    document.querySelector('#about .bg-gray-50 p.text-center').textContent = data.visionText;
+                }
+
+                // Update mission statement if data exists
+                if(data.missionText) {
+                    document.querySelector('#about .bg-gray-50 p.text-center').textContent = data.missionText;
+                }
+
+                // Update purpose statement if data exists
+                if(data.purposeText) {
+                    document.querySelector('#about .bg-gray-50 p.text-center:last-child').textContent = data.purposeText;
+                }
+
+                // Update page title if data exists
+                if(data.aboutTitle) {
+                    document.querySelector('h1.text-3xl').textContent = data.aboutTitle;
+                }
+
+                // Update intro text if data exists
+                if(data.aboutIntro) {
+                    // Find the paragraph that contains the intro text
+                    const introParagraph = document.querySelector('#about .grid.grid-cols-1 md\\:grid-cols-3 ~ div p');
+                    if(introParagraph) {
+                        introParagraph.textContent = data.aboutIntro;
+                    }
+                }
+            }
+        }
+
         // Photo modal functionality
         document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById("photoModal");
