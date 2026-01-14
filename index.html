@@ -39,17 +39,6 @@
             right: 20px;
             z-index: 1000;
         }
-        .admin-panel {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            overflow-y: auto;
-        }
         .photo-modal {
             display: none;
             position: fixed;
@@ -122,7 +111,6 @@
                     <a href="team.html" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Team</a>
                     <a href="contact.html" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Contact</a>
                     <button id="donateBtn" class="bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 text-white px-4 py-2 rounded-full font-semibold transition duration-300 shadow-md">Donate</button>
-                    <button id="adminLoginBtn" class="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white px-4 py-2 rounded-full font-semibold transition duration-300 shadow-md">Admin</button>
                 </div>
                 <div class="-mr-2 flex items-center md:hidden">
                     <button id="mobileMenuButton" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 focus:outline-none">
@@ -142,7 +130,6 @@
                 <a href="team.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-users mr-3"></i> Team</a>
                 <a href="contact.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-address-book mr-3"></i> Contact</a>
                 <button id="donateBtnMobile" class="w-full mt-2 bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 text-white px-4 py-3 rounded-full font-semibold flex items-center justify-center"><i class="fas fa-donate mr-2"></i> Donate</button>
-                <button id="adminLoginBtnMobile" class="w-full mt-2 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white px-4 py-3 rounded-full font-semibold flex items-center justify-center"><i class="fas fa-lock mr-2"></i> Admin</button>
             </div>
         </div>
     </nav>
@@ -675,315 +662,6 @@
         </div>
     </footer>
 
-    <!-- Admin Login Modal -->
-    <div id="adminModal" class="admin-panel">
-        <div class="relative max-w-md mx-auto mt-20 bg-white rounded-lg shadow-xl p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold text-gray-900">Admin Login</h3>
-                <button id="closeAdminModal" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <form id="adminLoginForm">
-                <div class="mb-4">
-                    <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
-                    <input type="text" id="username" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Enter username">
-                </div>
-                <div class="mb-4">
-                    <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
-                    <input type="password" id="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Enter password">
-                </div>
-                <div class="mb-4 text-center">
-                    <button type="button" id="forgotPasswordBtn" class="text-blue-600 hover:text-blue-800 font-medium">
-                        Forgot Password?
-                    </button>
-                </div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold">
-                    Login
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Admin Dashboard -->
-    <div id="adminDashboard" class="admin-panel">
-        <div class="max-w-7xl mx-auto p-6">
-            <!-- Dashboard Header -->
-            <div class="bg-gradient-to-r from-blue-700 to-indigo-800 rounded-t-lg p-6 text-white">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h2 class="text-2xl font-bold">Admin Dashboard</h2>
-                        <p class="text-blue-200">Manage your website content and settings</p>
-                    </div>
-                    <div class="flex space-x-3">
-                        <button id="changePasswordBtn" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg shadow transition duration-300 flex items-center">
-                            <i class="fas fa-key mr-2"></i> Change Password
-                        </button>
-                        <button id="logoutBtn" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow transition duration-300 flex items-center">
-                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Change Password Modal -->
-            <div id="changePasswordModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50">
-                <div class="bg-white p-8 rounded-xl w-full max-w-md shadow-2xl">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-2xl font-bold text-gray-900">Change Admin Password</h3>
-                        <button id="closeChangePasswordModal" class="text-gray-500 hover:text-gray-700">
-                            <i class="fas fa-times text-xl"></i>
-                        </button>
-                    </div>
-                    <form id="changePasswordForm">
-                        <div class="mb-5">
-                            <label for="currentPassword" class="block text-gray-700 font-medium mb-2">Current Password</label>
-                            <input type="password" id="currentPassword" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" placeholder="Enter current password" required>
-                        </div>
-                        <div class="mb-5">
-                            <label for="newPassword" class="block text-gray-700 font-medium mb-2">New Password</label>
-                            <input type="password" id="newPassword" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" placeholder="Enter new password" required>
-                        </div>
-                        <div class="mb-6">
-                            <label for="confirmNewPassword" class="block text-gray-700 font-medium mb-2">Confirm New Password</label>
-                            <input type="password" id="confirmNewPassword" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" placeholder="Confirm new password" required>
-                        </div>
-                        <div class="flex justify-end space-x-3">
-                            <button type="button" id="cancelChangePassword" class="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2.5 rounded-lg transition duration-300">Cancel</button>
-                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg transition duration-300">Change Password</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Dashboard Content -->
-            <div class="bg-white rounded-b-lg shadow-lg p-6">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Website Content Management Card -->
-                    <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl shadow border border-gray-200">
-                        <div class="flex items-center mb-5">
-                            <div class="bg-blue-100 p-3 rounded-lg mr-4">
-                                <i class="fas fa-edit text-blue-600 text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-gray-900">Website Content</h3>
-                        </div>
-
-                        <div class="mb-6">
-                            <h4 class="font-semibold text-gray-800 mb-3 flex items-center">
-                                <i class="fas fa-heading text-blue-500 mr-2"></i> Edit Hero Section
-                            </h4>
-                            <form id="editHeroForm">
-                                <div class="mb-4">
-                                    <label for="heroTitle" class="block text-gray-700 font-medium mb-2">Title</label>
-                                    <input type="text" id="heroTitle" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" placeholder="Hero Title">
-                                </div>
-                                <div class="mb-4">
-                                    <label for="heroSubtitle" class="block text-gray-700 font-medium mb-2">Subtitle</label>
-                                    <textarea id="heroSubtitle" rows="2" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" placeholder="Hero Subtitle"></textarea>
-                                </div>
-                                <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white px-4 py-3 rounded-lg shadow transition duration-300">
-                                    Update Hero
-                                </button>
-                            </form>
-                        </div>
-
-                        <div>
-                            <h4 class="font-semibold text-gray-800 mb-3 flex items-center">
-                                <i class="fas fa-eye text-blue-500 mr-2"></i> Edit Vision Statement
-                            </h4>
-                            <form id="editVisionForm">
-                                <div class="mb-4">
-                                    <label for="visionText" class="block text-gray-700 font-medium mb-2">Vision</label>
-                                    <textarea id="visionText" rows="3" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" placeholder="Vision Statement"></textarea>
-                                </div>
-                                <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white px-4 py-3 rounded-lg shadow transition duration-300">
-                                    Update Vision
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <!-- Staff Management Card -->
-                    <div class="lg:col-span-2 bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl shadow border border-gray-200">
-                        <div class="flex items-center mb-5">
-                            <div class="bg-green-100 p-3 rounded-lg mr-4">
-                                <i class="fas fa-users text-green-600 text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-gray-900">Staff Management</h3>
-                        </div>
-
-                        <div class="mb-6">
-                            <h4 class="font-semibold text-gray-800 mb-3 flex items-center">
-                                <i class="fas fa-plus-circle text-green-500 mr-2"></i> Add/Edit Staff Member
-                            </h4>
-                            <form id="addStaffForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <input type="text" id="staffName" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition" placeholder="Full Name">
-                                </div>
-                                <div>
-                                    <input type="text" id="staffPosition" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition" placeholder="Position">
-                                </div>
-                                <div class="md:col-span-2">
-                                    <input type="text" id="staffImage" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition" placeholder="Image URL (optional)">
-                                </div>
-                                <div class="md:col-span-2 flex flex-wrap gap-3">
-                                    <button type="submit" class="bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white px-5 py-2.5 rounded-lg shadow transition duration-300 flex items-center">
-                                        <i class="fas fa-plus mr-2"></i> Add Staff
-                                    </button>
-                                    <button type="button" id="updateStaffBtn" class="hidden bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-white px-5 py-2.5 rounded-lg shadow transition duration-300 flex items-center">
-                                        <i class="fas fa-sync-alt mr-2"></i> Update Staff
-                                    </button>
-                                    <button type="button" id="cancelEditBtn" class="hidden bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-5 py-2.5 rounded-lg shadow transition duration-300 flex items-center">
-                                        <i class="fas fa-times mr-2"></i> Cancel
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div>
-                            <h4 class="font-semibold text-gray-800 mb-3 flex items-center">
-                                <i class="fas fa-list text-green-500 mr-2"></i> Current Staff
-                            </h4>
-                            <div id="staffList" class="overflow-x-auto rounded-lg border border-gray-300">
-                                <table class="min-w-full divide-y divide-gray-200">
-                                    <thead class="bg-gray-100">
-                                        <tr>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Name</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Position</th>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="staffTableBody" class="bg-white divide-y divide-gray-200">
-                                        <!-- Staff will be added dynamically -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Testimonials Management Card -->
-                    <div class="lg:col-span-3 bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl shadow border border-gray-200">
-                        <div class="flex items-center mb-5">
-                            <div class="bg-purple-100 p-3 rounded-lg mr-4">
-                                <i class="fas fa-comments text-purple-600 text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-gray-900">Testimonials Management</h3>
-                        </div>
-
-                        <div class="mb-6">
-                            <h4 class="font-semibold text-gray-800 mb-3 flex items-center">
-                                <i class="fas fa-plus-circle text-purple-500 mr-2"></i> Add/Edit Testimonial
-                            </h4>
-                            <form id="addTestimonialForm">
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                                    <div>
-                                        <label for="testimonialName" class="block text-gray-700 font-medium mb-2">Name</label>
-                                        <input type="text" id="testimonialName" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition" placeholder="Full Name">
-                                    </div>
-                                    <div>
-                                        <label for="testimonialRole" class="block text-gray-700 font-medium mb-2">Role</label>
-                                        <input type="text" id="testimonialRole" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition" placeholder="Role/Position">
-                                    </div>
-                                    <div>
-                                        <label for="testimonialRating" class="block text-gray-700 font-medium mb-2">Rating</label>
-                                        <select id="testimonialRating" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition">
-                                            <option value="5">5 Stars</option>
-                                            <option value="4">4 Stars</option>
-                                            <option value="3">3 Stars</option>
-                                            <option value="2">2 Stars</option>
-                                            <option value="1">1 Star</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="testimonialContent" class="block text-gray-700 font-medium mb-2">Testimonial</label>
-                                    <textarea id="testimonialContent" rows="3" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition" placeholder="Testimonial content"></textarea>
-                                </div>
-                                <div class="flex flex-wrap gap-3">
-                                    <button type="submit" class="bg-gradient-to-r from-purple-600 to-fuchsia-700 hover:from-purple-700 hover:to-fuchsia-800 text-white px-5 py-2.5 rounded-lg shadow transition duration-300 flex items-center">
-                                        <i class="fas fa-plus mr-2"></i> Add Testimonial
-                                    </button>
-                                    <button type="button" id="updateTestimonialBtn" class="hidden bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-white px-5 py-2.5 rounded-lg shadow transition duration-300 flex items-center">
-                                        <i class="fas fa-sync-alt mr-2"></i> Update Testimonial
-                                    </button>
-                                    <button type="button" id="cancelTestimonialEditBtn" class="hidden bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-5 py-2.5 rounded-lg shadow transition duration-300 flex items-center">
-                                        <i class="fas fa-times mr-2"></i> Cancel
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div>
-                            <h4 class="font-semibold text-gray-800 mb-3 flex items-center">
-                                <i class="fas fa-star text-purple-500 mr-2"></i> Recent Testimonials
-                            </h4>
-                            <div id="testimonialsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                                <!-- Testimonials will be added dynamically -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Post Management Card -->
-                    <div class="lg:col-span-3 bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl shadow border border-gray-200">
-                        <div class="flex items-center mb-5">
-                            <div class="bg-orange-100 p-3 rounded-lg mr-4">
-                                <i class="fas fa-newspaper text-orange-600 text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-gray-900">Post Management</h3>
-                        </div>
-
-                        <div class="mb-6">
-                            <h4 class="font-semibold text-gray-800 mb-3 flex items-center">
-                                <i class="fas fa-edit text-orange-500 mr-2"></i> Create/Edit Post
-                            </h4>
-                            <form id="addPostForm">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                    <div>
-                                        <label for="postTitle" class="block text-gray-700 font-medium mb-2">Title</label>
-                                        <input type="text" id="postTitle" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition" placeholder="Post Title">
-                                    </div>
-                                    <div>
-                                        <label for="postCategory" class="block text-gray-700 font-medium mb-2">Category</label>
-                                        <select id="postCategory" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition">
-                                            <option value="announcement">Announcement</option>
-                                            <option value="event">Event</option>
-                                            <option value="testimony">Testimony</option>
-                                            <option value="news">News</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="postContent" class="block text-gray-700 font-medium mb-2">Content</label>
-                                    <textarea id="postContent" rows="4" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition" placeholder="Post Content"></textarea>
-                                </div>
-                                <div class="flex flex-wrap gap-3">
-                                    <button type="submit" class="bg-gradient-to-r from-orange-600 to-amber-700 hover:from-orange-700 hover:to-amber-800 text-white px-5 py-2.5 rounded-lg shadow transition duration-300 flex items-center">
-                                        <i class="fas fa-paper-plane mr-2"></i> Publish Post
-                                    </button>
-                                    <button type="button" id="updatePostBtn" class="hidden bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-white px-5 py-2.5 rounded-lg shadow transition duration-300 flex items-center">
-                                        <i class="fas fa-sync-alt mr-2"></i> Update Post
-                                    </button>
-                                    <button type="button" id="cancelPostEditBtn" class="hidden bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-5 py-2.5 rounded-lg shadow transition duration-300 flex items-center">
-                                        <i class="fas fa-times mr-2"></i> Cancel
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div>
-                            <h4 class="font-semibold text-gray-800 mb-3 flex items-center">
-                                <i class="fas fa-list text-orange-500 mr-2"></i> Recent Posts
-                            </h4>
-                            <div id="postsList" class="space-y-4">
-                                <!-- Posts will be added dynamically -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Chatbot Container -->
     <div class="chatbot-container">
@@ -1024,123 +702,6 @@
             menu.classList.toggle('hidden');
         });
 
-        // Admin Login
-        document.getElementById('adminLoginBtn').addEventListener('click', function() {
-            document.getElementById('adminModal').style.display = 'block';
-        });
-
-        document.getElementById('adminLoginBtnMobile').addEventListener('click', function() {
-            document.getElementById('adminModal').style.display = 'block';
-        });
-
-        document.getElementById('closeAdminModal').addEventListener('click', function() {
-            document.getElementById('adminModal').style.display = 'none';
-        });
-
-        // Default admin credentials
-        const adminCredentials = {
-            username: 'jehovah1',
-            password: 'jehovah1#'
-        };
-
-        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (username === adminCredentials.username && password === adminCredentials.password) {
-                document.getElementById('adminModal').style.display = 'none';
-                document.getElementById('adminDashboard').style.display = 'block';
-                // Clear form
-                document.getElementById('adminLoginForm').reset();
-            } else {
-                alert('Invalid credentials. Default: Username: jehovah1, Password: jehovah1#');
-            }
-        });
-
-        // Close admin dashboard
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            document.getElementById('adminDashboard').style.display = 'none';
-        });
-
-        // Close change password modal
-        document.getElementById('closeChangePasswordModal').addEventListener('click', function() {
-            document.getElementById('changePasswordModal').classList.add('hidden');
-        });
-
-        document.getElementById('cancelChangePassword').addEventListener('click', function() {
-            document.getElementById('changePasswordModal').classList.add('hidden');
-        });
-
-        // Forgot Password functionality
-        document.getElementById('forgotPasswordBtn').addEventListener('click', function() {
-            // Show options for password recovery
-            const recoveryOption = confirm('How would you like to recover your password?\n\nOK: Send email to Jehovah Jire Ministry\nCancel: Send WhatsApp message');
-
-            if (recoveryOption) {
-                // Open email client with pre-filled message
-                const subject = encodeURIComponent('Admin Password Recovery Request');
-                const body = encodeURIComponent(
-                    'Dear Jehovah Jire Ministry,\n\nI am requesting assistance with recovering the admin password for the website.\n\nCould you please provide the current admin credentials?\n\nThank you.'
-                );
-                window.location.href = `mailto:jehovahjireministry@gmail.com?subject=${subject}&body=${body}`;
-            } else {
-                // Open WhatsApp with pre-filled message
-                const whatsappMessage = encodeURIComponent(
-                    'Hello Jehovah Jire Ministry,\n\nI am requesting assistance with recovering the admin password for the website.\n\nCould you please provide the current admin credentials?\n\nThank you.'
-                );
-                window.open(`https://wa.me/265993506106?text=${whatsappMessage}`, '_blank');
-            }
-        });
-
-        // Logout
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            document.getElementById('adminDashboard').style.display = 'none';
-        });
-
-        // Change Password functionality
-        document.getElementById('changePasswordBtn').addEventListener('click', function() {
-            document.getElementById('changePasswordModal').classList.remove('hidden');
-        });
-
-        document.getElementById('cancelChangePassword').addEventListener('click', function() {
-            document.getElementById('changePasswordModal').classList.add('hidden');
-            document.getElementById('changePasswordForm').reset();
-        });
-
-        document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const currentPassword = document.getElementById('currentPassword').value;
-            const newPassword = document.getElementById('newPassword').value;
-            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
-
-            // Check if current password matches
-            if (currentPassword !== adminCredentials.password) {
-                alert('Current password is incorrect.');
-                return;
-            }
-
-            // Check if new passwords match
-            if (newPassword !== confirmNewPassword) {
-                alert('New passwords do not match.');
-                return;
-            }
-
-            // Check password strength (at least 6 characters)
-            if (newPassword.length < 6) {
-                alert('Password must be at least 6 characters long.');
-                return;
-            }
-
-            // Update the password
-            adminCredentials.password = newPassword;
-            alert('Password changed successfully!');
-
-            // Reset and close the form
-            document.getElementById('changePasswordForm').reset();
-            document.getElementById('changePasswordModal').classList.add('hidden');
-        });
 
         // Chatbot functionality
         document.getElementById('chatbotToggle').addEventListener('click', function() {
@@ -1398,54 +959,6 @@
             });
         });
 
-        // Admin Dashboard Functions
-        // Initialize forms and load data from localStorage
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set initial values for hero section
-            document.getElementById('heroTitle').value = "Jehovah Jire Ministry";
-            document.getElementById('heroSubtitle').value = "Led by the Holy Spirit, serving the needs of widows and orphans by sharing God's love, hope, and Word";
-            document.getElementById('visionText').value = "Our vision is to restore hope and dignity to the most vulnerable members of society through the compassionate provision of God's love. We envision a world where widows and orphans experience security, love, and opportunity through our ministry's dedicated service.";
-
-            // Load data from localStorage
-            sampleStaff = getStaffData();
-            sampleTestimonials = getTestimonialsData();
-            samplePosts = getPostsData();
-
-            // Repopulate tables/lists with loaded data
-            populateStaffTable();
-            populateTestimonialsList();
-            populatePostsList();
-        });
-
-        // Update hero section
-        document.getElementById('editHeroForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const newTitle = document.getElementById('heroTitle').value;
-            const newSubtitle = document.getElementById('heroSubtitle').value;
-
-            // Update the hero section on the page
-            document.querySelector('#home h1').textContent = newTitle;
-            document.querySelector('#home .max-w-3xl.mx-auto').textContent = newSubtitle;
-
-            alert('Hero section updated successfully!');
-        });
-
-        // Update vision statement
-        document.getElementById('editVisionForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const newVision = document.getElementById('visionText').value;
-
-            // Update the vision statement on the page
-            document.querySelector('#about .bg-gray-50 p.text-center').textContent = newVision;
-
-            alert('Vision statement updated successfully!');
-        });
-
-        // Function to refresh page content after updates
-        function refreshPageContent() {
-            // This would typically reload the page or update content from a data source
-            alert('Content updated successfully! Page would refresh in a live environment.');
-        }
 
         // Load testimonials data from localStorage or initialize with default values
         function getTestimonialsData() {
@@ -1496,6 +1009,101 @@
 
             // Save updated testimonials data to localStorage
             localStorage.setItem('ministryTestimonials', JSON.stringify(sampleTestimonials));
+        }
+
+        // Load content from CMS system
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved content from localStorage
+            const savedData = localStorage.getItem('cmsContentData');
+            if(savedData) {
+                const data = JSON.parse(savedData);
+
+                // Update hero section if data exists
+                if(data.heroTitle) {
+                    document.querySelector('#home h1').textContent = data.heroTitle;
+                }
+                if(data.heroSubtitle) {
+                    document.querySelector('#home .max-w-3xl.mx-auto').textContent = data.heroSubtitle;
+                }
+
+                // Update vision statement if data exists
+                if(data.visionText) {
+                    document.querySelector('#about .bg-gray-50 p.text-center').textContent = data.visionText;
+                }
+
+                // Update mission statement if data exists
+                if(data.missionText) {
+                    document.querySelector('#missions .bg-gray-50 p.text-center').textContent = data.missionText;
+                }
+
+                // Update purpose statement if data exists
+                if(data.purposeText) {
+                    document.querySelector('#about .bg-gray-50 p.text-center:last-child').textContent = data.purposeText;
+                }
+
+                // Load testimonials if data exists
+                if(data.testimonials) {
+                    loadTestimonialsFromCMS(data.testimonials);
+                }
+
+                // Load team members if data exists
+                if(data.teamMembers) {
+                    loadTeamMembersFromCMS(data.teamMembers);
+                }
+            }
+        });
+
+        // Load testimonials from CMS data
+        function loadTestimonialsFromCMS(testimonials) {
+            const testimonialsContainer = document.getElementById('testimonialsContainer');
+            testimonialsContainer.innerHTML = '';
+
+            // Display only the first 3 testimonials
+            const displayCount = Math.min(3, testimonials.length);
+
+            for (let i = 0; i < displayCount; i++) {
+                const testimonial = testimonials[i];
+                const testimonialElement = document.createElement('div');
+                testimonialElement.className = 'bg-gray-50 p-6 rounded-lg shadow-md';
+                testimonialElement.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gray-200 border-2 border-dashed rounded-full w-16 h-16 flex items-center justify-center text-gray-500">
+                            <i class="fas fa-user text-2xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-bold text-gray-900">${testimonial.name}</h4>
+                            <p class="text-blue-600">${testimonial.role}</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic">"${testimonial.content}"</p>
+                    <div class="flex text-yellow-400 mt-4">
+                        ${'<i class="fas fa-star"></i>'.repeat(testimonial.rating)}
+                        ${'<i class="far fa-star"></i>'.repeat(5 - testimonial.rating)}
+                    </div>
+                `;
+                testimonialsContainer.appendChild(testimonialElement);
+            }
+        }
+
+        // Load team members from CMS data
+        function loadTeamMembersFromCMS(members) {
+            const staffContainer = document.getElementById('staffContainer');
+            staffContainer.innerHTML = '';
+
+            for (let i = 0; i < members.length; i++) {
+                const member = members[i];
+                const staffElement = document.createElement('div');
+                staffElement.className = 'staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md';
+                staffElement.innerHTML = `
+                    <img src="${member.image}" alt="${member.name}" class="w-full h-48 object-cover photo-clickable">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">${member.name}</h3>
+                        <p class="text-blue-600 font-semibold">${member.position}</p>
+                        <p class="mt-2 text-gray-700">Serves as ${member.position} and contributes to the ministry's mission.</p>
+                    </div>
+                `;
+                staffContainer.appendChild(staffElement);
+            }
         }
 
         // Initialize testimonials list
