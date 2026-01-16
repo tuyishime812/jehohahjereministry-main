@@ -13,20 +13,30 @@ mongoose.connect(dbConfig.uri)
 
   // Check if any users exist, if not, create default admin
   const User = require('./models/User');
-  const userCount = await User.countDocuments();
+  try {
+    const userCount = await User.countDocuments();
+    console.log(`Found ${userCount} users in database`);
 
-  if (userCount === 0) {
-    const defaultAdmin = new User({
-      username: 'admin',
-      password: 'jehovah123', // Will be hashed by pre-save hook
-      role: 'admin'
-    });
+    if (userCount === 0) {
+      const defaultAdmin = new User({
+        username: 'admin',
+        password: 'jehovah123', // Will be hashed by pre-save hook
+        role: 'admin'
+      });
 
-    await defaultAdmin.save();
-    console.log('Default admin user created (username: admin, password: jehovah123)');
+      await defaultAdmin.save();
+      console.log('Default admin user created (username: admin, password: jehovah123)');
+    } else {
+      console.log('Users already exist in database');
+    }
+  } catch (userError) {
+    console.log('Error checking users:', userError.message);
   }
 })
-.catch(err => console.log('MongoDB connection error:', err));
+.catch(err => {
+  console.log('MongoDB connection error:', err.message);
+  console.log('Make sure MongoDB is running and your connection string is correct in .env file');
+});
 
 // Middleware
 app.use(cors());

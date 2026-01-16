@@ -44,17 +44,25 @@ router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
 
+    console.log('Login attempt for username:', username); // Debug log
+
     // Find user
     const user = await User.findOne({ username });
     if (!user) {
+      console.log('User not found:', username); // Debug log
       return res.status(400).json({ message: 'Invalid credentials' });
     }
+
+    console.log('User found, checking password...'); // Debug log
 
     // Check password using the model method
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
+      console.log('Password mismatch for user:', username); // Debug log
       return res.status(400).json({ message: 'Invalid credentials' });
     }
+
+    console.log('Password matched, generating token...'); // Debug log
 
     // Generate token
     const token = jwt.sign(
@@ -69,6 +77,7 @@ router.post('/login', async (req, res) => {
       user: { id: user._id, username: user.username }
     });
   } catch (error) {
+    console.error('Login error:', error); // Debug log
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
