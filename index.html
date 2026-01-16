@@ -319,6 +319,19 @@
                 <!-- Staff will be loaded dynamically -->
             </div>
 
+            <!-- Team Section -->
+            <div id="teamSection" class="py-16 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Leadership Team</h2>
+                        <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+                    </div>
+                    <div id="homepageTeamContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- Team members will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -1140,6 +1153,24 @@
             }
         }
 
+        // Function to handle multilingual content
+        function updateMultilingualContent(language) {
+            // This function would update content based on selected language
+            // For now, it uses the existing language switching functionality
+            const languageContents = document.querySelectorAll('.language-content');
+
+            // Hide all language content
+            languageContents.forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Show content for selected language
+            const selectedContents = document.querySelectorAll(`.language-content[data-language="${language}"]`);
+            selectedContents.forEach(content => {
+                content.classList.remove('hidden');
+            });
+        }
+
         // Load team members from CMS data
         function loadTeamMembersFromCMS(members) {
             const staffContainer = document.getElementById('staffContainer');
@@ -1150,15 +1181,18 @@
                 const staffElement = document.createElement('div');
                 staffElement.className = 'staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md';
                 staffElement.innerHTML = `
-                    <img src="${member.image}" alt="${member.name}" class="w-full h-48 object-cover photo-clickable">
+                    <img src="${member.image || 'media/photos/default.jpg'}" alt="${member.name}" class="w-full h-48 object-cover photo-clickable">
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900">${member.name}</h3>
                         <p class="text-blue-600 font-semibold">${member.position}</p>
-                        <p class="mt-2 text-gray-700">Serves as ${member.position} and contributes to the ministry's mission.</p>
+                        <p class="mt-2 text-gray-700">${member.bio || `Serves as ${member.position} and contributes to the ministry's mission.`}</p>
                     </div>
                 `;
                 staffContainer.appendChild(staffElement);
             }
+
+            // Also load team members on the homepage team section
+            loadHomepageTeam(members);
         }
 
         // Initialize testimonials list
@@ -1553,6 +1587,52 @@
                 `;
                 staffContainer.appendChild(staffElement);
             }
+
+            // Also load team members on the homepage team section
+            loadHomepageTeam(staff);
+        }
+
+        // Load team members on the homepage team section
+        function loadHomepageTeam(members) {
+            const teamContainer = document.getElementById('homepageTeamContainer');
+            teamContainer.innerHTML = '';
+
+            for (let i = 0; i < members.length; i++) {
+                const member = members[i];
+
+                // Map position to correct image if image is not defined
+                let imageSrc = member.image;
+                if (!imageSrc) {
+                    switch(member.position) {
+                        case "Coordinator":
+                            imageSrc = "media/photos/coordinator.png";
+                            break;
+                        case "Vice Coordinator":
+                            imageSrc = "media/photos/vice _president.jpeg";
+                            break;
+                        case "Secretary":
+                            imageSrc = "media/photos/secre.jpeg";
+                            break;
+                        case "Treasurer":
+                            imageSrc = "media/photos/tressure.jpeg";
+                            break;
+                        default:
+                            imageSrc = "media/photos/coordinator.png";
+                    }
+                }
+
+                const teamElement = document.createElement('div');
+                teamElement.className = 'staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md';
+                teamElement.innerHTML = `
+                    <img src="${imageSrc}" alt="${member.name}" class="w-full h-48 object-cover photo-clickable">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">${member.name}</h3>
+                        <p class="text-blue-600 font-semibold">${member.position}</p>
+                        <p class="mt-2 text-gray-700">Serves as ${member.position} and contributes to the ministry's mission.</p>
+                    </div>
+                `;
+                teamContainer.appendChild(teamElement);
+            }
         }
 
         // Language switching functionality
@@ -1570,7 +1650,10 @@
 
                 languageSelector.addEventListener('change', function() {
                     const selectedLanguage = languageSelector.value;
-                    showLanguageContent(selectedLanguage);
+                    updateMultilingualContent(selectedLanguage);
+
+                    // Save selected language to localStorage
+                    localStorage.setItem('selectedLanguage', selectedLanguage);
                 });
 
                 function showLanguageContent(language) {
@@ -1584,6 +1667,13 @@
                     selectedContents.forEach(content => {
                         content.classList.remove('hidden');
                     });
+                }
+
+                // Check if there's a saved language preference
+                const savedLanguage = localStorage.getItem('selectedLanguage');
+                if (savedLanguage) {
+                    languageSelector.value = savedLanguage;
+                    showLanguageContent(savedLanguage);
                 }
             }
         });
