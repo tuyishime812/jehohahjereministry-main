@@ -8,7 +8,24 @@ const app = express();
 
 // Connect to MongoDB
 mongoose.connect(dbConfig.uri)
-.then(() => console.log('MongoDB connected'))
+.then(async () => {
+  console.log('MongoDB connected');
+
+  // Check if any users exist, if not, create default admin
+  const User = require('./models/User');
+  const userCount = await User.countDocuments();
+
+  if (userCount === 0) {
+    const defaultAdmin = new User({
+      username: 'admin',
+      password: 'jehovah123', // Will be hashed by pre-save hook
+      role: 'admin'
+    });
+
+    await defaultAdmin.save();
+    console.log('Default admin user created (username: admin, password: jehovah123)');
+  }
+})
 .catch(err => console.log('MongoDB connection error:', err));
 
 // Middleware
