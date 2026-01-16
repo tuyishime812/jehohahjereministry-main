@@ -1,105 +1,79 @@
-# Jehovah Jire Ministry - Full Project
+# Jehovah Jire Ministry Foundation Website
 
-This is the complete Jehovah Jire Ministry website with both frontend and backend components.
-
-## Project Structure
-
-- **Frontend**: HTML/CSS/JS files for the public website and admin panel
-- **Backend**: Node.js/Express server with MongoDB database
-
-## Prerequisites
-
-- Node.js (v14 or higher)
-- MongoDB (either local installation or cloud instance like MongoDB Atlas)
-
-## Setup Instructions
-
-### 1. Backend Setup
-
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Configure your MongoDB connection in the `.env` file:
-   ```env
-   MONGODB_URI=mongodb+srv://your_username:your_password@your_cluster.mongodb.net/jehovahjire?retryWrites=true&w=majority
-   ```
-
-4. Start the backend server:
-   ```bash
-   npm run dev
-   ```
-   
-   The backend will run on `http://localhost:5000`
-
-### 2. Frontend Setup
-
-The frontend consists of static HTML files that connect to your backend API.
-
-1. To serve the frontend files, you can use a simple HTTP server like `http-server`:
-   ```bash
-   # Install http-server globally (if not already installed)
-   npm install -g http-server
-   
-   # Run from the main project directory (not the backend directory)
-   http-server
-   ```
-
-2. The frontend will be available at `http://localhost:8080` (or another port if 8080 is taken)
-
-### 3. Admin Panel
-
-1. Access the admin panel at `http://localhost:8080/admin.html` (or your server's address)
-2. Login with your admin credentials
-3. Manage your website content which will be saved to the MongoDB database
-
-## API Endpoints Used by Frontend
-
-The frontend connects to these backend endpoints:
-
-- `GET /api/content/:page` - Get content for specific pages
-- `POST /api/content` - Save content (requires authentication)
-- `POST /api/auth/login` - User login
-- `POST /api/auth/register` - User registration
-- `POST /api/contact/submit` - Submit contact form
+A professional foundation website for Jehovah Jire Ministry with admin panel for content management.
 
 ## Features
 
-- **Content Management**: Update website content through the admin panel
-- **User Authentication**: Secure admin access with JWT tokens
-- **Contact Forms**: Securely submit and manage contact form submissions
-- **Team Management**: Manage team members and their information
-- **Testimonials**: Manage testimonials from beneficiaries
-- **Responsive Design**: Works on all device sizes
+- Responsive design that works on all devices
+- Professional layout with all requested sections
+- Admin panel for content management
+- Contact form with validation
+- Photo and video galleries
+- Testimonials section
+- Multi-language support
+- Donation functionality
 
-## Running the Project
+## Admin Access
 
-1. Start the backend server: `npm run dev` in the `backend` directory
-2. Start the frontend server: `http-server` in the main directory
-3. Access the website at the frontend server URL
-4. Access the admin panel at `/admin.html`
+### Login Credentials
+- **Username**: jehovah
+- **Password**: jehovah123
 
-## Security Notes
+### Accessing Admin Panel
+1. Click the "Admin" button in the navigation bar
+2. Or navigate directly to `admin.html`
+3. Enter the credentials above to access the admin panel
 
-- Change the default JWT secret in production
-- Use strong passwords for database connections
-- Enable authentication for all sensitive endpoints
-- Regularly update dependencies
+### Admin Features
+- Edit content for all website sections (Home, About, Contact, Missions, Team, Gallery)
+- Add and manage phone numbers including 0990342825
+- Update testimonials
+- Manage team member information
+- Upload and manage images (logos, backgrounds, etc.)
+- Real-time preview of changes
+- Full control over all website content
+- Professional CMS dashboard with rich text editor
+- Media management system
 
-## Troubleshooting
+## How to Use
 
-If you encounter issues:
-1. Make sure MongoDB is connected and accessible
-2. Verify your `.env` file has correct database credentials
-3. Check that the backend server is running on the correct port
-4. Ensure frontend files are served from the correct directory
+### For Visitors
+1. Open `index.html` in your browser to view the website
+2. Navigate using the top menu
+3. Contact the ministry using the contact form
+4. View photo and video galleries
+5. Read testimonials from beneficiaries
 
-## License
+### For Administrators
+1. Access the admin panel using the credentials above
+2. Use the professional CMS dashboard to edit all content
+3. Add phone numbers like 0990342825 in the Contact Info section
+4. Manage all website content (text, images, team members, testimonials, etc.)
+5. Changes are saved to Supabase database and appear immediately on the website
+6. Use the rich text editor for formatting content
+7. Upload images directly from your computer/phone
 
-This project is licensed under the MIT License.
+## File Structure
+
+- `index.html` - Main website
+- `admin.html` - Admin login page
+- `admin-cms.html` - Admin dashboard (already exists in project)
+- `content-manager.js` - Content management script
+- `styles.css` - Custom styles (if needed)
+
+## Technologies Used
+
+- HTML5
+- CSS3
+- JavaScript
+- Tailwind CSS
+- Font Awesome Icons
+- Google Fonts
+
+## Browser Compatibility
+
+Works in all modern browsers (Chrome, Firefox, Safari, Edge)
+
+## Support
+
+For technical issues or questions, contact the website administrator.

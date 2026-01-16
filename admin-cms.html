@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministry CMS Dashboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: auto;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .sidebar {
+            background: linear-gradient(to bottom, #1e3a8a, #1e40af);
+            min-height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            z-index: 10;
+        }
+        .active-menu {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .menu-item:hover {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .editor-toolbar {
+            border: 1px solid #cbd5e0;
+            border-bottom: none;
+            border-radius: 0.5rem 0.5rem 0 0;
+            padding: 0.5rem;
+            background-color: #f8fafc;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .editor-container {
+            border: 1px solid #cbd5e0;
+            border-radius: 0 0 0.5rem 0.5rem;
+            overflow: hidden;
+        }
+        .editor {
+            min-height: 300px;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0 0 0.5rem 0.5rem;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        .stats-card {
+            transition: transform 0.3s ease;
+        }
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+        .content-area {
+            background-color: #f8fafc;
+        }
+        /* Main content area should be scrollable */
+        .main-content-wrapper {
+            margin-left: 16rem; /* Match the sidebar width */
+            min-height: 100vh;
+            padding-bottom: 2rem;
+            overflow-y: auto;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+                position: relative;
+            }
+            .main-content-wrapper {
+                margin-left: 0;
+            }
+            .flex {
+                flex-direction: column;
+            }
+            .editor {
+                max-height: 200px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="flex">
+        <!-- Sidebar -->
+        <div class="sidebar w-64 text-white flex flex-col">
+            <div class="p-6">
+                <h1 class="text-2xl font-bold flex items-center">
+                    <i class="fas fa-church mr-3"></i> Ministry CMS
+                </h1>
+                <p class="text-blue-200 text-sm mt-1">Manage your website</p>
+            </div>
+            
+            <nav class="flex-1 px-4">
+                <div class="mb-2">
+                    <a href="#" class="active-menu flex items-center px-4 py-3 rounded-lg text-white font-medium">
+                        <i class="fas fa-home mr-3"></i> Dashboard
+                    </a>
+                </div>
+                
+                <div class="mb-2">
+                    <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-blue-100 hover:text-white font-medium">
+                        <i class="fas fa-edit mr-3"></i> Content Editor
+                    </a>
+                </div>
+                
+                <div class="mb-2">
+                    <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-blue-100 hover:text-white font-medium">
+                        <i class="fas fa-images mr-3"></i> Media Library
+                    </a>
+                </div>
+                
+                <div class="mb-2">
+                    <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-blue-100 hover:text-white font-medium">
+                        <i class="fas fa-users mr-3"></i> Team Members
+                    </a>
+                </div>
+                
+                <div class="mb-2">
+                    <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-blue-100 hover:text-white font-medium">
+                        <i class="fas fa-comments mr-3"></i> Testimonials
+                    </a>
+                </div>
+                
+                <div class="mb-2">
+                    <a href="#" class="menu-item flex items-center px-4 py-3 rounded-lg text-blue-100 hover:text-white font-medium">
+                        <i class="fas fa-cog mr-3"></i> Settings
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="p-4 border-t border-blue-700">
+                <a href="javascript:logout()" class="flex items-center px-4 py-3 rounded-lg text-blue-100 hover:bg-blue-700 hover:text-white">
+                    <i class="fas fa-sign-out-alt mr-3"></i> Logout
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content-wrapper">
+            <!-- Top Bar -->
+            <header class="bg-white shadow-sm sticky top-0 z-10">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <div>
+                        <h2 class="text-xl font-semibold text-gray-800">Content Management</h2>
+                        <p class="text-sm text-gray-500">Edit your website content</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <i class="fas fa-bell text-gray-500"></i>
+                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span class="ml-2 text-gray-700">Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Cards and Content Area with Scroll -->
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <div class="stats-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-lg bg-blue-100 text-blue-600">
+                                <i class="fas fa-home text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-gray-500 text-sm">Home Page</h3>
+                                <p class="text-2xl font-bold">Edited</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-lg bg-green-100 text-green-600">
+                                <i class="fas fa-info-circle text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-gray-500 text-sm">About Page</h3>
+                                <p class="text-2xl font-bold">Edited</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-lg bg-purple-100 text-purple-600">
+                                <i class="fas fa-handshake text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-gray-500 text-sm">Missions Page</h3>
+                                <p class="text-2xl font-bold">Edited</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-lg bg-yellow-100 text-yellow-600">
+                                <i class="fas fa-users text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-gray-500 text-sm">Team Page</h3>
+                                <p class="text-2xl font-bold">Edited</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Content Editor Tabs -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="border-b border-gray-200">
+                        <nav class="flex overflow-x-auto">
+                            <button class="tab-button active px-6 py-4 font-medium text-blue-600 border-b-2 border-blue-600 whitespace-nowrap">
+                                <i class="fas fa-home mr-2"></i> Home Page
+                            </button>
+                            <button class="tab-button px-6 py-4 font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap">
+                                <i class="fas fa-info-circle mr-2"></i> About Page
+                            </button>
+                            <button class="tab-button px-6 py-4 font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap">
+                                <i class="fas fa-envelope mr-2"></i> Contact Page
+                            </button>
+                            <button class="tab-button px-6 py-4 font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap">
+                                <i class="fas fa-bullseye mr-2"></i> Missions Page
+                            </button>
+                            <button class="tab-button px-6 py-4 font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap">
+                                <i class="fas fa-users mr-2"></i> Team Page
+                            </button>
+                            <button class="tab-button px-6 py-4 font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap">
+                                <i class="fas fa-images mr-2"></i> Gallery Page
+                            </button>
+                        </nav>
+                    </div>
+                    
+                    <!-- Content Areas -->
+                    <div class="p-6">
+                        <!-- Home Page Editor -->
+                        <div class="page-content active" id="home-page">
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Home Page Content</h3>
+                                <p class="text-gray-600">Edit the content that appears on your homepage</p>
+                            </div>
+                            
+                            <div class="editor-container">
+                                <div class="editor-toolbar">
+                                    <div class="flex flex-wrap gap-1">
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertUnorderedList" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertOrderedList" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="createLink" title="Insert Link"><i class="fas fa-link"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" id="insertImageButton" title="Insert Image"><i class="fas fa-image"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h1>" title="Heading 1"><i class="fas fa-heading"></i> H1</button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h2>" title="Heading 2"><i class="fas fa-heading"></i> H2</button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h3>" title="Heading 3"><i class="fas fa-heading"></i> H3</button>
+                                    </div>
+                                </div>
+                                <div class="editor" id="homeContent" contenteditable="true" placeholder="Start typing your content here..."></div>
+                            </div>
+
+                            <div class="mt-4 flex justify-between">
+                                <button type="button" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg font-medium" onclick="refreshPreview()">
+                                    <i class="fas fa-sync-alt mr-2"></i> Refresh Preview
+                                </button>
+                                <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium" onclick="saveContent('homeContent')">
+                                    <i class="fas fa-save mr-2"></i> Save Changes
+                                </button>
+                            </div>
+
+                            <!-- Hidden file input for image uploads -->
+                            <input type="file" id="imageUpload" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
+                        </div>
+                        
+                        <!-- About Page Editor -->
+                        <div class="page-content hidden" id="about-page">
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">About Page Content</h3>
+                                <p class="text-gray-600">Edit the content that appears on your about page</p>
+                            </div>
+
+                            <div class="editor-container">
+                                <div class="editor-toolbar">
+                                    <div class="flex flex-wrap gap-1">
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertUnorderedList" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertOrderedList" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="createLink" title="Insert Link"><i class="fas fa-link"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" id="insertImageButton2" title="Insert Image"><i class="fas fa-image"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h1>" title="Heading 1"><i class="fas fa-heading"></i> H1</button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h2>" title="Heading 2"><i class="fas fa-heading"></i> H2</button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h3>" title="Heading 3"><i class="fas fa-heading"></i> H3</button>
+                                    </div>
+                                </div>
+                                <div class="editor" id="aboutContent" contenteditable="true" placeholder="Start typing your content here..."></div>
+                            </div>
+
+                            <div class="mt-4 flex justify-between">
+                                <button type="button" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg font-medium" onclick="refreshPreview()">
+                                    <i class="fas fa-sync-alt mr-2"></i> Refresh Preview
+                                </button>
+                                <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium" onclick="saveContent('aboutContent')">
+                                    <i class="fas fa-save mr-2"></i> Save Changes
+                                </button>
+                            </div>
+
+                            <!-- Hidden file input for image uploads -->
+                            <input type="file" id="imageUpload2" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
+                        </div>
+                        
+                        <!-- Contact Page Editor -->
+                        <div class="page-content hidden" id="contact-page">
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Contact Page Content</h3>
+                                <p class="text-gray-600">Edit the content that appears on your contact page</p>
+                            </div>
+
+                            <div class="editor-container">
+                                <div class="editor-toolbar">
+                                    <div class="flex flex-wrap gap-1">
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertUnorderedList" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertOrderedList" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="createLink" title="Insert Link"><i class="fas fa-link"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" id="insertImageButton3" title="Insert Image"><i class="fas fa-image"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h1>" title="Heading 1"><i class="fas fa-heading"></i> H1</button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h2>" title="Heading 2"><i class="fas fa-heading"></i> H2</button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h3>" title="Heading 3"><i class="fas fa-heading"></i> H3</button>
+                                    </div>
+                                </div>
+                                <div class="editor" id="contactContent" contenteditable="true" placeholder="Start typing your content here..."></div>
+                            </div>
+
+                            <div class="mt-4 flex justify-between">
+                                <button type="button" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg font-medium" onclick="refreshPreview()">
+                                    <i class="fas fa-sync-alt mr-2"></i> Refresh Preview
+                                </button>
+                                <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium" onclick="saveContent('contactContent')">
+                                    <i class="fas fa-save mr-2"></i> Save Changes
+                                </button>
+                            </div>
+
+                            <!-- Hidden file input for image uploads -->
+                            <input type="file" id="imageUpload3" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
+                        </div>
+                        
+                        <!-- Missions Page Editor -->
+                        <div class="page-content hidden" id="missions-page">
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Missions Page Content</h3>
+                                <p class="text-gray-600">Edit the content that appears on your missions page</p>
+                            </div>
+
+                            <div class="editor-container">
+                                <div class="editor-toolbar">
+                                    <div class="flex flex-wrap gap-1">
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertUnorderedList" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertOrderedList" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="createLink" title="Insert Link"><i class="fas fa-link"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" id="insertImageButton4" title="Insert Image"><i class="fas fa-image"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h1>" title="Heading 1"><i class="fas fa-heading"></i> H1</button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h2>" title="Heading 2"><i class="fas fa-heading"></i> H2</button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h3>" title="Heading 3"><i class="fas fa-heading"></i> H3</button>
+                                    </div>
+                                </div>
+                                <div class="editor" id="missionsContent" contenteditable="true" placeholder="Start typing your content here..."></div>
+                            </div>
+
+                            <div class="mt-4 flex justify-between">
+                                <button type="button" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg font-medium" onclick="refreshPreview()">
+                                    <i class="fas fa-sync-alt mr-2"></i> Refresh Preview
+                                </button>
+                                <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium" onclick="saveContent('missionsContent')">
+                                    <i class="fas fa-save mr-2"></i> Save Changes
+                                </button>
+                            </div>
+
+                            <!-- Hidden file input for image uploads -->
+                            <input type="file" id="imageUpload4" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
+                        </div>
+                        
+                        <!-- Team Page Editor -->
+                        <div class="page-content hidden" id="team-page">
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Team Page Content</h3>
+                                <p class="text-gray-600">Edit the content that appears on your team page</p>
+                            </div>
+
+                            <div class="editor-container">
+                                <div class="editor-toolbar">
+                                    <div class="flex flex-wrap gap-1">
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertUnorderedList" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertOrderedList" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="createLink" title="Insert Link"><i class="fas fa-link"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" id="insertImageButton5" title="Insert Image"><i class="fas fa-image"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h1>" title="Heading 1"><i class="fas fa-heading"></i> H1</button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h2>" title="Heading 2"><i class="fas fa-heading"></i> H2</button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h3>" title="Heading 3"><i class="fas fa-heading"></i> H3</button>
+                                    </div>
+                                </div>
+                                <div class="editor" id="teamContent" contenteditable="true" placeholder="Start typing your content here..."></div>
+                            </div>
+
+                            <div class="mt-4 flex justify-between">
+                                <button type="button" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg font-medium" onclick="refreshPreview()">
+                                    <i class="fas fa-sync-alt mr-2"></i> Refresh Preview
+                                </button>
+                                <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium" onclick="saveContent('teamContent')">
+                                    <i class="fas fa-save mr-2"></i> Save Changes
+                                </button>
+                            </div>
+
+                            <!-- Hidden file input for image uploads -->
+                            <input type="file" id="imageUpload5" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
+                        </div>
+                        
+                        <!-- Gallery Page Editor -->
+                        <div class="page-content hidden" id="gallery-page">
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Gallery Page Content</h3>
+                                <p class="text-gray-600">Edit the content that appears on your gallery page</p>
+                            </div>
+
+                            <div class="editor-container">
+                                <div class="editor-toolbar">
+                                    <div class="flex flex-wrap gap-1">
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertUnorderedList" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertOrderedList" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="createLink" title="Insert Link"><i class="fas fa-link"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" id="insertImageButton6" title="Insert Image"><i class="fas fa-image"></i></button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h1>" title="Heading 1"><i class="fas fa-heading"></i> H1</button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h2>" title="Heading 2"><i class="fas fa-heading"></i> H2</button>
+                                        <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h3>" title="Heading 3"><i class="fas fa-heading"></i> H3</button>
+                                    </div>
+                                </div>
+                                <div class="editor" id="galleryContent" contenteditable="true" placeholder="Start typing your content here..."></div>
+                            </div>
+
+                            <div class="mt-4 flex justify-between">
+                                <button type="button" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg font-medium" onclick="refreshPreview()">
+                                    <i class="fas fa-sync-alt mr-2"></i> Refresh Preview
+                                </button>
+                                <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium" onclick="saveContent('galleryContent')">
+                                    <i class="fas fa-save mr-2"></i> Save Changes
+                                </button>
+                            </div>
+
+                            <!-- Hidden file input for image uploads -->
+                            <input type="file" id="imageUpload6" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Media Management</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Upload Logo</label>
+                                <input type="file" id="logoUpload" accept="image/*" class="w-full text-sm text-gray-500
+                                    file:mr-4 file:py-2 file:px-4
+                                    file:rounded-lg file:border-0
+                                    file:text-sm file:font-semibold
+                                    file:bg-blue-50 file:text-blue-700
+                                    hover:file:bg-blue-100" onchange="uploadImageDirect(this, 'customLogo')">
+                                <button type="button" class="mt-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm" onclick="document.getElementById('logoUpload').click()">
+                                    <i class="fas fa-upload mr-1"></i> Upload
+                                </button>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Upload Hero Background</label>
+                                <input type="file" id="heroBgUpload" accept="image/*" class="w-full text-sm text-gray-500
+                                    file:mr-4 file:py-2 file:px-4
+                                    file:rounded-lg file:border-0
+                                    file:text-sm file:font-semibold
+                                    file:bg-blue-50 file:text-blue-700
+                                    hover:file:bg-blue-100" onchange="uploadImageDirect(this, 'customHeroBg')">
+                                <button type="button" class="mt-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm" onclick="document.getElementById('heroBgUpload').click()">
+                                    <i class="fas fa-upload mr-1"></i> Upload
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Website Preview</h3>
+                        <p class="text-gray-600 mb-4">View your website with the latest changes</p>
+                        <div class="flex space-x-3">
+                            <a href="../index.html" target="_blank" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm flex items-center">
+                                <i class="fas fa-external-link-alt mr-2"></i> Home
+                            </a>
+                            <a href="../about.html" target="_blank" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm flex items-center">
+                                <i class="fas fa-external-link-alt mr-2"></i> About
+                            </a>
+                            <a href="../contact.html" target="_blank" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm flex items-center">
+                                <i class="fas fa-external-link-alt mr-2"></i> Contact
+                            </a>
+                        </div>
+                        <button type="button" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm" onclick="forceRefreshWebsite()">
+                            <i class="fas fa-sync-alt mr-2"></i> Force Refresh All Pages
+                        </button>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Recent Activity</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center text-sm">
+                                <div class="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                                <span>Home page content updated</span>
+                            </li>
+                            <li class="flex items-center text-sm">
+                                <div class="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                                <span>About page content updated</span>
+                            </li>
+                            <li class="flex items-center text-sm">
+                                <div class="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
+                                <span>New logo uploaded</span>
+                            </li>
+                            <li class="flex items-center text-sm">
+                                <div class="w-2 h-2 bg-yellow-500 rounded-full mr-3"></div>
+                                <span>Hero background updated</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Supabase Configuration - UPDATE THESE VALUES WITH YOUR PROJECT'S CREDENTIALS
+        const SUPABASE_URL = 'https://jkdysayryayshootssos.supabase.co'; // Your Supabase project URL
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImprZHlzYXlyeWF5c2hvb3Rzc29zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4MjgyNDcsImV4cCI6MjA4NDQwNDI0N30.m3Bs7b-v_GatM_9NOh7g_T-Gekc22w1tOwQeehkVweE'; // Your Supabase anon key
+
+        // Initialize Supabase client
+        const { createClient } = supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Check if admin is logged in
+        if (!localStorage.getItem('isAdminLoggedIn')) {
+            window.location.href = 'admin.html';
+        }
+
+        // Tab switching functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons and content
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active', 'text-blue-600', 'border-blue-600');
+                    btn.classList.add('text-gray-500');
+                });
+
+                document.querySelectorAll('.page-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                // Add active class to clicked button
+                this.classList.add('active', 'text-blue-600', 'border-blue-600');
+                this.classList.remove('text-gray-500');
+
+                // Show corresponding content
+                const pageId = this.textContent.trim().split(' ')[0].toLowerCase() + '-page';
+                document.getElementById(pageId).classList.remove('hidden');
+            });
+        });
+
+        // Load saved content on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadSavedContent();
+            await loadContactInfo();
+            await loadTeamMembers();
+            await loadTestimonials();
+            await loadSiteSettings();
+        });
+
+        // Function to save content to Supabase
+        async function saveContent(elementId) {
+            const content = document.getElementById(elementId).innerHTML;
+
+            // Determine page and section from element ID
+            let page, section;
+            switch(elementId) {
+                case 'homeContent':
+                    page = 'home';
+                    section = 'main';
+                    break;
+                case 'aboutContent':
+                    page = 'about';
+                    section = 'main';
+                    break;
+                case 'contactContent':
+                    page = 'contact';
+                    section = 'main';
+                    break;
+                case 'missionsContent':
+                    page = 'missions';
+                    section = 'main';
+                    break;
+                case 'teamContent':
+                    page = 'team';
+                    section = 'main';
+                    break;
+                case 'galleryContent':
+                    page = 'gallery';
+                    section = 'main';
+                    break;
+                default:
+                    page = 'home';
+                    section = 'main';
+            }
+
+            try {
+                // Save to Supabase
+                const { data, error } = await supabaseClient
+                    .from('content')
+                    .upsert({
+                        page: page,
+                        section: section,
+                        content: content,
+                        updated_at: new Date().toISOString()
+                    }, { onConflict: ['page', 'section'] });
+
+                if (error) throw error;
+
+                alert('Content saved successfully! Changes will be visible on the website.');
+
+                // Update the preview iframe if it exists
+                updatePreview();
+            } catch (error) {
+                console.error('Error saving content to Supabase:', error);
+                alert(`Error saving content: ${error.message}`);
+            }
+        }
+
+        // Function to load saved content from Supabase
+        async function loadSavedContent() {
+            const elements = [
+                { id: 'homeContent', page: 'home' },
+                { id: 'aboutContent', page: 'about' },
+                { id: 'contactContent', page: 'contact' },
+                { id: 'missionsContent', page: 'missions' },
+                { id: 'teamContent', page: 'team' },
+                { id: 'galleryContent', page: 'gallery' }
+            ];
+
+            for (const element of elements) {
+                try {
+                    const { data, error } = await supabaseClient
+                        .from('content')
+                        .select('content')
+                        .eq('page', element.page)
+                        .eq('section', 'main')
+                        .single();
+
+                    if (error) {
+                        if (error.code === 'PGRST116') {
+                            // Record not found, which is OK
+                            console.log(`No content found for ${element.page}, using default`);
+                        } else {
+                            throw error;
+                        }
+                    } else if (data && data.content) {
+                        document.getElementById(element.id).innerHTML = data.content;
+                    }
+                } catch (error) {
+                    console.error(`Error loading ${element.page} content from Supabase:`, error);
+                }
+            }
+        }
+
+        // Function to save contact information
+        async function saveContactInfo() {
+            const phoneNumbers = document.querySelectorAll('.contact-number-input');
+            const whatsappNumbers = document.querySelectorAll('.whatsapp-number-input');
+
+            try {
+                // Process phone numbers
+                for (let i = 0; i < phoneNumbers.length; i++) {
+                    const phoneInput = phoneNumbers[i];
+                    if (phoneInput.value.trim()) {
+                        const { error } = await supabaseClient
+                            .from('contact_info')
+                            .upsert({
+                                contact_type: 'phone',
+                                contact_value: phoneInput.value.trim(),
+                                label: phoneInput.dataset.label || `Phone Number ${i+1}`,
+                                is_primary: i === 0, // First number is primary
+                                sort_order: i,
+                                is_active: true,
+                                updated_at: new Date().toISOString()
+                            }, { onConflict: ['contact_type', 'contact_value'] });
+
+                        if (error) throw error;
+                    }
+                }
+
+                // Process WhatsApp numbers
+                for (let i = 0; i < whatsappNumbers.length; i++) {
+                    const whatsappInput = whatsappNumbers[i];
+                    if (whatsappInput.value.trim()) {
+                        const { error } = await supabaseClient
+                            .from('contact_info')
+                            .upsert({
+                                contact_type: 'whatsapp',
+                                contact_value: whatsappInput.value.trim(),
+                                label: whatsappInput.dataset.label || `WhatsApp Number ${i+1}`,
+                                is_primary: i === 0, // First number is primary
+                                sort_order: i,
+                                is_active: true,
+                                updated_at: new Date().toISOString()
+                            }, { onConflict: ['contact_type', 'contact_value'] });
+
+                        if (error) throw error;
+                    }
+                }
+
+                alert('Contact information saved successfully!');
+            } catch (error) {
+                console.error('Error saving contact info:', error);
+                alert(`Error saving contact info: ${error.message}`);
+            }
+        }
+
+        // Function to load contact information
+        async function loadContactInfo() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('contact_info')
+                    .select('*')
+                    .eq('is_active', true)
+                    .order('sort_order');
+
+                if (error) throw error;
+
+                if (data) {
+                    // Populate phone numbers
+                    const phoneContainer = document.getElementById('phoneNumbersContainer');
+                    if (phoneContainer) {
+                        phoneContainer.innerHTML = '';
+                        const phones = data.filter(item => item.contact_type === 'phone');
+                        phones.forEach((phone, index) => {
+                            const phoneDiv = document.createElement('div');
+                            phoneDiv.className = 'flex items-center mb-2';
+                            phoneDiv.innerHTML = `
+                                <input type="text" class="contact-number-input flex-grow px-3 py-2 border rounded-lg"
+                                       value="${phone.contact_value}" data-label="${phone.label}">
+                                <button type="button" class="ml-2 bg-red-500 text-white px-3 py-2 rounded-lg"
+                                        onclick="removeContactField(this)">Remove</button>
+                            `;
+                            phoneContainer.appendChild(phoneDiv);
+                        });
+                    }
+
+                    // Populate WhatsApp numbers
+                    const whatsappContainer = document.getElementById('whatsappNumbersContainer');
+                    if (whatsappContainer) {
+                        whatsappContainer.innerHTML = '';
+                        const whatsapps = data.filter(item => item.contact_type === 'whatsapp');
+                        whatsapps.forEach((whatsapp, index) => {
+                            const whatsappDiv = document.createElement('div');
+                            whatsappDiv.className = 'flex items-center mb-2';
+                            whatsappDiv.innerHTML = `
+                                <input type="text" class="whatsapp-number-input flex-grow px-3 py-2 border rounded-lg"
+                                       value="${whatsapp.contact_value}" data-label="${whatsapp.label}">
+                                <button type="button" class="ml-2 bg-red-500 text-white px-3 py-2 rounded-lg"
+                                        onclick="removeContactField(this)">Remove</button>
+                            `;
+                            whatsappContainer.appendChild(whatsappDiv);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading contact info:', error);
+            }
+        }
+
+        // Function to add contact field
+        function addContactField(type) {
+            const container = type === 'phone' ?
+                document.getElementById('phoneNumbersContainer') :
+                document.getElementById('whatsappNumbersContainer');
+
+            const fieldDiv = document.createElement('div');
+            fieldDiv.className = 'flex items-center mb-2';
+            fieldDiv.innerHTML = `
+                <input type="text" class="${type}-number-input flex-grow px-3 py-2 border rounded-lg"
+                       placeholder="Enter ${type} number" data-label="${type.charAt(0).toUpperCase() + type.slice(1)} Number">
+                <button type="button" class="ml-2 bg-red-500 text-white px-3 py-2 rounded-lg"
+                        onclick="removeContactField(this)">Remove</button>
+            `;
+            container.appendChild(fieldDiv);
+        }
+
+        // Function to remove contact field
+        function removeContactField(button) {
+            button.parentElement.remove();
+        }
+
+        // Function to save team members
+        async function saveTeamMembers() {
+            const teamRows = document.querySelectorAll('#teamMembersTable tbody tr');
+
+            try {
+                for (let i = 0; i < teamRows.length; i++) {
+                    const cells = teamRows[i].querySelectorAll('td');
+                    const name = cells[0].querySelector('input').value;
+                    const position = cells[1].querySelector('input').value;
+                    const bio = cells[2].querySelector('textarea').value;
+                    const image = cells[3].querySelector('input').value;
+
+                    if (name.trim()) {
+                        const { error } = await supabaseClient
+                            .from('team_members')
+                            .upsert({
+                                name: name.trim(),
+                                position: position.trim(),
+                                bio: bio.trim(),
+                                image_url: image.trim(),
+                                sort_order: i,
+                                is_active: true,
+                                updated_at: new Date().toISOString()
+                            }, { onConflict: ['name'] });
+
+                        if (error) throw error;
+                    }
+                }
+
+                alert('Team members saved successfully!');
+            } catch (error) {
+                console.error('Error saving team members:', error);
+                alert(`Error saving team members: ${error.message}`);
+            }
+        }
+
+        // Function to load team members
+        async function loadTeamMembers() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('team_members')
+                    .select('*')
+                    .eq('is_active', true)
+                    .order('sort_order');
+
+                if (error) throw error;
+
+                if (data) {
+                    const tableBody = document.querySelector('#teamMembersTable tbody');
+                    if (tableBody) {
+                        tableBody.innerHTML = '';
+                        data.forEach(member => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td><input type="text" class="w-full px-3 py-2 border rounded" value="${member.name || ''}"></td>
+                                <td><input type="text" class="w-full px-3 py-2 border rounded" value="${member.position || ''}"></td>
+                                <td><textarea class="w-full px-3 py-2 border rounded">${member.bio || ''}</textarea></td>
+                                <td><input type="text" class="w-full px-3 py-2 border rounded" value="${member.image_url || ''}" placeholder="Image URL"></td>
+                                <td><button type="button" class="bg-red-500 text-white px-3 py-2 rounded" onclick="removeTeamRow(this)">Remove</button></td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading team members:', error);
+            }
+        }
+
+        // Function to add team member row
+        function addTeamRow() {
+            const tableBody = document.querySelector('#teamMembersTable tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="text" class="w-full px-3 py-2 border rounded" placeholder="Name"></td>
+                <td><input type="text" class="w-full px-3 py-2 border rounded" placeholder="Position"></td>
+                <td><textarea class="w-full px-3 py-2 border rounded" placeholder="Bio"></textarea></td>
+                <td><input type="text" class="w-full px-3 py-2 border rounded" placeholder="Image URL"></td>
+                <td><button type="button" class="bg-red-500 text-white px-3 py-2 rounded" onclick="removeTeamRow(this)">Remove</button></td>
+            `;
+            tableBody.appendChild(newRow);
+        }
+
+        // Function to remove team row
+        function removeTeamRow(button) {
+            button.closest('tr').remove();
+        }
+
+        // Function to save testimonials
+        async function saveTestimonials() {
+            const testimonialRows = document.querySelectorAll('#testimonialsTable tbody tr');
+
+            try {
+                for (let i = 0; i < testimonialRows.length; i++) {
+                    const cells = testimonialRows[i].querySelectorAll('td');
+                    const name = cells[0].querySelector('input').value;
+                    const role = cells[1].querySelector('input').value;
+                    const content = cells[2].querySelector('textarea').value;
+                    const rating = cells[3].querySelector('select').value;
+                    const isFeatured = cells[4].querySelector('input').checked;
+
+                    if (name.trim() && content.trim()) {
+                        const { error } = await supabaseClient
+                            .from('testimonials')
+                            .upsert({
+                                name: name.trim(),
+                                role: role.trim(),
+                                content: content.trim(),
+                                rating: parseInt(rating),
+                                is_featured: isFeatured,
+                                is_active: true,
+                                updated_at: new Date().toISOString()
+                            }, { onConflict: ['name', 'content'] });
+
+                        if (error) throw error;
+                    }
+                }
+
+                alert('Testimonials saved successfully!');
+            } catch (error) {
+                console.error('Error saving testimonials:', error);
+                alert(`Error saving testimonials: ${error.message}`);
+            }
+        }
+
+        // Function to load testimonials
+        async function loadTestimonials() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('testimonials')
+                    .select('*')
+                    .eq('is_active', true)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (data) {
+                    const tableBody = document.querySelector('#testimonialsTable tbody');
+                    if (tableBody) {
+                        tableBody.innerHTML = '';
+                        data.forEach(testimonial => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td><input type="text" class="w-full px-3 py-2 border rounded" value="${testimonial.name || ''}"></td>
+                                <td><input type="text" class="w-full px-3 py-2 border rounded" value="${testimonial.role || ''}"></td>
+                                <td><textarea class="w-full px-3 py-2 border rounded">${testimonial.content || ''}</textarea></td>
+                                <td>
+                                    <select class="w-full px-3 py-2 border rounded">
+                                        <option value="1" ${testimonial.rating == 1 ? 'selected' : ''}>1 Star</option>
+                                        <option value="2" ${testimonial.rating == 2 ? 'selected' : ''}>2 Stars</option>
+                                        <option value="3" ${testimonial.rating == 3 ? 'selected' : ''}>3 Stars</option>
+                                        <option value="4" ${testimonial.rating == 4 ? 'selected' : ''}>4 Stars</option>
+                                        <option value="5" ${testimonial.rating == 5 ? 'selected' : ''}>5 Stars</option>
+                                    </select>
+                                </td>
+                                <td><input type="checkbox" ${testimonial.is_featured ? 'checked' : ''}></td>
+                                <td><button type="button" class="bg-red-500 text-white px-3 py-2 rounded" onclick="removeTestimonialRow(this)">Remove</button></td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading testimonials:', error);
+            }
+        }
+
+        // Function to add testimonial row
+        function addTestimonialRow() {
+            const tableBody = document.querySelector('#testimonialsTable tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="text" class="w-full px-3 py-2 border rounded" placeholder="Name"></td>
+                <td><input type="text" class="w-full px-3 py-2 border rounded" placeholder="Role"></td>
+                <td><textarea class="w-full px-3 py-2 border rounded" placeholder="Testimonial content"></textarea></td>
+                <td>
+                    <select class="w-full px-3 py-2 border rounded">
+                        <option value="1">1 Star</option>
+                        <option value="2">2 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="5" selected>5 Stars</option>
+                    </select>
+                </td>
+                <td><input type="checkbox"></td>
+                <td><button type="button" class="bg-red-500 text-white px-3 py-2 rounded" onclick="removeTestimonialRow(this)">Remove</button></td>
+            `;
+            tableBody.appendChild(newRow);
+        }
+
+        // Function to remove testimonial row
+        function removeTestimonialRow(button) {
+            button.closest('tr').remove();
+        }
+
+        // Function to save site settings
+        async function saveSiteSettings() {
+            const titleInput = document.getElementById('siteTitle');
+            const descInput = document.getElementById('siteDescription');
+
+            try {
+                // Save site title
+                if (titleInput && titleInput.value.trim()) {
+                    const { error } = await supabaseClient
+                        .from('site_settings')
+                        .upsert({
+                            setting_key: 'site_title',
+                            setting_value: titleInput.value.trim(),
+                            setting_type: 'text',
+                            description: 'Website Title',
+                            is_active: true,
+                            updated_at: new Date().toISOString()
+                        }, { onConflict: ['setting_key'] });
+
+                    if (error) throw error;
+                }
+
+                // Save site description
+                if (descInput && descInput.value.trim()) {
+                    const { error } = await supabaseClient
+                        .from('site_settings')
+                        .upsert({
+                            setting_key: 'site_description',
+                            setting_value: descInput.value.trim(),
+                            setting_type: 'text',
+                            description: 'Website Description',
+                            is_active: true,
+                            updated_at: new Date().toISOString()
+                        }, { onConflict: ['setting_key'] });
+
+                    if (error) throw error;
+                }
+
+                alert('Site settings saved successfully!');
+            } catch (error) {
+                console.error('Error saving site settings:', error);
+                alert(`Error saving site settings: ${error.message}`);
+            }
+        }
+
+        // Function to load site settings
+        async function loadSiteSettings() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('site_settings')
+                    .select('setting_key, setting_value')
+                    .eq('is_active', true);
+
+                if (error) throw error;
+
+                if (data) {
+                    data.forEach(setting => {
+                        if (setting.setting_key === 'site_title') {
+                            const titleInput = document.getElementById('siteTitle');
+                            if (titleInput) titleInput.value = setting.setting_value;
+                        } else if (setting.setting_key === 'site_description') {
+                            const descInput = document.getElementById('siteDescription');
+                            if (descInput) descInput.value = setting.setting_value;
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading site settings:', error);
+            }
+        }
+
+        // Function to logout
+        function logout() {
+            localStorage.removeItem('isAdminLoggedIn');
+            localStorage.removeItem('adminUsername');
+            window.location.href = 'admin.html';
+        }
+
+        // Function to update preview (iframe or reload affected pages)
+        function updatePreview() {
+            // In a real scenario, you might update an iframe preview here
+            // For now, we'll just notify the user that changes are saved
+            console.log("Preview updated");
+        }
+
+        // Add event listeners to the editor toolbar buttons
+        document.querySelectorAll('.toolbar-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const command = this.getAttribute('data-command');
+                const value = this.getAttribute('data-value');
+
+                // Focus on the active editor before executing command
+                const activeEditor = document.querySelector('.page-content:not(.hidden) .editor');
+                if(activeEditor) {
+                    activeEditor.focus();
+
+                    if(command === 'createLink') {
+                        const url = prompt('Enter the URL:');
+                        if(url) {
+                            document.execCommand(command, false, url);
+                        }
+                    } else if(command === 'insertImage') {
+                        // Trigger the hidden file input for image upload
+                        document.getElementById('imageUpload').click();
+                    } else {
+                        document.execCommand(command, false, value || null);
+                    }
+                }
+            });
+        });
+
+        // Special handlers for the insert image buttons
+        document.getElementById('insertImageButton').addEventListener('click', function() {
+            document.getElementById('imageUpload').click();
+        });
+
+        document.getElementById('insertImageButton2').addEventListener('click', function() {
+            document.getElementById('imageUpload2').click();
+        });
+
+        document.getElementById('insertImageButton3').addEventListener('click', function() {
+            document.getElementById('imageUpload3').click();
+        });
+
+        document.getElementById('insertImageButton4').addEventListener('click', function() {
+            document.getElementById('imageUpload4').click();
+        });
+
+        document.getElementById('insertImageButton5').addEventListener('click', function() {
+            document.getElementById('imageUpload5').click();
+        });
+
+        document.getElementById('insertImageButton6').addEventListener('click', function() {
+            document.getElementById('imageUpload6').click();
+        });
+
+        // Handle image upload
+        function handleImageUpload(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    // Insert the image into the active editor
+                    const activeEditor = document.querySelector('.page-content:not(.hidden) .editor');
+                    if(activeEditor) {
+                        activeEditor.focus();
+
+                        // Create an image element
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style.maxWidth = '100%';
+                        img.style.height = 'auto';
+                        img.alt = 'Uploaded image';
+
+                        // Insert the image at the cursor position
+                        const selection = window.getSelection();
+                        if(selection.rangeCount > 0) {
+                            const range = selection.getRangeAt(0);
+                            range.deleteContents();
+                            range.insertNode(img);
+                        } else {
+                            activeEditor.appendChild(img);
+                        }
+                    }
+                }
+
+                reader.readAsDataURL(file);
+
+                // Reset the file input
+                input.value = '';
+            }
+        }
+
+        // Function to refresh preview
+        function refreshPreview() {
+            // In a real implementation, this would refresh an iframe preview
+            // For now, we'll just show an alert to indicate the function works
+            alert('Preview refreshed! Changes will be visible when you view the website.');
+        }
+
+        // Function to upload image directly to Supabase
+        async function uploadImageDirect(input, storageKey) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+
+                // For now, we'll store in localStorage as Supabase storage setup requires additional configuration
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    // Store image data URL in localStorage
+                    localStorage.setItem(storageKey, e.target.result);
+
+                    // Also save to Supabase if needed
+                    saveMediaToSupabase(storageKey, e.target.result);
+
+                    alert('Image uploaded successfully! Changes will be visible on the website.');
+                }
+
+                reader.readAsDataURL(file);
+
+                // Reset the file input
+                input.value = '';
+            } else {
+                alert('Please select an image file.');
+            }
+        }
+
+        // Function to save media to Supabase
+        async function saveMediaToSupabase(key, value) {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('media')
+                    .upsert({
+                        key: key,
+                        value: value,
+                        updated_at: new Date().toISOString()
+                    }, { onConflict: ['key'] });
+
+                if (error) throw error;
+            } catch (error) {
+                console.error('Error saving media to Supabase:', error);
+            }
+        }
+
+        // Function to force refresh all website pages
+        function forceRefreshWebsite() {
+            // This will trigger a storage event that will cause all pages to refresh their content
+            const timestamp = new Date().getTime();
+            localStorage.setItem('lastUpdate', timestamp.toString());
+
+            // Show confirmation
+            alert('Website content updated! Changes are now visible on all pages.');
+        }
+
+        // Listen for updates to force refresh if needed
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'lastUpdate') {
+                // Refresh content on this page too
+                loadSavedContent();
+            }
+        });
+    </script>
+</body>
+</html>

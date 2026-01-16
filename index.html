@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jehovah Jire Ministry</title>
+    <title>Jehovah Jire Ministry - Foundation</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -98,19 +99,19 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
-                        <img class="h-10 w-10 rounded-full photo-clickable" src="media/photos/1768200744316.jpg" alt="Jehovah Jire Ministry Logo">
+                        <img class="h-10 w-10 rounded-full photo-clickable" src="https://via.placeholder.com/150x150/4f46e5/white?text=JJM" alt="Jehovah Jire Ministry Logo">
                         <span class="ml-3 text-xl font-bold text-blue-800 hidden sm:block">Jehovah Jire Ministry</span>
                         <span class="ml-3 text-lg font-bold text-blue-800 sm:hidden">JJM</span>
                     </div>
                 </div>
                 <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
                     <a href="#home" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Home</a>
-                    <a href="about.html" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">About</a>
-                    <a href="missions.html" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Missions</a>
-                    <a href="gallery.html" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Gallery</a>
-                    <a href="team.html" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Team</a>
-                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Contact</a>
-                    <button id="donateBtn" class="bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 text-white px-4 py-2 rounded-full font-semibold transition duration-300 shadow-md">Donate</button>
+                    <a href="#about" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">About</a>
+                    <a href="#missions" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Missions</a>
+                    <a href="#gallery" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Gallery</a>
+                    <a href="#team" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Team</a>
+                    <a href="#contact" class="text-gray-700 hover:text-blue-600 font-medium transition duration-300">Contact</a>
+                    <a href="admin.html" class="bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 text-white px-4 py-2 rounded-full font-semibold transition duration-300 shadow-md">Admin</a>
                 </div>
                 <div class="-mr-2 flex items-center md:hidden">
                     <button id="mobileMenuButton" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 focus:outline-none">
@@ -124,12 +125,12 @@
         <div id="mobileMenu" class="hidden md:hidden">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg">
                 <a href="#home" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-home mr-3"></i> Home</a>
-                <a href="about.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-info-circle mr-3"></i> About</a>
-                <a href="missions.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-bullseye mr-3"></i> Missions</a>
-                <a href="gallery.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-images mr-3"></i> Gallery</a>
-                <a href="team.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-users mr-3"></i> Team</a>
-                <a href="contact.html" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-address-book mr-3"></i> Contact</a>
-                <button id="donateBtnMobile" class="w-full mt-2 bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 text-white px-4 py-3 rounded-full font-semibold flex items-center justify-center"><i class="fas fa-donate mr-2"></i> Donate</button>
+                <a href="#about" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-info-circle mr-3"></i> About</a>
+                <a href="#missions" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-bullseye mr-3"></i> Missions</a>
+                <a href="#gallery" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-images mr-3"></i> Gallery</a>
+                <a href="#team" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-users mr-3"></i> Team</a>
+                <a href="#contact" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 flex items-center"><i class="fas fa-address-book mr-3"></i> Contact</a>
+                <a href="admin.html" class="block px-3 py-3 rounded-md text-base font-medium text-white bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 flex items-center justify-center"><i class="fas fa-cog mr-3"></i> Admin</a>
             </div>
         </div>
     </nav>
@@ -145,8 +146,8 @@
                     Led by the Holy Spirit, serving the needs of widows and orphans by sharing God's love, hope, and Word
                 </p>
                 <div class="flex justify-center space-x-4">
-                    <a href="#missions" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold text-lg transition duration-300">
-                        Our Mission
+                    <a href="#about" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold text-lg transition duration-300">
+                        About Our Ministry
                     </a>
                     <a href="#contact" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-semibold text-lg transition duration-300">
                         Contact Us
@@ -171,7 +172,7 @@
                     </select>
                 </div>
             </div>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="bg-gray-50 p-6 rounded-lg shadow-md">
                     <div class="text-blue-600 text-4xl mb-4 text-center">
@@ -314,24 +315,10 @@
                 <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Leadership Team</h2>
                 <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
             </div>
-            
+
             <div id="staffContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Staff will be loaded dynamically -->
+                <!-- Team members will be loaded dynamically -->
             </div>
-
-            <!-- Team Section -->
-            <div id="teamSection" class="py-16 bg-white">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="text-center mb-12">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Leadership Team</h2>
-                        <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
-                    </div>
-                    <div id="homepageTeamContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        <!-- Team members will be loaded dynamically -->
-                    </div>
-                </div>
-            </div>
-
         </div>
     </section>
 
@@ -342,7 +329,7 @@
                 <h2 class="text-3xl font-bold text-gray-900 mb-4">Contact Us</h2>
                 <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
             </div>
-            
+
             <div class="bg-white rounded-lg shadow-lg p-8 max-w-4xl mx-auto">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
@@ -350,7 +337,7 @@
                         <p class="text-gray-700 mb-6">
                             Have questions or want to get involved? Reach out to us through any of the following channels:
                         </p>
-                        
+
                         <div class="space-y-4">
                             <div class="flex items-start">
                                 <div class="flex-shrink-0 bg-blue-100 p-3 rounded-full">
@@ -387,7 +374,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div>
                         <h3 class="text-xl font-bold text-gray-900 mb-4">Send Us a Message</h3>
                         <form id="contactForm">
@@ -499,49 +486,49 @@
                 <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Photo Gallery</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     <div class="group relative overflow-hidden rounded-lg shadow-lg">
-                        <img src="media/photos/1768200744111.jpg" alt="Ministry activity" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <img src="https://via.placeholder.com/400x300/4f46e5/white?text=Ministry+Outreach" alt="Ministry activity" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                             <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Ministry Outreach</span>
                         </div>
                     </div>
                     <div class="group relative overflow-hidden rounded-lg shadow-lg">
-                        <img src="media/photos/1768200744123.jpg" alt="Community service" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <img src="https://via.placeholder.com/400x300/ef4444/white?text=Community+Service" alt="Community service" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                             <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Community Service</span>
                         </div>
                     </div>
                     <div class="group relative overflow-hidden rounded-lg shadow-lg">
-                        <img src="media/photos/1768200744137.jpg" alt="Feeding program" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <img src="https://via.placeholder.com/400x300/10b981/white?text=Feeding+Program" alt="Feeding program" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                             <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Feeding Program</span>
                         </div>
                     </div>
                     <div class="group relative overflow-hidden rounded-lg shadow-lg">
-                        <img src="media/photos/1768200744159.jpg" alt="Educational support" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <img src="https://via.placeholder.com/400x300/f59e0b/white?text=Educational+Support" alt="Educational support" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                             <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Educational Support</span>
                         </div>
                     </div>
                     <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
-                        <img src="media/photos/1768200744172.jpg" alt="Healthcare initiative" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <img src="https://via.placeholder.com/400x300/8b5cf6/white?text=Healthcare+Initiative" alt="Healthcare initiative" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                             <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Healthcare Initiative</span>
                         </div>
                     </div>
                     <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
-                        <img src="media/photos/1768200744183.jpg" alt="Widow support" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <img src="https://via.placeholder.com/400x300/ec4899/white?text=Widow+Support" alt="Widow support" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                             <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Widow Support</span>
                         </div>
                     </div>
                     <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
-                        <img src="media/photos/1768200744192.jpg" alt="Orphan care" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <img src="https://via.placeholder.com/400x300/06b6d4/white?text=Orphan+Care" alt="Orphan care" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                             <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Orphan Care</span>
                         </div>
                     </div>
                     <div class="group relative overflow-hidden rounded-lg shadow-lg extra-photo hidden">
-                        <img src="media/photos/1768200744202.jpg" alt="Spiritual guidance" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <img src="https://via.placeholder.com/400x300/ef4444/white?text=Spiritual+Guidance" alt="Spiritual guidance" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                             <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">Spiritual Guidance</span>
                         </div>
@@ -561,8 +548,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="bg-white rounded-lg shadow-lg overflow-hidden">
                         <div class="relative pb-[56.25%] h-0"> <!-- 16:9 Aspect Ratio -->
-                            <video id="video1" class="w-full h-full absolute top-0 left-0" controls poster="media/photos/1768200744111.jpg">
-                                <source src="media/videos/VID-20260110-WA0045.mp4" type="video/mp4">
+                            <video id="video1" class="w-full h-full absolute top-0 left-0" controls poster="https://via.placeholder.com/400x300/4f46e5/white?text=Ministry+Overview">
+                                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
@@ -574,8 +561,8 @@
 
                     <div class="bg-white rounded-lg shadow-lg overflow-hidden">
                         <div class="relative pb-[56.25%] h-0"> <!-- 16:9 Aspect Ratio -->
-                            <video id="video2" class="w-full h-full absolute top-0 left-0" controls poster="media/photos/1768200744137.jpg">
-                                <source src="media/videos/VID-20260110-WA0046.mp4" type="video/mp4">
+                            <video id="video2" class="w-full h-full absolute top-0 left-0" controls poster="https://via.placeholder.com/400x300/ef4444/white?text=Community+Outreach">
+                                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
@@ -587,8 +574,8 @@
 
                     <div class="bg-white rounded-lg shadow-lg overflow-hidden">
                         <div class="relative pb-[56.25%] h-0"> <!-- 16:9 Aspect Ratio -->
-                            <video id="video3" class="w-full h-full absolute top-0 left-0" controls poster="media/photos/1768200744172.jpg">
-                                <source src="media/videos/VID-20260110-WA0047.mp4" type="video/mp4">
+                            <video id="video3" class="w-full h-full absolute top-0 left-0" controls poster="https://via.placeholder.com/400x300/10b981/white?text=Impact+Stories">
+                                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
@@ -608,7 +595,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                     <div class="flex items-center">
-                        <img class="h-12 w-12 rounded-full border-2 border-white" src="media/photos/1768200744316.jpg" alt="Jehovah Jire Ministry Logo">
+                        <img class="h-12 w-12 rounded-full border-2 border-white" src="https://via.placeholder.com/150x150/4f46e5/white?text=JJM" alt="Jehovah Jire Ministry Logo">
                         <span class="ml-3 text-xl font-bold">Jehovah Jire Ministry</span>
                     </div>
                     <p class="mt-4 text-gray-300">
@@ -627,11 +614,11 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
                     <ul class="space-y-2">
-                        <li><a href="index.html#home" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Home</a></li>
-                        <li><a href="about.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> About</a></li>
-                        <li><a href="missions.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Missions</a></li>
-                        <li><a href="team.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Team</a></li>
-                        <li><a href="contact.html" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Contact</a></li>
+                        <li><a href="#home" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Home</a></li>
+                        <li><a href="#about" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> About</a></li>
+                        <li><a href="#missions" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Missions</a></li>
+                        <li><a href="#team" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Team</a></li>
+                        <li><a href="#contact" class="text-gray-300 hover:text-white transition duration-300 flex items-center"><i class="fas fa-chevron-right mr-2 text-xs"></i> Contact</a></li>
                     </ul>
                 </div>
 
@@ -681,7 +668,7 @@
         <button id="chatbotToggle" class="bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700">
             <i class="fas fa-robot text-xl"></i>
         </button>
-        <div id="chatbotPanel" class="hidden bg-white rounded-lg shadow-xl w-80 h-96 flex flex-col">
+        <div id="chatModel" class="hidden bg-white rounded-lg shadow-xl w-80 h-96 flex flex-col">
             <div class="bg-blue-600 text-white p-4 rounded-t-lg flex justify-between items-center">
                 <h3 class="font-bold">Ministry Assistant</h3>
                 <button id="closeChatbot" class="text-white">
@@ -707,7 +694,37 @@
         </div>
     </div>
 
-    <!-- JavaScript -->
+    <!-- Admin Login Modal -->
+    <div id="adminModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
+            <h2 class="text-2xl font-bold text-center mb-6">Admin Login</h2>
+            <form id="adminLoginForm">
+                <div class="mb-4">
+                    <label for="adminUsername" class="block text-gray-700 mb-2">Username</label>
+                    <input type="text" id="adminUsername" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value="jehovah">
+                </div>
+                <div class="mb-4">
+                    <label for="adminPassword" class="block text-gray-700 mb-2">Password</label>
+                    <input type="password" id="adminPassword" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value="jehovah123">
+                </div>
+                <div id="adminError" class="text-red-500 mb-4 hidden">Invalid credentials</div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold">
+                    Login
+                </button>
+                <button type="button" id="closeAdminModal" class="w-full mt-2 bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg font-semibold">
+                    Cancel
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Photo Modal -->
+    <div id="photoModal" class="photo-modal">
+        <span class="close">&times;</span>
+        <img class="photo-modal-content" id="modalImage">
+        <div class="photo-modal-caption" id="caption"></div>
+    </div>
+
     <script>
         // Mobile Menu Toggle
         document.getElementById('mobileMenuButton').addEventListener('click', function() {
@@ -715,14 +732,77 @@
             menu.classList.toggle('hidden');
         });
 
+        // Language switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageSelector = document.getElementById('languageSelector');
+            const languageContents = document.querySelectorAll('.language-content');
+
+            // Set initial language to English
+            showLanguageContent('en');
+
+            languageSelector.addEventListener('change', function() {
+                const selectedLanguage = languageSelector.value;
+                showLanguageContent(selectedLanguage);
+            });
+
+            function showLanguageContent(language) {
+                // Hide all language content
+                languageContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                // Show content for selected language
+                const selectedContents = document.querySelectorAll(`.language-content[data-language="${language}"]`);
+                selectedContents.forEach(content => {
+                    content.classList.remove('hidden');
+                });
+            }
+        });
+
+        // Show more missions functionality
+        function showMoreMissions() {
+            const additionalMissions = document.getElementById('additionalMissions');
+            const moreMissionsButton = document.getElementById('moreMissionsButton');
+
+            if (additionalMissions.style.display === 'none') {
+                additionalMissions.style.display = 'grid';
+                moreMissionsButton.style.display = 'none';
+            } else {
+                additionalMissions.style.display = 'none';
+                moreMissionsButton.style.display = 'block';
+            }
+        }
+
+        // Toggle photos functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePhotosBtn = document.getElementById('togglePhotos');
+
+            if (togglePhotosBtn) {
+                togglePhotosBtn.addEventListener('click', function() {
+                    const extraPhotos = document.querySelectorAll('.extra-photo');
+                    const isVisible = !extraPhotos[0] || !extraPhotos[0].classList.contains('hidden');
+
+                    extraPhotos.forEach(photo => {
+                        if (isVisible) {
+                            photo.classList.add('hidden');
+                        } else {
+                            photo.classList.remove('hidden');
+                        }
+                    });
+
+                    // Update button text
+                    this.textContent = isVisible ? 'See More Photos' : 'Hide Photos';
+                });
+            }
+        });
 
         // Chatbot functionality
         document.getElementById('chatbotToggle').addEventListener('click', function() {
-            document.getElementById('chatbotPanel').classList.toggle('hidden');
+            document.getElementById('chatModel').classList.toggle('hidden');
         });
 
         document.getElementById('closeChatbot').addEventListener('click', function() {
-            document.getElementById('chatbotPanel').classList.add('hidden');
+            document.getElementById('chatModel').classList.add('hidden');
         });
 
         document.getElementById('sendChat').addEventListener('click', function() {
@@ -789,632 +869,28 @@
             }
         }
 
-        // Donate button functionality
-        document.getElementById('donateBtn').addEventListener('click', function() {
-            window.open('https://wa.me/265993506106', '_blank');
-        });
-
-        document.getElementById('donateBtnMobile').addEventListener('click', function() {
-            window.open('https://wa.me/265993506106', '_blank');
-        });
-
-        // Contact form submission
-        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+        // Admin login functionality
+        document.querySelector('a[href="/admin"]').addEventListener('click', function(e) {
             e.preventDefault();
-
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-
-            try {
-                const response = await fetch('http://localhost:5000/api/contact/submit', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ name, email, message })
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    alert(result.message);
-                    document.getElementById('contactForm').reset();
-                } else {
-                    alert('Error submitting form: ' + result.message);
-                }
-            } catch (error) {
-                alert('Error submitting form: ' + error.message);
-            }
+            document.getElementById('adminModal').classList.remove('hidden');
         });
 
-        // Load staff data from localStorage or initialize with default values
-        function getStaffData() {
-            const stored = localStorage.getItem('ministryStaff');
-            if (stored) {
-                let storedStaff = JSON.parse(stored);
+        document.getElementById('closeAdminModal').addEventListener('click', function() {
+            document.getElementById('adminModal').classList.add('hidden');
+        });
 
-                // Filter out the unwanted members if they exist in storage
-                storedStaff = storedStaff.filter(staff =>
-                    !['Botonga Idi', 'Shabani', 'Sadiki', 'Veronica'].includes(staff.name)
-                );
-
-                return storedStaff;
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            if(username === 'jehovah' && password === 'jehovah123') {
+                // Successful login - redirect to admin panel
+                window.location.href = 'admin-cms.html';
             } else {
-                return [
-                    { name: "Aimeciane Wembakoy Dorcas", position: "Coordinator" },
-                    { name: "Byaombe Mshikongwe", position: "Vice Coordinator" },
-                    { name: "Cambasita Miriam Sarahi", position: "Secretary" },
-                    { name: "Nyota Christine", position: "Treasurer" }
-                ];
+                document.getElementById('adminError').classList.remove('hidden');
             }
-        }
-
-        let sampleStaff = getStaffData();
-
-        // Populate staff table
-        function populateStaffTable() {
-            const tableBody = document.getElementById('staffTableBody');
-            tableBody.innerHTML = '';
-
-            sampleStaff.forEach((staff, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap">${staff.name}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${staff.position}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <button onclick="editStaff(${index})" class="text-blue-600 hover:text-blue-900 mr-2">Edit</button>
-                        <button onclick="deleteStaff(${index})" class="text-red-600 hover:text-red-900">Delete</button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-
-            // Save updated staff data to localStorage
-            localStorage.setItem('ministryStaff', JSON.stringify(sampleStaff));
-        }
-
-        // Initialize staff table
-        populateStaffTable();
-
-        // Staff management functions
-        function editStaff(index) {
-            alert(`Edit functionality for ${sampleStaff[index].name}`);
-        }
-
-        function deleteStaff(index) {
-            if (confirm(`Are you sure you want to remove ${sampleStaff[index].name} from the staff list?`)) {
-                sampleStaff.splice(index, 1);
-                populateStaffTable();
-            }
-        }
-
-        document.getElementById('addStaffForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('staffName').value;
-            const position = document.getElementById('staffPosition').value;
-            const image = document.getElementById('staffImage').value;
-
-            if (name && position) {
-                sampleStaff.push({ name, position, image: image || '' });
-                populateStaffTable();
-                document.getElementById('addStaffForm').reset();
-            }
-        });
-
-        // Load posts data from localStorage or initialize with default values
-        function getPostsData() {
-            const stored = localStorage.getItem('ministryPosts');
-            if (stored) {
-                return JSON.parse(stored);
-            } else {
-                return [
-                    { title: "Feeding Program Success", content: "Our recent feeding program helped 200 families in need." },
-                    { title: "New Education Initiative", content: "We've launched a scholarship program for 50 underprivileged children." }
-                ];
-            }
-        }
-
-        let samplePosts = getPostsData();
-
-        // Populate posts list
-        function populatePostsList() {
-            const postsList = document.getElementById('postsList');
-            postsList.innerHTML = '';
-
-            samplePosts.forEach((post, index) => {
-                const postDiv = document.createElement('div');
-                postDiv.className = 'bg-gray-50 p-3 rounded-lg';
-                postDiv.innerHTML = `
-                    <h4 class="font-semibold">${post.title}</h4>
-                    <p class="text-sm text-gray-600 mt-1">${post.content.substring(0, 80)}...</p>
-                    <div class="mt-2 flex space-x-2">
-                        <button onclick="editPost(${index})" class="text-blue-600 hover:text-blue-900 text-sm">Edit</button>
-                        <button onclick="deletePost(${index})" class="text-red-600 hover:text-red-900 text-sm">Delete</button>
-                    </div>
-                `;
-                postsList.appendChild(postDiv);
-            });
-
-            // Save updated posts data to localStorage
-            localStorage.setItem('ministryPosts', JSON.stringify(samplePosts));
-        }
-
-        // Initialize posts list
-        populatePostsList();
-
-        // Post management functions
-        function editPost(index) {
-            alert(`Edit functionality for post: ${samplePosts[index].title}`);
-        }
-
-        function deletePost(index) {
-            if (confirm(`Are you sure you want to delete the post "${samplePosts[index].title}"?`)) {
-                samplePosts.splice(index, 1);
-                populatePostsList();
-            }
-        }
-
-        document.getElementById('addPostForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const title = document.getElementById('postTitle').value;
-            const content = document.getElementById('postContent').value;
-
-            if (title && content) {
-                samplePosts.unshift({ title, content });
-                populatePostsList();
-                document.getElementById('addPostForm').reset();
-            }
-        });
-
-        // Video player functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const videos = document.querySelectorAll('video');
-
-            videos.forEach(video => {
-                // Add play/pause functionality
-                video.addEventListener('click', function() {
-                    if (this.paused) {
-                        this.play();
-                    } else {
-                        this.pause();
-                    }
-                });
-
-                // Add keyboard controls
-                video.addEventListener('keydown', function(e) {
-                    if (e.code === 'Space') {
-                        e.preventDefault();
-                        if (this.paused) {
-                            this.play();
-                        } else {
-                            this.pause();
-                        }
-                    }
-                });
-            });
-        });
-
-
-        // Load testimonials data from localStorage or initialize with default values
-        function getTestimonialsData() {
-            const stored = localStorage.getItem('ministryTestimonials');
-            if (stored) {
-                return JSON.parse(stored);
-            } else {
-                return [
-                    { name: "Grace M.", role: "Beneficiary", content: "Jehovah Jire Ministry changed my life when I had lost all hope. Through their food program, I was able to feed my children when I had no means. Their spiritual guidance gave me strength to persevere.", rating: 5 },
-                    { name: "Michael T.", role: "Widow Support Recipient", content: "After my husband passed away, I didn't know how I would support my family. Jehovah Jire Ministry provided not just material help, but emotional and spiritual support that helped me rebuild my life.", rating: 5 },
-                    { name: "Sarah K.", role: "Orphan", content: "The education support I received through Jehovah Jire Ministry allowed me to continue my studies. Without their help, I would never have been able to pursue my dream of becoming a teacher.", rating: 5 }
-                ];
-            }
-        }
-
-        let sampleTestimonials = getTestimonialsData();
-
-        // Populate testimonials list
-        function populateTestimonialsList() {
-            const testimonialsList = document.getElementById('testimonialsList');
-            testimonialsList.innerHTML = '';
-
-            sampleTestimonials.forEach((testimonial, index) => {
-                const testimonialDiv = document.createElement('div');
-                testimonialDiv.className = 'bg-gray-50 p-4 rounded-lg shadow-sm';
-                testimonialDiv.innerHTML = `
-                    <div class="flex items-center mb-2">
-                        <div class="bg-gray-200 border-2 border-dashed rounded-full w-10 h-10 flex items-center justify-center text-gray-500 text-xs">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="ml-3">
-                            <h4 class="font-semibold text-gray-900">${testimonial.name}</h4>
-                            <p class="text-blue-600 text-sm">${testimonial.role}</p>
-                        </div>
-                    </div>
-                    <p class="text-gray-700 text-sm mb-2">"${testimonial.content.substring(0, 80)}..."</p>
-                    <div class="flex text-yellow-400">
-                        ${'<i class="fas fa-star"></i>'.repeat(testimonial.rating)}
-                        ${'<i class="far fa-star"></i>'.repeat(5 - testimonial.rating)}
-                    </div>
-                    <div class="mt-3 flex space-x-2">
-                        <button onclick="editTestimonial(${index})" class="text-blue-600 hover:text-blue-900 text-sm">Edit</button>
-                        <button onclick="deleteTestimonial(${index})" class="text-red-600 hover:text-red-900 text-sm">Delete</button>
-                    </div>
-                `;
-                testimonialsList.appendChild(testimonialDiv);
-            });
-
-            // Save updated testimonials data to localStorage
-            localStorage.setItem('ministryTestimonials', JSON.stringify(sampleTestimonials));
-        }
-
-        // Load content from CMS system
-        document.addEventListener('DOMContentLoaded', function() {
-            loadContentFromCMS();
-        });
-
-        // Function to load content from CMS
-        async function loadContentFromCMS() {
-            try {
-                // Load content from backend API
-                const response = await fetch('http://localhost:5000/api/content/home');
-                if (response.ok) {
-                    const contentData = await response.json();
-
-                    // Find the home content
-                    const homeContent = contentData.find(item => item.page === 'home' && item.section === 'main');
-
-                    if (homeContent && homeContent.content) {
-                        const data = homeContent.content;
-
-                        // Update hero section if data exists
-                        if(data.heroTitle) {
-                            document.querySelector('#home h1').textContent = data.heroTitle;
-                        }
-                        if(data.heroSubtitle) {
-                            document.querySelector('#home .max-w-3xl.mx-auto').textContent = data.heroSubtitle;
-                        }
-
-                        // Update vision statement if data exists
-                        if(data.visionText) {
-                            document.querySelector('#about .bg-gray-50 p.text-center').textContent = data.visionText;
-                        }
-
-                        // Update mission statement if data exists
-                        if(data.missionText) {
-                            document.querySelector('#missions .bg-gray-50 p.text-center').textContent = data.missionText;
-                        }
-
-                        // Update purpose statement if data exists
-                        if(data.purposeText) {
-                            document.querySelector('#about .bg-gray-50 p.text-center:last-child').textContent = data.purposeText;
-                        }
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading content from CMS:', error);
-            }
-
-            try {
-                // Load testimonials from backend API
-                const response = await fetch('http://localhost:5000/api/content/testimonials');
-                if (response.ok) {
-                    const testimonialsData = await response.json();
-                    if (testimonialsData && testimonialsData.length > 0) {
-                        loadTestimonialsFromCMS(testimonialsData[0].content);
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading testimonials from CMS:', error);
-            }
-
-            try {
-                // Load team members from backend API
-                const response = await fetch('http://localhost:5000/api/content/team/members');
-                if (response.ok) {
-                    const teamMembersData = await response.json();
-                    if (teamMembersData && teamMembersData.length > 0) {
-                        loadTeamMembersFromCMS(teamMembersData);
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading team members from CMS:', error);
-            }
-        }
-
-        // Load testimonials from CMS data
-        function loadTestimonialsFromCMS(testimonials) {
-            const testimonialsContainer = document.getElementById('testimonialsContainer');
-            testimonialsContainer.innerHTML = '';
-
-            // Display only the first 3 testimonials
-            const displayCount = Math.min(3, testimonials.length);
-
-            for (let i = 0; i < displayCount; i++) {
-                const testimonial = testimonials[i];
-                const testimonialElement = document.createElement('div');
-                testimonialElement.className = 'bg-gray-50 p-6 rounded-lg shadow-md';
-                testimonialElement.innerHTML = `
-                    <div class="flex items-center mb-4">
-                        <div class="bg-gray-200 border-2 border-dashed rounded-full w-16 h-16 flex items-center justify-center text-gray-500">
-                            <i class="fas fa-user text-2xl"></i>
-                        </div>
-                        <div class="ml-4">
-                            <h4 class="font-bold text-gray-900">${testimonial.name}</h4>
-                            <p class="text-blue-600">${testimonial.role}</p>
-                        </div>
-                    </div>
-                    <p class="text-gray-700 italic">"${testimonial.content}"</p>
-                    <div class="flex text-yellow-400 mt-4">
-                        ${'<i class="fas fa-star"></i>'.repeat(testimonial.rating)}
-                        ${'<i class="far fa-star"></i>'.repeat(5 - testimonial.rating)}
-                    </div>
-                `;
-                testimonialsContainer.appendChild(testimonialElement);
-            }
-        }
-
-        // Function to handle multilingual content
-        function updateMultilingualContent(language) {
-            // This function would update content based on selected language
-            // For now, it uses the existing language switching functionality
-            const languageContents = document.querySelectorAll('.language-content');
-
-            // Hide all language content
-            languageContents.forEach(content => {
-                content.classList.add('hidden');
-            });
-
-            // Show content for selected language
-            const selectedContents = document.querySelectorAll(`.language-content[data-language="${language}"]`);
-            selectedContents.forEach(content => {
-                content.classList.remove('hidden');
-            });
-        }
-
-        // Load team members from CMS data
-        function loadTeamMembersFromCMS(members) {
-            const staffContainer = document.getElementById('staffContainer');
-            staffContainer.innerHTML = '';
-
-            for (let i = 0; i < members.length; i++) {
-                const member = members[i];
-                const staffElement = document.createElement('div');
-                staffElement.className = 'staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md';
-                staffElement.innerHTML = `
-                    <img src="${member.image || 'media/photos/default.jpg'}" alt="${member.name}" class="w-full h-48 object-cover photo-clickable">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-900">${member.name}</h3>
-                        <p class="text-blue-600 font-semibold">${member.position}</p>
-                        <p class="mt-2 text-gray-700">${member.bio || `Serves as ${member.position} and contributes to the ministry's mission.`}</p>
-                    </div>
-                `;
-                staffContainer.appendChild(staffElement);
-            }
-
-            // Also load team members on the homepage team section
-            loadHomepageTeam(members);
-        }
-
-        // Initialize testimonials list
-        populateTestimonialsList();
-
-        // Testimonial management functions
-        function editTestimonial(index) {
-            const testimonial = sampleTestimonials[index];
-            document.getElementById('testimonialName').value = testimonial.name;
-            document.getElementById('testimonialRole').value = testimonial.role;
-            document.getElementById('testimonialContent').value = testimonial.content;
-            document.getElementById('testimonialRating').value = testimonial.rating;
-
-            // Show update and cancel buttons, hide add button
-            document.getElementById('updateTestimonialBtn').classList.remove('hidden');
-            document.getElementById('cancelTestimonialEditBtn').classList.remove('hidden');
-            document.querySelector('#addTestimonialForm button[type="submit"]').classList.add('hidden');
-
-            // Change the form submit handler to update instead of add
-            const form = document.getElementById('addTestimonialForm');
-            form.onsubmit = function(e) {
-                e.preventDefault();
-                testimonial.name = document.getElementById('testimonialName').value;
-                testimonial.role = document.getElementById('testimonialRole').value;
-                testimonial.content = document.getElementById('testimonialContent').value;
-                testimonial.rating = document.getElementById('testimonialRating').value;
-                populateTestimonialsList();
-
-                // Reset the form and handler
-                document.getElementById('addTestimonialForm').reset();
-                document.getElementById('updateTestimonialBtn').classList.add('hidden');
-                document.getElementById('cancelTestimonialEditBtn').classList.add('hidden');
-                document.querySelector('#addTestimonialForm button[type="submit"]').classList.remove('hidden');
-
-                document.getElementById('addTestimonialForm').onsubmit = function(e) {
-                    e.preventDefault();
-                    const name = document.getElementById('testimonialName').value;
-                    const role = document.getElementById('testimonialRole').value;
-                    const content = document.getElementById('testimonialContent').value;
-                    const rating = document.getElementById('testimonialRating').value;
-
-                    if (name && role && content) {
-                        sampleTestimonials.unshift({ name, role, content, rating: parseInt(rating) });
-                        populateTestimonialsList();
-                        document.getElementById('addTestimonialForm').reset();
-                    }
-                };
-            };
-        }
-
-        // Cancel testimonial edit
-        document.getElementById('cancelTestimonialEditBtn').addEventListener('click', function() {
-            document.getElementById('addTestimonialForm').reset();
-            document.getElementById('updateTestimonialBtn').classList.add('hidden');
-            document.getElementById('cancelTestimonialEditBtn').classList.add('hidden');
-            document.querySelector('#addTestimonialForm button[type="submit"]').classList.remove('hidden');
-
-            // Reset the form handler
-            document.getElementById('addTestimonialForm').onsubmit = function(e) {
-                e.preventDefault();
-                const name = document.getElementById('testimonialName').value;
-                const role = document.getElementById('testimonialRole').value;
-                const content = document.getElementById('testimonialContent').value;
-                const rating = document.getElementById('testimonialRating').value;
-
-                if (name && role && content) {
-                    sampleTestimonials.unshift({ name, role, content, rating: parseInt(rating) });
-                    populateTestimonialsList();
-                    document.getElementById('addTestimonialForm').reset();
-                }
-            };
-        });
-
-        function deleteTestimonial(index) {
-            if (confirm(`Are you sure you want to delete the testimonial from "${sampleTestimonials[index].name}"?`)) {
-                sampleTestimonials.splice(index, 1);
-                populateTestimonialsList();
-            }
-        }
-
-        // Add testimonial form submission
-        document.getElementById('addTestimonialForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('testimonialName').value;
-            const role = document.getElementById('testimonialRole').value;
-            const content = document.getElementById('testimonialContent').value;
-            const rating = document.getElementById('testimonialRating').value;
-
-            if (name && role && content) {
-                sampleTestimonials.unshift({ name, role, content, rating: parseInt(rating) });
-                populateTestimonialsList();
-                document.getElementById('addTestimonialForm').reset();
-            }
-        });
-
-        function editStaff(index) {
-            const staff = sampleStaff[index];
-            document.getElementById('staffName').value = staff.name;
-            document.getElementById('staffPosition').value = staff.position;
-            document.getElementById('staffImage').value = staff.image || '';
-
-            // Show update and cancel buttons, hide add button
-            document.getElementById('updateStaffBtn').classList.remove('hidden');
-            document.getElementById('cancelEditBtn').classList.remove('hidden');
-            document.querySelector('#addStaffForm button[type="submit"]').classList.add('hidden');
-
-            // Change the form submit handler to update instead of add
-            const form = document.getElementById('addStaffForm');
-            form.onsubmit = function(e) {
-                e.preventDefault();
-                staff.name = document.getElementById('staffName').value;
-                staff.position = document.getElementById('staffPosition').value;
-                staff.image = document.getElementById('staffImage').value;
-                populateStaffTable();
-
-                // Reset the form and handler
-                document.getElementById('addStaffForm').reset();
-                document.getElementById('updateStaffBtn').classList.add('hidden');
-                document.getElementById('cancelEditBtn').classList.add('hidden');
-                document.querySelector('#addStaffForm button[type="submit"]').classList.remove('hidden');
-
-                document.getElementById('addStaffForm').onsubmit = function(e) {
-                    e.preventDefault();
-                    const name = document.getElementById('staffName').value;
-                    const position = document.getElementById('staffPosition').value;
-                    const image = document.getElementById('staffImage').value;
-
-                    if (name && position) {
-                        sampleStaff.push({ name, position, image: image || '' });
-                        populateStaffTable();
-                        document.getElementById('addStaffForm').reset();
-                    }
-                };
-            };
-        }
-
-        // Cancel staff edit
-        document.getElementById('cancelEditBtn').addEventListener('click', function() {
-            document.getElementById('addStaffForm').reset();
-            document.getElementById('updateStaffBtn').classList.add('hidden');
-            document.getElementById('cancelEditBtn').classList.add('hidden');
-            document.querySelector('#addStaffForm button[type="submit"]').classList.remove('hidden');
-
-            // Reset the form handler
-            document.getElementById('addStaffForm').onsubmit = function(e) {
-                e.preventDefault();
-                const name = document.getElementById('staffName').value;
-                const position = document.getElementById('staffPosition').value;
-                const image = document.getElementById('staffImage').value;
-
-                if (name && position) {
-                    sampleStaff.push({ name, position, image: image || '' });
-                    populateStaffTable();
-                    document.getElementById('addStaffForm').reset();
-                }
-            };
-        });
-
-        function deleteStaff(index) {
-            if (confirm(`Are you sure you want to remove ${sampleStaff[index].name} from the staff list?`)) {
-                sampleStaff.splice(index, 1);
-                populateStaffTable();
-            }
-        }
-
-        function editPost(index) {
-            const post = samplePosts[index];
-            document.getElementById('postTitle').value = post.title;
-            document.getElementById('postContent').value = post.content;
-
-            // Show update and cancel buttons, hide publish button
-            document.getElementById('updatePostBtn').classList.remove('hidden');
-            document.getElementById('cancelPostEditBtn').classList.remove('hidden');
-            document.querySelector('#addPostForm button[type="submit"]').classList.add('hidden');
-
-            // Change the form submit handler to update instead of add
-            const form = document.getElementById('addPostForm');
-            form.onsubmit = function(e) {
-                e.preventDefault();
-                post.title = document.getElementById('postTitle').value;
-                post.content = document.getElementById('postContent').value;
-                populatePostsList();
-
-                // Reset the form and handler
-                document.getElementById('addPostForm').reset();
-                document.getElementById('updatePostBtn').classList.add('hidden');
-                document.getElementById('cancelPostEditBtn').classList.add('hidden');
-                document.querySelector('#addPostForm button[type="submit"]').classList.remove('hidden');
-
-                document.getElementById('addPostForm').onsubmit = function(e) {
-                    e.preventDefault();
-                    const title = document.getElementById('postTitle').value;
-                    const content = document.getElementById('postContent').value;
-
-                    if (title && content) {
-                        samplePosts.unshift({ title, content });
-                        populatePostsList();
-                        document.getElementById('addPostForm').reset();
-                    }
-                };
-            };
-        }
-
-        // Cancel post edit
-        document.getElementById('cancelPostEditBtn').addEventListener('click', function() {
-            document.getElementById('addPostForm').reset();
-            document.getElementById('updatePostBtn').classList.add('hidden');
-            document.getElementById('cancelPostEditBtn').classList.add('hidden');
-            document.querySelector('#addPostForm button[type="submit"]').classList.remove('hidden');
-
-            // Reset the form handler
-            document.getElementById('addPostForm').onsubmit = function(e) {
-                e.preventDefault();
-                const title = document.getElementById('postTitle').value;
-                const content = document.getElementById('postContent').value;
-
-                if (title && content) {
-                    samplePosts.unshift({ title, content });
-                    populatePostsList();
-                    document.getElementById('addPostForm').reset();
-                }
-            };
         });
 
         // Photo modal functionality
@@ -1461,50 +937,59 @@
             }
         });
 
-        function deletePost(index) {
-            if (confirm(`Are you sure you want to delete the post "${samplePosts[index].title}"?`)) {
-                samplePosts.splice(index, 1);
-                populatePostsList();
-            }
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            alert('Thank you for your message! We will contact you soon.');
+            document.getElementById('contactForm').reset();
+        });
+
+        // Sample team data
+        const sampleTeam = [
+            { name: "Aimeciane Wembakoy Dorcas", position: "Coordinator" },
+            { name: "Byaombe Mshikongwe", position: "Vice Coordinator" },
+            { name: "Cambasita Miriam Sarahi", position: "Secretary" },
+            { name: "Nyota Christine", position: "Treasurer" }
+        ];
+
+        // Populate team members
+        function populateTeam() {
+            const container = document.getElementById('staffContainer');
+            container.innerHTML = '';
+            
+            sampleTeam.forEach(member => {
+                const staffElement = document.createElement('div');
+                staffElement.className = 'staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md';
+                staffElement.innerHTML = `
+                    <img src="https://via.placeholder.com/300x200/4f46e5/white?text=${encodeURIComponent(member.name.split(' ')[0])}" alt="${member.name}" class="w-full h-48 object-cover photo-clickable">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900">${member.name}</h3>
+                        <p class="text-blue-600 font-semibold">${member.position}</p>
+                        <p class="mt-2 text-gray-700">Serves as ${member.position} and contributes to the ministry's mission.</p>
+                    </div>
+                `;
+                container.appendChild(staffElement);
+            });
         }
 
-        // Show more missions functionality
-        function showMoreMissions() {
-            const additionalMissions = document.getElementById('additionalMissions');
-            const moreMissionsButton = document.getElementById('moreMissionsButton');
+        // Sample testimonials data
+        const sampleTestimonials = [
+            { name: "Grace M.", role: "Beneficiary", content: "Jehovah Jire Ministry changed my life when I had lost all hope. Through their food program, I was able to feed my children when I had no means. Their spiritual guidance gave me strength to persevere.", rating: 5 },
+            { name: "Michael T.", role: "Widow Support Recipient", content: "After my husband passed away, I didn't know how I would support my family. Jehovah Jire Ministry provided not just material help, but emotional and spiritual support that helped me rebuild my life.", rating: 5 },
+            { name: "Sarah K.", role: "Orphan", content: "The education support I received through Jehovah Jire Ministry allowed me to continue my studies. Without their help, I would never have been able to pursue my dream of becoming a teacher.", rating: 5 }
+        ];
 
-            if (additionalMissions.style.display === 'none') {
-                additionalMissions.style.display = 'grid';
-                moreMissionsButton.style.display = 'none';
-            } else {
-                additionalMissions.style.display = 'none';
-                moreMissionsButton.style.display = 'block';
-            }
-        }
-
-        // Load testimonials and staff from localStorage when page loads
-        function loadTestimonials() {
-            const testimonialsContainer = document.getElementById('testimonialsContainer');
-            const stored = localStorage.getItem('ministryTestimonials');
-            let testimonials = [];
-
-            if (stored) {
-                testimonials = JSON.parse(stored);
-            } else {
-                // Default testimonials if none in storage
-                testimonials = [
-                    { name: "Grace M.", role: "Beneficiary", content: "Jehovah Jire Ministry changed my life when I had lost all hope. Through their food program, I was able to feed my children when I had no means. Their spiritual guidance gave me strength to persevere.", rating: 5 },
-                    { name: "Michael T.", role: "Widow Support Recipient", content: "After my husband passed away, I didn't know how I would support my family. Jehovah Jire Ministry provided not just material help, but emotional and spiritual support that helped me rebuild my life.", rating: 5 },
-                    { name: "Sarah K.", role: "Orphan", content: "The education support I received through Jehovah Jire Ministry allowed me to continue my studies. Without their help, I would never have been able to pursue my dream of becoming a teacher.", rating: 5 }
-                ];
-            }
-
-            // Display only the first 3 testimonials
-            const displayCount = Math.min(3, testimonials.length);
-            testimonialsContainer.innerHTML = '';
-
-            for (let i = 0; i < displayCount; i++) {
-                const testimonial = testimonials[i];
+        // Populate testimonials
+        function populateTestimonials() {
+            const container = document.getElementById('testimonialsContainer');
+            container.innerHTML = '';
+            
+            sampleTestimonials.forEach(testimonial => {
                 const testimonialElement = document.createElement('div');
                 testimonialElement.className = 'bg-gray-50 p-6 rounded-lg shadow-md';
                 testimonialElement.innerHTML = `
@@ -1523,190 +1008,14 @@
                         ${'<i class="far fa-star"></i>'.repeat(5 - testimonial.rating)}
                     </div>
                 `;
-                testimonialsContainer.appendChild(testimonialElement);
-            }
+                container.appendChild(testimonialElement);
+            });
         }
 
-        // Load staff from localStorage when page loads
-        function loadStaff() {
-            const staffContainer = document.getElementById('staffContainer');
-            const stored = localStorage.getItem('ministryStaff');
-            let staff = [];
-
-            if (stored) {
-                staff = JSON.parse(stored);
-                // Filter out the unwanted members if they exist in storage
-                staff = staff.filter(member =>
-                    !['Botonga Idi', 'Shabani', 'Sadiki', 'Veronica'].includes(member.name)
-                );
-            } else {
-                // Default staff if none in storage
-                staff = [
-                    { name: "Aimeciane Wembakoy Dorcas", position: "Coordinator", image: "media/photos/coordinator.png" },
-                    { name: "Byaombe Mshikongwe", position: "Vice Coordinator", image: "media/photos/vice _president.jpeg" },
-                    { name: "Cambasita Miriam Sarahi", position: "Secretary", image: "media/photos/secre.jpeg" },
-                    { name: "Nyota Christine", position: "Treasurer", image: "media/photos/tressure.jpeg" }
-                ];
-            }
-
-            staffContainer.innerHTML = '';
-
-            for (let i = 0; i < staff.length; i++) {
-                const member = staff[i];
-
-                // Map position to correct image if image is not defined
-                let imageSrc = member.image;
-                if (!imageSrc) {
-                    switch(member.position) {
-                        case "Coordinator":
-                            imageSrc = "media/photos/coordinator.png";
-                            break;
-                        case "Vice Coordinator":
-                            imageSrc = "media/photos/vice _president.jpeg";
-                            break;
-                        case "Secretary":
-                            imageSrc = "media/photos/secre.jpeg";
-                            break;
-                        case "Treasurer":
-                            imageSrc = "media/photos/tressure.jpeg";
-                            break;
-                        default:
-                            imageSrc = "media/photos/coordinator.png";
-                    }
-                }
-
-                const staffElement = document.createElement('div');
-                staffElement.className = 'staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md';
-                staffElement.innerHTML = `
-                    <img src="${imageSrc}" alt="${member.name}" class="w-full h-48 object-cover photo-clickable">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-900">${member.name}</h3>
-                        <p class="text-blue-600 font-semibold">${member.position}</p>
-                        <p class="mt-2 text-gray-700">Serves as ${member.position} and contributes to the ministry's mission.</p>
-                    </div>
-                `;
-                staffContainer.appendChild(staffElement);
-            }
-
-            // Also load team members on the homepage team section
-            loadHomepageTeam(staff);
-        }
-
-        // Load team members on the homepage team section
-        function loadHomepageTeam(members) {
-            const teamContainer = document.getElementById('homepageTeamContainer');
-            teamContainer.innerHTML = '';
-
-            for (let i = 0; i < members.length; i++) {
-                const member = members[i];
-
-                // Map position to correct image if image is not defined
-                let imageSrc = member.image;
-                if (!imageSrc) {
-                    switch(member.position) {
-                        case "Coordinator":
-                            imageSrc = "media/photos/coordinator.png";
-                            break;
-                        case "Vice Coordinator":
-                            imageSrc = "media/photos/vice _president.jpeg";
-                            break;
-                        case "Secretary":
-                            imageSrc = "media/photos/secre.jpeg";
-                            break;
-                        case "Treasurer":
-                            imageSrc = "media/photos/tressure.jpeg";
-                            break;
-                        default:
-                            imageSrc = "media/photos/coordinator.png";
-                    }
-                }
-
-                const teamElement = document.createElement('div');
-                teamElement.className = 'staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md';
-                teamElement.innerHTML = `
-                    <img src="${imageSrc}" alt="${member.name}" class="w-full h-48 object-cover photo-clickable">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-900">${member.name}</h3>
-                        <p class="text-blue-600 font-semibold">${member.position}</p>
-                        <p class="mt-2 text-gray-700">Serves as ${member.position} and contributes to the ministry's mission.</p>
-                    </div>
-                `;
-                teamContainer.appendChild(teamElement);
-            }
-        }
-
-        // Language switching functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load testimonials and staff from localStorage
-            loadTestimonials();
-            loadStaff();
-
-            const languageSelector = document.getElementById('languageSelector');
-            if (languageSelector) {
-                const languageContents = document.querySelectorAll('.language-content');
-
-                // Set initial language to English
-                showLanguageContent('en');
-
-                languageSelector.addEventListener('change', function() {
-                    const selectedLanguage = languageSelector.value;
-                    updateMultilingualContent(selectedLanguage);
-
-                    // Save selected language to localStorage
-                    localStorage.setItem('selectedLanguage', selectedLanguage);
-                });
-
-                function showLanguageContent(language) {
-                    // Hide all language content
-                    languageContents.forEach(content => {
-                        content.classList.add('hidden');
-                    });
-
-                    // Show content for selected language
-                    const selectedContents = document.querySelectorAll(`.language-content[data-language="${language}"]`);
-                    selectedContents.forEach(content => {
-                        content.classList.remove('hidden');
-                    });
-                }
-
-                // Check if there's a saved language preference
-                const savedLanguage = localStorage.getItem('selectedLanguage');
-                if (savedLanguage) {
-                    languageSelector.value = savedLanguage;
-                    showLanguageContent(savedLanguage);
-                }
-            }
-        });
-
-        // Toggle photos functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const togglePhotosBtn = document.getElementById('togglePhotos');
-
-            if (togglePhotosBtn) {
-                togglePhotosBtn.addEventListener('click', function() {
-                    const extraPhotos = document.querySelectorAll('.extra-photo');
-                    const isVisible = !extraPhotos[0] || !extraPhotos[0].classList.contains('hidden');
-
-                    extraPhotos.forEach(photo => {
-                        if (isVisible) {
-                            photo.classList.add('hidden');
-                        } else {
-                            photo.classList.remove('hidden');
-                        }
-                    });
-
-                    // Update button text
-                    this.textContent = isVisible ? 'See More Photos' : 'Hide Photos';
-                });
-            }
-        });
+        // Initialize team and testimonials
+        populateTeam();
+        populateTestimonials();
     </script>
-
-    <!-- Photo Modal -->
-    <div id="photoModal" class="photo-modal">
-        <span class="close">&times;</span>
-        <img class="photo-modal-content" id="modalImage">
-        <div class="photo-modal-caption" id="caption"></div>
-    </div>
+    <script src="content-manager.js"></script>
 </body>
 </html>

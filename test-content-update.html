@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Content Update</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Content Update System</h1>
+    
+    <div class="test-section">
+        <h2>Instructions</h2>
+        <p>This page tests if the content management system works correctly.</p>
+        <p>1. Go to the admin panel and make changes to the home page content</p>
+        <p>2. Come back to this page and click "Refresh Content"</p>
+        <p>3. The content below should update to match what you entered in the admin panel</p>
+    </div>
+    
+    <div class="test-section">
+        <h2>Current Home Page Content</h2>
+        <div id="homeContentDisplay">
+            Original home page content will appear here...
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Current About Page Content</h2>
+        <div id="aboutContentDisplay">
+            Original about page content will appear here...
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Actions</h2>
+        <button onclick="refreshContent()">Refresh Content</button>
+        <button onclick="clearStorage()">Clear Storage</button>
+        <button onclick="window.location.href='admin-cms.html'">Go to Admin Panel</button>
+    </div>
+
+    <script>
+        // Function to refresh content from localStorage
+        function refreshContent() {
+            // Get home content
+            const homeContent = localStorage.getItem('homeContent');
+            if(homeContent) {
+                document.getElementById('homeContentDisplay').innerHTML = homeContent;
+            } else {
+                document.getElementById('homeContentDisplay').innerHTML = 'No custom home content found. Using original content.';
+            }
+            
+            // Get about content
+            const aboutContent = localStorage.getItem('aboutContent');
+            if(aboutContent) {
+                document.getElementById('aboutContentDisplay').innerHTML = aboutContent;
+            } else {
+                document.getElementById('aboutContentDisplay').innerHTML = 'No custom about content found. Using original content.';
+            }
+            
+            alert('Content refreshed from storage!');
+        }
+        
+        // Function to clear storage
+        function clearStorage() {
+            if(confirm('Are you sure you want to clear all stored content?')) {
+                localStorage.removeItem('homeContent');
+                localStorage.removeItem('aboutContent');
+                localStorage.removeItem('contactContent');
+                localStorage.removeItem('missionsContent');
+                localStorage.removeItem('teamContent');
+                localStorage.removeItem('galleryContent');
+                localStorage.removeItem('customLogo');
+                localStorage.removeItem('customHeroBg');
+                
+                document.getElementById('homeContentDisplay').innerHTML = 'Original home page content will appear here...';
+                document.getElementById('aboutContentDisplay').innerHTML = 'Original about page content will appear here...';
+                
+                alert('Storage cleared!');
+            }
+        }
+        
+        // Load content when page loads
+        window.onload = function() {
+            refreshContent();
+        };
+    </script>
+</body>
+</html>
