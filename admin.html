@@ -124,7 +124,41 @@
                     </button>
                 </div>
 
+                <div class="mt-4 text-center">
+                    <button type="button" id="switchToRegister" class="text-blue-600 hover:text-blue-800 text-sm">Don't have an account? Register</button>
+                </div>
+
                 <div id="loginError" class="hidden mt-4 p-3 bg-red-100 text-red-700 rounded text-sm"></div>
+            </form>
+
+            <!-- Registration Form (Hidden by default) -->
+            <form id="registerForm" class="hidden">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-2" for="regUsername">
+                        Username
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="regUsername" type="text" placeholder="Enter username">
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-medium mb-2" for="regPassword">
+                        Password
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="regPassword" type="password" placeholder="Enter password">
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline flex items-center justify-center">
+                        <span id="registerButtonText">Register</span>
+                        <span id="registerSpinner" class="loading ml-2 hidden"></span>
+                    </button>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <button type="button" id="switchToLogin" class="text-blue-600 hover:text-blue-800 text-sm">Already have an account? Sign In</button>
+                </div>
+
+                <div id="registerError" class="hidden mt-4 p-3 bg-red-100 text-red-700 rounded text-sm"></div>
             </form>
         </div>
     </div>
@@ -930,35 +964,35 @@
 
         loginForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            
+
             // Show loading spinner
             loginButtonText.style.display = 'none';
             loginSpinner.classList.remove('hidden');
-            
+
             try {
                 await login(username, password);
-                
+
                 // Successful login
                 loginScreen.style.display = 'none';
                 dashboardContainer.style.display = 'block';
-                
+
                 // Clear form
                 document.getElementById('username').value = '';
                 document.getElementById('password').value = '';
-                
+
                 // Show success message
                 loginError.className = 'hidden mt-4 p-3 bg-green-100 text-green-700 rounded text-sm';
                 loginError.textContent = 'Login successful! Redirecting...';
                 loginError.style.display = 'block';
-                
+
                 // Hide error after 2 seconds
                 setTimeout(function() {
                     loginError.style.display = 'none';
                 }, 2000);
-                
+
                 // Load initial content
                 loadTeamMembers();
                 loadTestimonials();
@@ -967,7 +1001,7 @@
                 loginError.className = 'mt-4 p-3 bg-red-100 text-red-700 rounded text-sm';
                 loginError.textContent = error.message || 'Invalid username or password. Please try again.';
                 loginError.style.display = 'block';
-                
+
                 // Clear password field
                 document.getElementById('password').value = '';
             } finally {
@@ -975,6 +1009,79 @@
                 loginButtonText.style.display = 'inline';
                 loginSpinner.classList.add('hidden');
             }
+        });
+
+        // Registration form handling
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('regUsername').value;
+            const password = document.getElementById('regPassword').value;
+
+            // Show loading spinner
+            document.getElementById('registerButtonText').style.display = 'none';
+            document.getElementById('registerSpinner').classList.remove('hidden');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Registration successful, switch to login
+                    document.getElementById('registerForm').classList.add('hidden');
+                    document.getElementById('loginForm').classList.remove('hidden');
+
+                    // Show success message
+                    document.getElementById('loginError').className = 'mt-4 p-3 bg-green-100 text-green-700 rounded text-sm';
+                    document.getElementById('loginError').textContent = 'Registration successful! Please login.';
+                    document.getElementById('loginError').style.display = 'block';
+
+                    // Clear form
+                    document.getElementById('regUsername').value = '';
+                    document.getElementById('regPassword').value = '';
+                } else {
+                    throw new Error(data.message || 'Registration failed');
+                }
+            } catch (error) {
+                // Registration failed
+                document.getElementById('registerError').className = 'mt-4 p-3 bg-red-100 text-red-700 rounded text-sm';
+                document.getElementById('registerError').textContent = error.message || 'Registration failed. Please try again.';
+                document.getElementById('registerError').style.display = 'block';
+
+                // Clear password field
+                document.getElementById('regPassword').value = '';
+            } finally {
+                // Hide loading spinner
+                document.getElementById('registerButtonText').style.display = 'inline';
+                document.getElementById('registerSpinner').classList.add('hidden');
+            }
+        });
+
+        // Switch to registration form
+        document.getElementById('switchToRegister').addEventListener('click', function() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+
+            // Clear any error messages
+            document.getElementById('loginError').style.display = 'none';
+            document.getElementById('registerError').style.display = 'none';
+        });
+
+        // Switch to login form
+        document.getElementById('switchToLogin').addEventListener('click', function() {
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+
+            // Clear any error messages
+            document.getElementById('registerError').style.display = 'none';
+            document.getElementById('loginError').style.display = 'none';
         });
 
         logoutBtn.addEventListener('click', () => {
