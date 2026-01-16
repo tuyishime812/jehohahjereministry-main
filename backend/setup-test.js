@@ -1,0 +1,15 @@
+console.log('Backend setup is complete!');
+console.log('To start the server, run: npm run dev');
+console.log('\nAPI Endpoints:');
+console.log('- POST /api/auth/login - User login');
+console.log('- POST /api/auth/register - User registration');
+console.log('- GET /api/content/:page - Get content by page');
+console.log('- POST /api/content - Create/update content (requires auth)');
+console.log('- POST /api/contact/submit - Submit contact form');
+console.log('- POST /api/media/upload - Upload media files (requires auth)');
+console.log('- GET /api/admin/dashboard-stats - Admin dashboard stats (requires auth)');
+console.log('\nNote: This backend requires a MongoDB instance to be running.');
+console.log('If you don\'t have MongoDB installed locally, you can:');
+console.log('1. Install MongoDB Community Edition from mongodb.com');
+console.log('2. Or use MongoDB Atlas (cloud MongoDB service)');
+console.log('3. Or set MONGODB_URI in .env to your MongoDB connection string');

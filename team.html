@@ -388,25 +388,22 @@
 
         // Load content from CMS system
         document.addEventListener('DOMContentLoaded', function() {
-            // Watch for changes in localStorage and update content accordingly
-            window.addEventListener('storage', function(e) {
-                if(e.key === 'cmsContentData') {
-                    loadContentFromCMS();
-                }
-            });
+            loadContentFromCMS();
         });
 
         // Function to load content from CMS
-        function loadContentFromCMS() {
-            // Load saved content from localStorage
-            const savedData = localStorage.getItem('cmsContentData');
-            if(savedData) {
-                const data = JSON.parse(savedData);
-
-                // Update team members if data exists
-                if(data.teamMembers) {
-                    loadTeamMembersFromCMS(data.teamMembers);
+        async function loadContentFromCMS() {
+            try {
+                // Load team members from backend API
+                const response = await fetch('http://localhost:5000/api/content/team/members');
+                if (response.ok) {
+                    const teamMembersData = await response.json();
+                    if (teamMembersData && teamMembersData.length > 0) {
+                        loadTeamMembersFromCMS(teamMembersData);
+                    }
                 }
+            } catch (error) {
+                console.error('Error loading team members from CMS:', error);
             }
         }
 
@@ -420,11 +417,11 @@
                 const staffElement = document.createElement('div');
                 staffElement.className = 'staff-card bg-gray-50 rounded-lg overflow-hidden shadow-md';
                 staffElement.innerHTML = `
-                    <img src="${member.image}" alt="${member.name}" class="w-full h-48 object-cover photo-clickable">
+                    <img src="${member.image || 'media/photos/default.jpg'}" alt="${member.name}" class="w-full h-48 object-cover photo-clickable">
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900">${member.name}</h3>
                         <p class="text-blue-600 font-semibold">${member.position}</p>
-                        <p class="mt-2 text-gray-700">Serves as ${member.position} and contributes to the ministry's mission.</p>
+                        <p class="mt-2 text-gray-700">${member.bio || `Serves as ${member.position} and contributes to the ministry's mission.`}</p>
                     </div>
                 `;
                 staffContainer.appendChild(staffElement);

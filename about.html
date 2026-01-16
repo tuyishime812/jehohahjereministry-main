@@ -401,49 +401,55 @@
 
         // Load content from CMS system
         document.addEventListener('DOMContentLoaded', function() {
-            // Watch for changes in localStorage and update content accordingly
-            window.addEventListener('storage', function(e) {
-                if(e.key === 'cmsContentData') {
-                    loadContentFromCMS();
-                }
-            });
+            loadContentFromCMS();
         });
 
         // Function to load content from CMS
-        function loadContentFromCMS() {
-            // Load saved content from localStorage
-            const savedData = localStorage.getItem('cmsContentData');
-            if(savedData) {
-                const data = JSON.parse(savedData);
+        async function loadContentFromCMS() {
+            try {
+                // Load content from backend API
+                const response = await fetch('http://localhost:5000/api/content/about');
+                if (response.ok) {
+                    const contentData = await response.json();
 
-                // Update vision statement if data exists
-                if(data.visionText) {
-                    document.querySelector('#about .bg-gray-50 p.text-center').textContent = data.visionText;
-                }
+                    // Find the about content
+                    const aboutContent = contentData.find(item => item.page === 'about' && item.section === 'main');
 
-                // Update mission statement if data exists
-                if(data.missionText) {
-                    document.querySelector('#about .bg-gray-50 p.text-center').textContent = data.missionText;
-                }
+                    if (aboutContent && aboutContent.content) {
+                        const data = aboutContent.content;
 
-                // Update purpose statement if data exists
-                if(data.purposeText) {
-                    document.querySelector('#about .bg-gray-50 p.text-center:last-child').textContent = data.purposeText;
-                }
+                        // Update vision statement if data exists
+                        if(data.visionText) {
+                            document.querySelector('#about .bg-gray-50 p.text-center').textContent = data.visionText;
+                        }
 
-                // Update page title if data exists
-                if(data.aboutTitle) {
-                    document.querySelector('h1.text-3xl').textContent = data.aboutTitle;
-                }
+                        // Update mission statement if data exists
+                        if(data.missionText) {
+                            document.querySelector('#about .bg-gray-50 p.text-center').textContent = data.missionText;
+                        }
 
-                // Update intro text if data exists
-                if(data.aboutIntro) {
-                    // Find the paragraph that contains the intro text
-                    const introParagraph = document.querySelector('#about .grid.grid-cols-1 md\\:grid-cols-3 ~ div p');
-                    if(introParagraph) {
-                        introParagraph.textContent = data.aboutIntro;
+                        // Update purpose statement if data exists
+                        if(data.purposeText) {
+                            document.querySelector('#about .bg-gray-50 p.text-center:last-child').textContent = data.purposeText;
+                        }
+
+                        // Update page title if data exists
+                        if(data.aboutTitle) {
+                            document.querySelector('h1.text-3xl').textContent = data.aboutTitle;
+                        }
+
+                        // Update intro text if data exists
+                        if(data.aboutIntro) {
+                            // Find the paragraph that contains the intro text
+                            const introParagraph = document.querySelector('#about .grid.grid-cols-1 md\\:grid-cols-3 ~ div p');
+                            if(introParagraph) {
+                                introParagraph.textContent = data.aboutIntro;
+                            }
+                        }
                     }
                 }
+            } catch (error) {
+                console.error('Error loading content from CMS:', error);
             }
         }
 

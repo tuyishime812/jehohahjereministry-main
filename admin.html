@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - Jehovah Jire Ministry</title>
+    <title>Admin Dashboard - Jehovah Jire Ministry</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome for icons -->
@@ -78,6 +78,18 @@
             margin-top: 10px;
             display: none;
         }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -106,8 +118,9 @@
                 </div>
 
                 <div class="flex items-center justify-between">
-                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline">
-                        Sign In
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline flex items-center justify-center">
+                        <span id="loginButtonText">Sign In</span>
+                        <span id="loginSpinner" class="loading ml-2 hidden"></span>
                     </button>
                 </div>
 
@@ -195,7 +208,7 @@
                 <div class="px-6 py-4 flex justify-between items-center">
                     <h2 id="pageTitle" class="text-xl font-semibold text-gray-800">Home Content</h2>
                     <div class="flex items-center space-x-4">
-                        <span class="text-gray-600">Welcome, Administrator</span>
+                        <span class="text-gray-600">Welcome, <span id="welcomeUsername">Administrator</span></span>
                         <button id="saveChanges" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center">
                             <i class="fas fa-save mr-2"></i> Save Changes
                         </button>
@@ -203,236 +216,237 @@
                 </div>
             </nav>
 
-        <!-- Page Content Sections -->
-        <div class="p-6">
-            <!-- Home Content Section -->
-            <div id="homeContent" class="page-section active">
-                <div class="bg-white rounded-lg shadow p-6 mb-6">
-                    <h3 class="text-lg font-semibold mb-4 text-blue-700">Hero Section</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Page Content Sections -->
+            <div class="p-6">
+                <!-- Home Content Section -->
+                <div id="homeContent" class="page-section active">
+                    <div class="bg-white rounded-lg shadow p-6 mb-6">
+                        <h3 class="text-lg font-semibold mb-4 text-blue-700">Hero Section</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Hero Title</label>
+                                <input type="text" id="heroTitle" class="w-full px-4 py-2 border rounded-lg" value="Jehovah Jire Ministry">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Hero Subtitle</label>
+                                <textarea id="heroSubtitle" class="w-full px-4 py-2 border rounded-lg" rows="3">Led by the Holy Spirit, serving the needs of widows and orphans by sharing God's love, hope, and Word</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6 mb-6">
+                        <h3 class="text-lg font-semibold mb-4 text-blue-700">Vision Section</h3>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Vision Statement</label>
+                            <textarea id="visionText" class="w-full px-4 py-2 border rounded-lg" rows="4">Our vision is to restore hope and dignity to the most vulnerable members of society through the compassionate provision of God's love. We envision a world where widows and orphans experience security, love, and opportunity through our ministry's dedicated service.</textarea>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6 mb-6">
+                        <h3 class="text-lg font-semibold mb-4 text-blue-700">Mission Section</h3>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Mission Statement</label>
+                            <textarea id="missionText" class="w-full px-4 py-2 border rounded-lg" rows="4">Our mission is to demonstrate God's unconditional love by providing holistic care, compassion, and empowerment to widows and orphans. Through our dedicated service, we aim to meet both physical and spiritual needs, offering sustainable solutions that honor God and transform lives.</textarea>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-blue-700">Purpose Section</h3>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Purpose Statement</label>
+                            <textarea id="purposeText" class="w-full px-4 py-2 border rounded-lg" rows="4">Our purpose is to serve God by caring for the most vulnerable members of society. Guided by the Holy Spirit, we are committed to addressing the critical needs of widows and orphans, providing them with resources, support, and spiritual guidance that reflect the heart of God.</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About Page Section -->
+                <div id="aboutPage" class="page-section">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-blue-700">About Page Content</h3>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Page Title</label>
+                            <input type="text" id="aboutTitle" class="w-full px-4 py-2 border rounded-lg" value="About Our Ministry">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Introduction</label>
+                            <textarea id="aboutIntro" class="w-full px-4 py-2 border rounded-lg" rows="4">Learn more about our ministry's calling and commitment to serving the most vulnerable members of society with love, compassion, and practical support.</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Missions Page Section -->
+                <div id="missionsPage" class="page-section">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-blue-700">Missions Page Content</h3>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Page Title</label>
+                            <input type="text" id="missionsTitle" class="w-full px-4 py-2 border rounded-lg" value="Our Missions">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Introduction</label>
+                            <textarea id="missionsIntro" class="w-full px-4 py-2 border rounded-lg" rows="4">We are called to serve the most vulnerable members of society with love, compassion, and practical support.</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Page Section -->
+                <div id="teamPage" class="page-section">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-blue-700">Team Management</h3>
+                        <div class="mb-6">
+                            <h4 class="font-medium mb-3">Add New Team Member</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Name</label>
+                                    <input type="text" id="teamMemberName" class="w-full px-4 py-2 border rounded-lg">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Position</label>
+                                    <input type="text" id="teamMemberPosition" class="w-full px-4 py-2 border rounded-lg">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Upload Image</label>
+                                    <input type="file" id="teamMemberImage" accept="image/*" class="w-full px-4 py-2 border rounded-lg">
+                                </div>
+                            </div>
+                            <button id="addTeamMember" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded flex items-center">
+                                <i class="fas fa-plus mr-2"></i> Add Team Member
+                            </button>
+                        </div>
+
                         <div>
-                            <label class="block text-gray-700 mb-2">Hero Title</label>
-                            <input type="text" id="heroTitle" class="w-full px-4 py-2 border rounded-lg" value="Jehovah Jire Ministry">
+                            <h4 class="font-medium mb-3">Current Team Members</h4>
+                            <div id="teamMembersList" class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Position</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="teamMembersTableBody" class="bg-white divide-y divide-gray-200">
+                                        <!-- Team members will be populated here -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Gallery Section -->
+                <div id="gallerySection" class="page-section">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-blue-700">Gallery Management</h3>
+                        <div class="mb-6">
+                            <h4 class="font-medium mb-3">Add New Gallery Item</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Upload Image</label>
+                                    <input type="file" id="galleryImageUrl" accept="image/*" class="w-full px-4 py-2 border rounded-lg">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Caption</label>
+                                    <input type="text" id="galleryCaption" class="w-full px-4 py-2 border rounded-lg">
+                                </div>
+                            </div>
+                            <button id="addGalleryItem" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded flex items-center">
+                                <i class="fas fa-plus mr-2"></i> Add Gallery Item
+                            </button>
+                        </div>
+
                         <div>
-                            <label class="block text-gray-700 mb-2">Hero Subtitle</label>
-                            <textarea id="heroSubtitle" class="w-full px-4 py-2 border rounded-lg" rows="3">Led by the Holy Spirit, serving the needs of widows and orphans by sharing God's love, hope, and Word</textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-lg shadow p-6 mb-6">
-                    <h3 class="text-lg font-semibold mb-4 text-blue-700">Vision Section</h3>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2">Vision Statement</label>
-                        <textarea id="visionText" class="w-full px-4 py-2 border rounded-lg" rows="4">Our vision is to restore hope and dignity to the most vulnerable members of society through the compassionate provision of God's love. We envision a world where widows and orphans experience security, love, and opportunity through our ministry's dedicated service.</textarea>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-lg shadow p-6 mb-6">
-                    <h3 class="text-lg font-semibold mb-4 text-blue-700">Mission Section</h3>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2">Mission Statement</label>
-                        <textarea id="missionText" class="w-full px-4 py-2 border rounded-lg" rows="4">Our mission is to demonstrate God's unconditional love by providing holistic care, compassion, and empowerment to widows and orphans. Through our dedicated service, we aim to meet both physical and spiritual needs, offering sustainable solutions that honor God and transform lives.</textarea>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold mb-4 text-blue-700">Purpose Section</h3>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2">Purpose Statement</label>
-                        <textarea id="purposeText" class="w-full px-4 py-2 border rounded-lg" rows="4">Our purpose is to serve God by caring for the most vulnerable members of society. Guided by the Holy Spirit, we are committed to addressing the critical needs of widows and orphans, providing them with resources, support, and spiritual guidance that reflect the heart of God.</textarea>
-                    </div>
-                </div>
-            </div>
-
-            <!-- About Page Section -->
-            <div id="aboutPage" class="page-section">
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold mb-4 text-blue-700">About Page Content</h3>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2">Page Title</label>
-                        <input type="text" id="aboutTitle" class="w-full px-4 py-2 border rounded-lg" value="About Our Ministry">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2">Introduction</label>
-                        <textarea id="aboutIntro" class="w-full px-4 py-2 border rounded-lg" rows="4">Learn more about our ministry's calling and commitment to serving the most vulnerable members of society with love, compassion, and practical support.</textarea>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Missions Page Section -->
-            <div id="missionsPage" class="page-section">
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold mb-4 text-blue-700">Missions Page Content</h3>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2">Page Title</label>
-                        <input type="text" id="missionsTitle" class="w-full px-4 py-2 border rounded-lg" value="Our Missions">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 mb-2">Introduction</label>
-                        <textarea id="missionsIntro" class="w-full px-4 py-2 border rounded-lg" rows="4">We are called to serve the most vulnerable members of society with love, compassion, and practical support.</textarea>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Team Page Section -->
-            <div id="teamPage" class="page-section">
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold mb-4 text-blue-700">Team Management</h3>
-                    <div class="mb-6">
-                        <h4 class="font-medium mb-3">Add New Team Member</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                            <div>
-                                <label class="block text-gray-700 mb-2">Name</label>
-                                <input type="text" id="teamMemberName" class="w-full px-4 py-2 border rounded-lg">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 mb-2">Position</label>
-                                <input type="text" id="teamMemberPosition" class="w-full px-4 py-2 border rounded-lg">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 mb-2">Image URL</label>
-                                <input type="text" id="teamMemberImage" class="w-full px-4 py-2 border rounded-lg">
+                            <h4 class="font-medium mb-3">Current Gallery Items</h4>
+                            <div id="galleryItemsList" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <!-- Gallery items will be populated here -->
                             </div>
                         </div>
-                        <button id="addTeamMember" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded flex items-center">
-                            <i class="fas fa-plus mr-2"></i> Add Team Member
-                        </button>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-medium mb-3">Current Team Members</h4>
-                        <div id="teamMembersList" class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Position</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="teamMembersTableBody" class="bg-white divide-y divide-gray-200">
-                                    <!-- Team members will be populated here -->
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Gallery Section -->
-            <div id="gallerySection" class="page-section">
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold mb-4 text-blue-700">Gallery Management</h3>
-                    <div class="mb-6">
-                        <h4 class="font-medium mb-3">Add New Gallery Item</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <label class="block text-gray-700 mb-2">Image URL</label>
-                                <input type="text" id="galleryImageUrl" class="w-full px-4 py-2 border rounded-lg">
+                <!-- Blog Posts Section -->
+                <div id="blogPosts" class="page-section">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-blue-700">Blog Posts Management</h3>
+                        <div class="mb-6">
+                            <h4 class="font-medium mb-3">Create New Post</h4>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Post Title</label>
+                                <input type="text" id="postTitle" class="w-full px-4 py-2 border rounded-lg">
                             </div>
-                            <div>
-                                <label class="block text-gray-700 mb-2">Caption</label>
-                                <input type="text" id="galleryCaption" class="w-full px-4 py-2 border rounded-lg">
-                            </div>
-                        </div>
-                        <button id="addGalleryItem" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded flex items-center">
-                            <i class="fas fa-plus mr-2"></i> Add Gallery Item
-                        </button>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-medium mb-3">Current Gallery Items</h4>
-                        <div id="galleryItemsList" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <!-- Gallery items will be populated here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Blog Posts Section -->
-            <div id="blogPosts" class="page-section">
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold mb-4 text-blue-700">Blog Posts Management</h3>
-                    <div class="mb-6">
-                        <h4 class="font-medium mb-3">Create New Post</h4>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 mb-2">Post Title</label>
-                            <input type="text" id="postTitle" class="w-full px-4 py-2 border rounded-lg">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 mb-2">Post Category</label>
-                            <select id="postCategory" class="w-full px-4 py-2 border rounded-lg">
-                                <option value="announcement">Announcement</option>
-                                <option value="event">Event</option>
-                                <option value="testimony">Testimony</option>
-                                <option value="news">News</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 mb-2">Post Content</label>
-                            <div class="editor-toolbar">
-                                <button type="button" class="toolbar-btn" data-command="bold"><i class="fas fa-bold"></i></button>
-                                <button type="button" class="toolbar-btn" data-command="italic"><i class="fas fa-italic"></i></button>
-                                <button type="button" class="toolbar-btn" data-command="insertUnorderedList"><i class="fas fa-list-ul"></i></button>
-                                <button type="button" class="toolbar-btn" data-command="insertOrderedList"><i class="fas fa-list-ol"></i></button>
-                            </div>
-                            <div id="postContent" class="editor-content" contenteditable="true"></div>
-                        </div>
-                        <button id="publishPost" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center">
-                            <i class="fas fa-paper-plane mr-2"></i> Publish Post
-                        </button>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-medium mb-3">Recent Posts</h4>
-                        <div id="postsList" class="space-y-4">
-                            <!-- Posts will be populated here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Testimonials Section -->
-            <div id="testimonialsSection" class="page-section">
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold mb-4 text-blue-700">Testimonials Management</h3>
-                    <div class="mb-6">
-                        <h4 class="font-medium mb-3">Add New Testimonial</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                            <div>
-                                <label class="block text-gray-700 mb-2">Name</label>
-                                <input type="text" id="testimonialName" class="w-full px-4 py-2 border rounded-lg">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 mb-2">Role</label>
-                                <input type="text" id="testimonialRole" class="w-full px-4 py-2 border rounded-lg">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 mb-2">Rating</label>
-                                <select id="testimonialRating" class="w-full px-4 py-2 border rounded-lg">
-                                    <option value="5">5 Stars</option>
-                                    <option value="4">4 Stars</option>
-                                    <option value="3">3 Stars</option>
-                                    <option value="2">2 Stars</option>
-                                    <option value="1">1 Star</option>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Post Category</label>
+                                <select id="postCategory" class="w-full px-4 py-2 border rounded-lg">
+                                    <option value="announcement">Announcement</option>
+                                    <option value="event">Event</option>
+                                    <option value="testimony">Testimony</option>
+                                    <option value="news">News</option>
                                 </select>
                             </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Post Content</label>
+                                <div class="editor-toolbar">
+                                    <button type="button" class="toolbar-btn" data-command="bold"><i class="fas fa-bold"></i></button>
+                                    <button type="button" class="toolbar-btn" data-command="italic"><i class="fas fa-italic"></i></button>
+                                    <button type="button" class="toolbar-btn" data-command="insertUnorderedList"><i class="fas fa-list-ul"></i></button>
+                                    <button type="button" class="toolbar-btn" data-command="insertOrderedList"><i class="fas fa-list-ol"></i></button>
+                                </div>
+                                <div id="postContent" class="editor-content" contenteditable="true"></div>
+                            </div>
+                            <button id="publishPost" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center">
+                                <i class="fas fa-paper-plane mr-2"></i> Publish Post
+                            </button>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 mb-2">Testimonial Content</label>
-                            <textarea id="testimonialContent" class="w-full px-4 py-2 border rounded-lg" rows="4"></textarea>
+
+                        <div>
+                            <h4 class="font-medium mb-3">Recent Posts</h4>
+                            <div id="postsList" class="space-y-4">
+                                <!-- Posts will be populated here -->
+                            </div>
                         </div>
-                        <button id="addTestimonial" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded flex items-center">
-                            <i class="fas fa-plus mr-2"></i> Add Testimonial
-                        </button>
                     </div>
-                    
-                    <div>
-                        <h4 class="font-medium mb-3">Current Testimonials</h4>
-                        <div id="testimonialsList" class="space-y-4">
-                            <!-- Testimonials will be populated here -->
+                </div>
+
+                <!-- Testimonials Section -->
+                <div id="testimonialsSection" class="page-section">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-blue-700">Testimonials Management</h3>
+                        <div class="mb-6">
+                            <h4 class="font-medium mb-3">Add New Testimonial</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Name</label>
+                                    <input type="text" id="testimonialName" class="w-full px-4 py-2 border rounded-lg">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Role</label>
+                                    <input type="text" id="testimonialRole" class="w-full px-4 py-2 border rounded-lg">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Rating</label>
+                                    <select id="testimonialRating" class="w-full px-4 py-2 border rounded-lg">
+                                        <option value="5">5 Stars</option>
+                                        <option value="4">4 Stars</option>
+                                        <option value="3">3 Stars</option>
+                                        <option value="2">2 Stars</option>
+                                        <option value="1">1 Star</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Testimonial Content</label>
+                                <textarea id="testimonialContent" class="w-full px-4 py-2 border rounded-lg" rows="4"></textarea>
+                            </div>
+                            <button id="addTestimonial" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded flex items-center">
+                                <i class="fas fa-plus mr-2"></i> Add Testimonial
+                            </button>
+                        </div>
+
+                        <div>
+                            <h4 class="font-medium mb-3">Current Testimonials</h4>
+                            <div id="testimonialsList" class="space-y-4">
+                                <!-- Testimonials will be populated here -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -442,6 +456,9 @@
 
     <!-- JavaScript -->
     <script>
+        // API Base URL
+        const API_BASE_URL = 'http://localhost:5000/api';
+        
         // DOM Elements
         const sidebar = document.getElementById('sidebar');
         const mainContent = document.getElementById('mainContent');
@@ -450,44 +467,34 @@
         const pageSections = document.querySelectorAll('.page-section');
         const pageTitle = document.getElementById('pageTitle');
         const saveChangesBtn = document.getElementById('saveChanges');
-        
-        // Sample data for demonstration
-        let teamMembers = [
-            { name: "Aimeciane Wembakoy Dorcas", position: "Coordinator", image: "media/photos/coordinator.png" },
-            { name: "Byaombe Mshikongwe", position: "Vice Coordinator", image: "media/photos/vice _president.jpeg" },
-            { name: "Cambasita Miriam Sarahi", position: "Secretary", image: "media/photos/secre.jpeg" },
-            { name: "Nyota Christine", position: "Treasurer", image: "media/photos/tressure.jpeg" }
-        ];
-        
-        let galleryItems = [
-            { url: "media/photos/1768200744111.jpg", caption: "Ministry Outreach" },
-            { url: "media/photos/1768200744123.jpg", caption: "Community Service" },
-            { url: "media/photos/1768200744137.jpg", caption: "Feeding Program" },
-            { url: "media/photos/1768200744159.jpg", caption: "Educational Support" }
-        ];
-        
-        let blogPosts = [
-            { title: "Feeding Program Success", category: "event", content: "Our recent feeding program helped 200 families in need." },
-            { title: "New Education Initiative", category: "announcement", content: "We've launched a scholarship program for 50 underprivileged children." }
-        ];
-        
-        let testimonials = [
-            { name: "Grace M.", role: "Beneficiary", content: "Jehovah Jire Ministry changed my life when I had lost all hope. Through their food program, I was able to feed my children when I had no means. Their spiritual guidance gave me strength to persevere.", rating: 5 },
-            { name: "Michael T.", role: "Widow Support Recipient", content: "After my husband passed away, I didn't know how I would support my family. Jehovah Jire Ministry provided not just material help, but emotional and spiritual support that helped me rebuild my life.", rating: 5 }
-        ];
+        const loginScreen = document.getElementById('loginScreen');
+        const dashboardContainer = document.getElementById('dashboardContainer');
+        const loginForm = document.getElementById('loginForm');
+        const loginError = document.getElementById('loginError');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const welcomeUsername = document.getElementById('welcomeUsername');
+        const loginButtonText = document.getElementById('loginButtonText');
+        const loginSpinner = document.getElementById('loginSpinner');
+
+        // Global variables
+        let currentUser = null;
+        let teamMembers = [];
+        let galleryItems = [];
+        let blogPosts = [];
+        let testimonials = [];
 
         // Toggle sidebar
         toggleSidebar.addEventListener('click', () => {
             sidebar.classList.toggle('sidebar-collapsed');
             mainContent.classList.toggle('main-content-collapsed');
-            
+
             const isCollapsed = sidebar.classList.contains('sidebar-collapsed');
             document.querySelectorAll('.sidebar-text').forEach(el => {
                 el.style.display = isCollapsed ? 'none' : 'inline';
             });
-            
-            toggleSidebar.innerHTML = isCollapsed ? 
-                '<i class="fas fa-arrows-alt-h"></i>' : 
+
+            toggleSidebar.innerHTML = isCollapsed ?
+                '<i class="fas fa-arrows-alt-h"></i>' :
                 '<i class="fas fa-arrows-alt-h"></i> <span class="sidebar-text ml-2">Collapse</span>';
         });
 
@@ -495,15 +502,15 @@
         menuItems.forEach(item => {
             item.addEventListener('click', (e) => {
                 e.preventDefault();
-                
+
                 // Update active menu item
                 menuItems.forEach(i => i.classList.remove('active'));
                 item.classList.add('active');
-                
+
                 // Show corresponding section
                 const target = item.querySelector('span').textContent;
                 pageSections.forEach(section => section.classList.remove('active'));
-                
+
                 let sectionId = '';
                 switch(target) {
                     case 'Home Content':
@@ -521,199 +528,230 @@
                     case 'Team Page':
                         sectionId = 'teamPage';
                         pageTitle.textContent = 'Team Management';
+                        loadTeamMembers(); // Load team members when switching to this page
                         break;
                     case 'Gallery':
                         sectionId = 'gallerySection';
                         pageTitle.textContent = 'Gallery Management';
+                        loadGalleryItems(); // Load gallery items when switching to this page
                         break;
                     case 'Blog Posts':
                         sectionId = 'blogPosts';
                         pageTitle.textContent = 'Blog Posts';
+                        loadBlogPosts(); // Load blog posts when switching to this page
                         break;
                     case 'Testimonials':
                         sectionId = 'testimonialsSection';
                         pageTitle.textContent = 'Testimonials';
+                        loadTestimonials(); // Load testimonials when switching to this page
                         break;
                     case 'Contact Page':
                         sectionId = 'contactPage';
                         pageTitle.textContent = 'Contact Page';
                         break;
                 }
-                
+
                 if(sectionId) {
                     document.getElementById(sectionId).classList.add('active');
                 }
             });
         });
 
-        // Save changes function
-        saveChangesBtn.addEventListener('click', () => {
-            // Save all content to localStorage
-            const contentData = {
-                heroTitle: document.getElementById('heroTitle').value,
-                heroSubtitle: document.getElementById('heroSubtitle').value,
-                visionText: document.getElementById('visionText').value,
-                missionText: document.getElementById('missionText').value,
-                purposeText: document.getElementById('purposeText').value,
-                aboutTitle: document.getElementById('aboutTitle').value,
-                aboutIntro: document.getElementById('aboutIntro').value,
-                missionsTitle: document.getElementById('missionsTitle').value,
-                missionsIntro: document.getElementById('missionsIntro').value,
-                teamMembers: teamMembers,
-                galleryItems: galleryItems,
-                blogPosts: blogPosts,
-                testimonials: testimonials
+        // API Helper Functions
+        async function apiCall(endpoint, options = {}) {
+            const token = localStorage.getItem('token');
+            const headers = {
+                'Content-Type': 'application/json',
+                ...(token && { 'Authorization': `Bearer ${token}` })
             };
 
-            localStorage.setItem('cmsContentData', JSON.stringify(contentData));
+            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                headers,
+                ...options
+            });
 
-            // Update live website content if windows are open
-            updateLiveWebsite(contentData);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+            }
 
-            alert('Changes saved successfully!');
-        });
+            return response.json();
+        }
 
-        // Update live website content function
-        function updateLiveWebsite(contentData) {
-            // Update hero section if homepage is open
-            if(window.opener && !window.opener.closed) {
-                try {
-                    const openerDoc = window.opener.document;
-                    if(openerDoc.querySelector('#home h1')) {
-                        openerDoc.querySelector('#home h1').textContent = contentData.heroTitle;
-                    }
-                    if(openerDoc.querySelector('#home .max-w-3xl.mx-auto')) {
-                        openerDoc.querySelector('#home .max-w-3xl.mx-auto').textContent = contentData.heroSubtitle;
-                    }
-                    if(openerDoc.querySelector('#about .bg-gray-50 p.text-center')) {
-                        openerDoc.querySelector('#about .bg-gray-50 p.text-center').textContent = contentData.visionText;
-                    }
-                } catch(e) {
-                    // Ignore cross-origin errors
+        // Function to upload image file and get URL
+        async function uploadImage(fileInputId) {
+            const fileInput = document.getElementById(fileInputId);
+            const file = fileInput.files[0];
+
+            if (!file) {
+                return null; // No file selected
+            }
+
+            const formData = new FormData();
+            formData.append('media', file);
+
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`${API_BASE_URL}/media/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
                 }
-            }
 
-            // Update current window if it's the website
-            if(document.querySelector('#home h1')) {
-                document.querySelector('#home h1').textContent = contentData.heroTitle;
-            }
-            if(document.querySelector('#home .max-w-3xl.mx-auto')) {
-                document.querySelector('#home .max-w-3xl.mx-auto').textContent = contentData.heroSubtitle;
-            }
-            if(document.querySelector('#about .bg-gray-50 p.text-center')) {
-                document.querySelector('#about .bg-gray-50 p.text-center').textContent = contentData.visionText;
+                const result = await response.json();
+                return result.path; // Return the path to the uploaded file
+            } catch (error) {
+                console.error('Error uploading image:', error);
+                throw error;
             }
         }
 
-
-        // Load saved content on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedData = localStorage.getItem('cmsContentData');
-            if(savedData) {
-                const data = JSON.parse(savedData);
-
-                // Populate form fields with saved data
-                if(data.heroTitle) document.getElementById('heroTitle').value = data.heroTitle;
-                if(data.heroSubtitle) document.getElementById('heroSubtitle').value = data.heroSubtitle;
-                if(data.visionText) document.getElementById('visionText').value = data.visionText;
-                if(data.missionText) document.getElementById('missionText').value = data.missionText;
-                if(data.purposeText) document.getElementById('purposeText').value = data.purposeText;
-                if(data.aboutTitle) document.getElementById('aboutTitle').value = data.aboutTitle;
-                if(data.aboutIntro) document.getElementById('aboutIntro').value = data.aboutIntro;
-                if(data.missionsTitle) document.getElementById('missionsTitle').value = data.missionsTitle;
-                if(data.missionsIntro) document.getElementById('missionsIntro').value = data.missionsIntro;
-
-                // Reload data arrays if they exist
-                if(data.teamMembers) teamMembers = data.teamMembers;
-                if(data.galleryItems) galleryItems = data.galleryItems;
-                if(data.blogPosts) blogPosts = data.blogPosts;
-                if(data.testimonials) testimonials = data.testimonials;
+        // Authentication functions
+        async function login(username, password) {
+            try {
+                const data = await apiCall('/auth/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ username, password })
+                });
+                
+                localStorage.setItem('token', data.token);
+                currentUser = data.user;
+                welcomeUsername.textContent = currentUser.username;
+                
+                return data;
+            } catch (error) {
+                throw error;
             }
-
-            // Populate team members table
-            renderTeamMembers();
-
-            // Populate gallery items
-            renderGalleryItems();
-
-            // Populate blog posts
-            renderBlogPosts();
-
-            // Populate testimonials
-            renderTestimonials();
-
-            // Add event listener to automatically save changes as they happen
-            setupAutoSave();
-        });
-
-        // Setup auto-save functionality
-        function setupAutoSave() {
-            // Add input event listeners to save changes automatically
-            document.getElementById('heroTitle').addEventListener('input', debounce(autoSave, 1000));
-            document.getElementById('heroSubtitle').addEventListener('input', debounce(autoSave, 1000));
-            document.getElementById('visionText').addEventListener('input', debounce(autoSave, 1000));
-            document.getElementById('missionText').addEventListener('input', debounce(autoSave, 1000));
-            document.getElementById('purposeText').addEventListener('input', debounce(autoSave, 1000));
         }
 
-        // Auto-save function
-        function autoSave() {
-            const contentData = {
-                heroTitle: document.getElementById('heroTitle').value,
-                heroSubtitle: document.getElementById('heroSubtitle').value,
-                visionText: document.getElementById('visionText').value,
-                missionText: document.getElementById('missionText').value,
-                purposeText: document.getElementById('purposeText').value,
-                aboutTitle: document.getElementById('aboutTitle').value,
-                aboutIntro: document.getElementById('aboutIntro').value,
-                missionsTitle: document.getElementById('missionsTitle').value,
-                missionsIntro: document.getElementById('missionsIntro').value,
-                teamMembers: teamMembers,
-                galleryItems: galleryItems,
-                blogPosts: blogPosts,
-                testimonials: testimonials
-            };
-
-            localStorage.setItem('cmsContentData', JSON.stringify(contentData));
-
-            // Update live website content
-            updateLiveWebsite(contentData);
+        async function logout() {
+            localStorage.removeItem('token');
+            currentUser = null;
+            loginScreen.style.display = 'flex';
+            dashboardContainer.style.display = 'none';
         }
 
-        // Debounce function to limit how often a function can run
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
+        // Content management functions
+        async function saveContent() {
+            try {
+                // Collect all content data
+                const contentData = {
+                    heroTitle: document.getElementById('heroTitle').value,
+                    heroSubtitle: document.getElementById('heroSubtitle').value,
+                    visionText: document.getElementById('visionText').value,
+                    missionText: document.getElementById('missionText').value,
+                    purposeText: document.getElementById('purposeText').value,
+                    aboutTitle: document.getElementById('aboutTitle').value,
+                    aboutIntro: document.getElementById('aboutIntro').value,
+                    missionsTitle: document.getElementById('missionsTitle').value,
+                    missionsIntro: document.getElementById('missionsIntro').value
                 };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
+
+                // Save home content
+                await apiCall('/content', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        page: 'home',
+                        section: 'main',
+                        content: contentData
+                    })
+                });
+
+                // Save team members
+                await apiCall('/content', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        page: 'team',
+                        section: 'members',
+                        content: teamMembers
+                    })
+                });
+
+                // Save testimonials
+                await apiCall('/content', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        page: 'testimonials',
+                        section: 'testimonials',
+                        content: testimonials
+                    })
+                });
+
+                alert('Changes saved successfully!');
+            } catch (error) {
+                console.error('Error saving content:', error);
+                alert('Error saving changes: ' + error.message);
+            }
         }
 
-        // Team member management
-        document.getElementById('addTeamMember').addEventListener('click', () => {
-            const name = document.getElementById('teamMemberName').value;
-            const position = document.getElementById('teamMemberPosition').value;
-            const image = document.getElementById('teamMemberImage').value;
-
-            if(name && position) {
-                teamMembers.push({ name, position, image: image || 'media/photos/default.jpg' });
-                renderTeamMembers();
-
-                // Save to localStorage and update website
-                saveAndRefresh();
-
-                // Clear form
-                document.getElementById('teamMemberName').value = '';
-                document.getElementById('teamMemberPosition').value = '';
-                document.getElementById('teamMemberImage').value = '';
-            } else {
-                alert('Please fill in at least the name and position fields.');
+        // Team management functions
+        async function loadTeamMembers() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/content/team/members`);
+                if (response.ok) {
+                    teamMembers = await response.json();
+                    renderTeamMembers();
+                }
+            } catch (error) {
+                console.error('Error loading team members:', error);
             }
-        });
+        }
+
+        async function addTeamMember(member) {
+            try {
+                const data = await apiCall('/content/team/members', {
+                    method: 'POST',
+                    body: JSON.stringify(member)
+                });
+                
+                teamMembers.push(data.teamMember);
+                renderTeamMembers();
+                return data;
+            } catch (error) {
+                console.error('Error adding team member:', error);
+                throw error;
+            }
+        }
+
+        async function updateTeamMember(id, member) {
+            try {
+                const data = await apiCall(`/content/team/members/${id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(member)
+                });
+                
+                const index = teamMembers.findIndex(m => m._id === id);
+                if (index !== -1) {
+                    teamMembers[index] = data.teamMember;
+                    renderTeamMembers();
+                }
+                return data;
+            } catch (error) {
+                console.error('Error updating team member:', error);
+                throw error;
+            }
+        }
+
+        async function deleteTeamMember(id) {
+            try {
+                await apiCall(`/content/team/members/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                teamMembers = teamMembers.filter(m => m._id !== id);
+                renderTeamMembers();
+            } catch (error) {
+                console.error('Error deleting team member:', error);
+                throw error;
+            }
+        }
 
         function renderTeamMembers() {
             const tbody = document.getElementById('teamMembersTableBody');
@@ -733,105 +771,26 @@
             });
         }
 
-        // Save and refresh function
-        function saveAndRefresh() {
-            const contentData = {
-                heroTitle: document.getElementById('heroTitle').value,
-                heroSubtitle: document.getElementById('heroSubtitle').value,
-                visionText: document.getElementById('visionText').value,
-                missionText: document.getElementById('missionText').value,
-                purposeText: document.getElementById('purposeText').value,
-                aboutTitle: document.getElementById('aboutTitle').value,
-                aboutIntro: document.getElementById('aboutIntro').value,
-                missionsTitle: document.getElementById('missionsTitle').value,
-                missionsIntro: document.getElementById('missionsIntro').value,
-                teamMembers: teamMembers,
-                galleryItems: galleryItems,
-                blogPosts: blogPosts,
-                testimonials: testimonials
-            };
+        // Gallery management functions
+        async function loadGalleryItems() {
+            try {
+                // Load gallery items from backend API
+                const response = await fetch(`${API_BASE_URL}/content/gallery`);
+                if (response.ok) {
+                    const contentData = await response.json();
 
-            localStorage.setItem('cmsContentData', JSON.stringify(contentData));
+                    // Find the gallery content
+                    const galleryContent = contentData.find(item => item.page === 'gallery' && item.section === 'items');
 
-            // Update live website content
-            updateLiveWebsite(contentData);
-        }
-
-        window.editTeamMember = function(index) {
-            const member = teamMembers[index];
-            document.getElementById('teamMemberName').value = member.name;
-            document.getElementById('teamMemberPosition').value = member.position;
-            document.getElementById('teamMemberImage').value = member.image;
-
-            // Change button to update
-            const addButton = document.getElementById('addTeamMember');
-            addButton.textContent = 'Update Team Member';
-            addButton.onclick = function() {
-                member.name = document.getElementById('teamMemberName').value;
-                member.position = document.getElementById('teamMemberPosition').value;
-                member.image = document.getElementById('teamMemberImage').value || 'media/photos/default.jpg';
-
-                renderTeamMembers();
-
-                // Save and refresh
-                saveAndRefresh();
-
-                // Reset form and button
-                document.getElementById('teamMemberName').value = '';
-                document.getElementById('teamMemberPosition').value = '';
-                document.getElementById('teamMemberImage').value = '';
-                addButton.textContent = 'Add Team Member';
-                addButton.onclick = function() {
-                    const name = document.getElementById('teamMemberName').value;
-                    const position = document.getElementById('teamMemberPosition').value;
-                    const image = document.getElementById('teamMemberImage').value;
-
-                    if(name && position) {
-                        teamMembers.push({ name, position, image: image || 'media/photos/default.jpg' });
-                        renderTeamMembers();
-
-                        // Save and refresh
-                        saveAndRefresh();
-
-                        document.getElementById('teamMemberName').value = '';
-                        document.getElementById('teamMemberPosition').value = '';
-                        document.getElementById('teamMemberImage').value = '';
-                    } else {
-                        alert('Please fill in at least the name and position fields.');
+                    if (galleryContent && galleryContent.content) {
+                        galleryItems = galleryContent.content;
                     }
-                };
-            };
-        };
-
-        window.deleteTeamMember = function(index) {
-            if(confirm(`Are you sure you want to remove ${teamMembers[index].name} from the team list?`)) {
-                teamMembers.splice(index, 1);
-                renderTeamMembers();
-
-                // Save and refresh
-                saveAndRefresh();
+                }
+            } catch (error) {
+                console.error('Error loading gallery items:', error);
             }
-        };
-
-        // Gallery management
-        document.getElementById('addGalleryItem').addEventListener('click', () => {
-            const url = document.getElementById('galleryImageUrl').value;
-            const caption = document.getElementById('galleryCaption').value;
-
-            if(url && caption) {
-                galleryItems.push({ url, caption });
-                renderGalleryItems();
-
-                // Save to localStorage and update website
-                saveAndRefresh();
-
-                // Clear form
-                document.getElementById('galleryImageUrl').value = '';
-                document.getElementById('galleryCaption').value = '';
-            } else {
-                alert('Please fill in both the image URL and caption fields.');
-            }
-        });
+            renderGalleryItems();
+        }
 
         function renderGalleryItems() {
             const container = document.getElementById('galleryItemsList');
@@ -852,178 +811,67 @@
             });
         }
 
-        window.editGalleryItem = function(index) {
-            const item = galleryItems[index];
-            document.getElementById('galleryImageUrl').value = item.url;
-            document.getElementById('galleryCaption').value = item.caption;
-
-            // Change button to update
-            const addButton = document.getElementById('addGalleryItem');
-            addButton.textContent = 'Update Gallery Item';
-            addButton.onclick = function() {
-                item.url = document.getElementById('galleryImageUrl').value;
-                item.caption = document.getElementById('galleryCaption').value;
-
-                renderGalleryItems();
-
-                // Save and refresh
-                saveAndRefresh();
-
-                // Reset form and button
-                document.getElementById('galleryImageUrl').value = '';
-                document.getElementById('galleryCaption').value = '';
-                addButton.textContent = 'Add Gallery Item';
-                addButton.onclick = function() {
-                    const url = document.getElementById('galleryImageUrl').value;
-                    const caption = document.getElementById('galleryCaption').value;
-
-                    if(url && caption) {
-                        galleryItems.push({ url, caption });
-                        renderGalleryItems();
-
-                        // Save and refresh
-                        saveAndRefresh();
-
-                        document.getElementById('galleryImageUrl').value = '';
-                        document.getElementById('galleryCaption').value = '';
-                    } else {
-                        alert('Please fill in both the image URL and caption fields.');
-                    }
-                };
-            };
-        };
-
-        window.deleteGalleryItem = function(index) {
-            if(confirm(`Are you sure you want to remove this gallery item?`)) {
-                galleryItems.splice(index, 1);
-                renderGalleryItems();
-
-                // Save and refresh
-                saveAndRefresh();
+        // Testimonials management functions
+        async function loadTestimonials() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/content/testimonials`);
+                if (response.ok) {
+                    testimonials = await response.json();
+                    renderTestimonials();
+                }
+            } catch (error) {
+                console.error('Error loading testimonials:', error);
             }
-        };
-
-        // Blog post management
-        document.getElementById('publishPost').addEventListener('click', () => {
-            const title = document.getElementById('postTitle').value;
-            const category = document.getElementById('postCategory').value;
-            const content = document.getElementById('postContent').innerHTML;
-
-            if(title && content) {
-                blogPosts.unshift({ title, category, content });
-                renderBlogPosts();
-
-                // Save to localStorage and update website
-                saveAndRefresh();
-
-                // Clear form
-                document.getElementById('postTitle').value = '';
-                document.getElementById('postCategory').value = 'announcement';
-                document.getElementById('postContent').innerHTML = '';
-            } else {
-                alert('Please fill in both the title and content fields.');
-            }
-        });
-
-        function renderBlogPosts() {
-            const container = document.getElementById('postsList');
-            container.innerHTML = '';
-
-            blogPosts.forEach((post, index) => {
-                const div = document.createElement('div');
-                div.className = 'border rounded p-4 mb-4';
-                div.innerHTML = `
-                    <h4 class="font-bold text-lg">${post.title}</h4>
-                    <p class="text-sm text-gray-600 mb-2">Category: ${post.category}</p>
-                    <div class="mb-3">${post.content.substring(0, 150)}${post.content.length > 150 ? '...' : ''}</div>
-                    <div class="flex justify-between">
-                        <button onclick="editBlogPost(${index})" class="text-blue-600 hover:text-blue-900 text-sm">Edit</button>
-                        <button onclick="deleteBlogPost(${index})" class="text-red-600 hover:text-red-900 text-sm">Delete</button>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
         }
 
-        window.editBlogPost = function(index) {
-            const post = blogPosts[index];
-            document.getElementById('postTitle').value = post.title;
-            document.getElementById('postCategory').value = post.category;
-            document.getElementById('postContent').innerHTML = post.content;
-
-            // Change button to update
-            const publishButton = document.getElementById('publishPost');
-            publishButton.textContent = 'Update Post';
-            publishButton.onclick = function() {
-                post.title = document.getElementById('postTitle').value;
-                post.category = document.getElementById('postCategory').value;
-                post.content = document.getElementById('postContent').innerHTML;
-
-                renderBlogPosts();
-
-                // Save and refresh
-                saveAndRefresh();
-
-                // Reset form and button
-                document.getElementById('postTitle').value = '';
-                document.getElementById('postCategory').value = 'announcement';
-                document.getElementById('postContent').innerHTML = '';
-                publishButton.textContent = 'Publish Post';
-                publishButton.onclick = function() {
-                    const title = document.getElementById('postTitle').value;
-                    const category = document.getElementById('postCategory').value;
-                    const content = document.getElementById('postContent').innerHTML;
-
-                    if(title && content) {
-                        blogPosts.unshift({ title, category, content });
-                        renderBlogPosts();
-
-                        // Save and refresh
-                        saveAndRefresh();
-
-                        document.getElementById('postTitle').value = '';
-                        document.getElementById('postCategory').value = 'announcement';
-                        document.getElementById('postContent').innerHTML = '';
-                    } else {
-                        alert('Please fill in both the title and content fields.');
-                    }
-                };
-            };
-        };
-
-        window.deleteBlogPost = function(index) {
-            if(confirm(`Are you sure you want to delete the post "${blogPosts[index].title}"?`)) {
-                blogPosts.splice(index, 1);
-                renderBlogPosts();
-
-                // Save and refresh
-                saveAndRefresh();
-            }
-        };
-
-        // Testimonial management
-        document.getElementById('addTestimonial').addEventListener('click', () => {
-            const name = document.getElementById('testimonialName').value;
-            const role = document.getElementById('testimonialRole').value;
-            const content = document.getElementById('testimonialContent').value;
-            const rating = document.getElementById('testimonialRating').value;
-
-            if(name && role && content) {
-                testimonials.unshift({ name, role, content, rating: parseInt(rating) });
+        async function addTestimonial(testimonial) {
+            try {
+                const data = await apiCall('/content/testimonials', {
+                    method: 'POST',
+                    body: JSON.stringify(testimonial)
+                });
+                
+                testimonials.unshift(data.testimonial);
                 renderTestimonials();
-
-                // Save to localStorage and update website
-                saveAndRefresh();
-
-                // Clear form
-                document.getElementById('testimonialName').value = '';
-                document.getElementById('testimonialRole').value = '';
-                document.getElementById('testimonialContent').value = '';
-                document.getElementById('testimonialRating').value = '5';
-            } else {
-                alert('Please fill in the name, role, and content fields.');
+                return data;
+            } catch (error) {
+                console.error('Error adding testimonial:', error);
+                throw error;
             }
-        });
+        }
+
+        async function updateTestimonial(id, testimonial) {
+            try {
+                const data = await apiCall(`/content/testimonials/${id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(testimonial)
+                });
+                
+                const index = testimonials.findIndex(t => t._id === id);
+                if (index !== -1) {
+                    testimonials[index] = data.testimonial;
+                    renderTestimonials();
+                }
+                return data;
+            } catch (error) {
+                console.error('Error updating testimonial:', error);
+                throw error;
+            }
+        }
+
+        async function deleteTestimonial(id) {
+            try {
+                await apiCall(`/content/testimonials/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                testimonials = testimonials.filter(t => t._id !== id);
+                renderTestimonials();
+            } catch (error) {
+                console.error('Error deleting testimonial:', error);
+                throw error;
+            }
+        }
 
         function renderTestimonials() {
             const container = document.getElementById('testimonialsList');
@@ -1051,66 +899,146 @@
             });
         }
 
-        window.editTestimonial = function(index) {
-            const testimonial = testimonials[index];
-            document.getElementById('testimonialName').value = testimonial.name;
-            document.getElementById('testimonialRole').value = testimonial.role;
-            document.getElementById('testimonialContent').value = testimonial.content;
-            document.getElementById('testimonialRating').value = testimonial.rating;
+        // Blog posts management functions
+        async function loadBlogPosts() {
+            // This would be implemented similarly to other content
+            renderBlogPosts();
+        }
 
-            // Change button to update
-            const addButton = document.getElementById('addTestimonial');
-            addButton.textContent = 'Update Testimonial';
-            addButton.onclick = function() {
-                testimonial.name = document.getElementById('testimonialName').value;
-                testimonial.role = document.getElementById('testimonialRole').value;
-                testimonial.content = document.getElementById('testimonialContent').value;
-                testimonial.rating = document.getElementById('testimonialRating').value;
+        function renderBlogPosts() {
+            const container = document.getElementById('postsList');
+            container.innerHTML = '';
 
-                renderTestimonials();
+            blogPosts.forEach((post, index) => {
+                const div = document.createElement('div');
+                div.className = 'border rounded p-4 mb-4';
+                div.innerHTML = `
+                    <h4 class="font-bold text-lg">${post.title}</h4>
+                    <p class="text-sm text-gray-600 mb-2">Category: ${post.category}</p>
+                    <div class="mb-3">${post.content.substring(0, 150)}${post.content.length > 150 ? '...' : ''}</div>
+                    <div class="flex justify-between">
+                        <button onclick="editBlogPost(${index})" class="text-blue-600 hover:text-blue-900 text-sm">Edit</button>
+                        <button onclick="deleteBlogPost(${index})" class="text-red-600 hover:text-red-900 text-sm">Delete</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
 
-                // Save and refresh
-                saveAndRefresh();
+        // Event Listeners
+        saveChangesBtn.addEventListener('click', saveContent);
 
-                // Reset form and button
-                document.getElementById('testimonialName').value = '';
-                document.getElementById('testimonialRole').value = '';
-                document.getElementById('testimonialContent').value = '';
-                document.getElementById('testimonialRating').value = '5';
-                addButton.textContent = 'Add Testimonial';
-                addButton.onclick = function() {
-                    const name = document.getElementById('testimonialName').value;
-                    const role = document.getElementById('testimonialRole').value;
-                    const content = document.getElementById('testimonialContent').value;
-                    const rating = document.getElementById('testimonialRating').value;
-
-                    if(name && role && content) {
-                        testimonials.unshift({ name, role, content, rating: parseInt(rating) });
-                        renderTestimonials();
-
-                        // Save and refresh
-                        saveAndRefresh();
-
-                        document.getElementById('testimonialName').value = '';
-                        document.getElementById('testimonialRole').value = '';
-                        document.getElementById('testimonialContent').value = '';
-                        document.getElementById('testimonialRating').value = '5';
-                    } else {
-                        alert('Please fill in the name, role, and content fields.');
-                    }
-                };
-            };
-        };
-
-        window.deleteTestimonial = function(index) {
-            if(confirm(`Are you sure you want to delete the testimonial from "${testimonials[index].name}"?`)) {
-                testimonials.splice(index, 1);
-                renderTestimonials();
-
-                // Save and refresh
-                saveAndRefresh();
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Show loading spinner
+            loginButtonText.style.display = 'none';
+            loginSpinner.classList.remove('hidden');
+            
+            try {
+                await login(username, password);
+                
+                // Successful login
+                loginScreen.style.display = 'none';
+                dashboardContainer.style.display = 'block';
+                
+                // Clear form
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                
+                // Show success message
+                loginError.className = 'hidden mt-4 p-3 bg-green-100 text-green-700 rounded text-sm';
+                loginError.textContent = 'Login successful! Redirecting...';
+                loginError.style.display = 'block';
+                
+                // Hide error after 2 seconds
+                setTimeout(function() {
+                    loginError.style.display = 'none';
+                }, 2000);
+                
+                // Load initial content
+                loadTeamMembers();
+                loadTestimonials();
+            } catch (error) {
+                // Failed login
+                loginError.className = 'mt-4 p-3 bg-red-100 text-red-700 rounded text-sm';
+                loginError.textContent = error.message || 'Invalid username or password. Please try again.';
+                loginError.style.display = 'block';
+                
+                // Clear password field
+                document.getElementById('password').value = '';
+            } finally {
+                // Hide loading spinner
+                loginButtonText.style.display = 'inline';
+                loginSpinner.classList.add('hidden');
             }
-        };
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            if(confirm('Are you sure you want to logout?')) {
+                logout();
+            }
+        });
+
+        // Team member event listeners
+        document.getElementById('addTeamMember').addEventListener('click', async () => {
+            const name = document.getElementById('teamMemberName').value;
+            const position = document.getElementById('teamMemberPosition').value;
+
+            if(name && position) {
+                try {
+                    // Upload image if selected
+                    let imageUrl = 'media/photos/default.jpg';
+                    if (document.getElementById('teamMemberImage').files[0]) {
+                        imageUrl = await uploadImage('teamMemberImage');
+                    }
+
+                    await addTeamMember({ name, position, image: imageUrl });
+
+                    // Clear form
+                    document.getElementById('teamMemberName').value = '';
+                    document.getElementById('teamMemberPosition').value = '';
+                    document.getElementById('teamMemberImage').value = '';
+                } catch (error) {
+                    alert('Error adding team member: ' + error.message);
+                }
+            } else {
+                alert('Please fill in at least the name and position fields.');
+            }
+        });
+
+        // Testimonial event listeners
+        document.getElementById('addTestimonial').addEventListener('click', async () => {
+            const name = document.getElementById('testimonialName').value;
+            const role = document.getElementById('testimonialRole').value;
+            const content = document.getElementById('testimonialContent').value;
+            const rating = document.getElementById('testimonialRating').value;
+
+            if(name && role && content) {
+                try {
+                    await addTestimonial({ 
+                        name, 
+                        role, 
+                        content, 
+                        rating: parseInt(rating),
+                        isActive: true
+                    });
+                    
+                    // Clear form
+                    document.getElementById('testimonialName').value = '';
+                    document.getElementById('testimonialRole').value = '';
+                    document.getElementById('testimonialContent').value = '';
+                    document.getElementById('testimonialRating').value = '5';
+                } catch (error) {
+                    alert('Error adding testimonial: ' + error.message);
+                }
+            } else {
+                alert('Please fill in the name, role, and content fields.');
+            }
+        });
 
         // Toolbar functionality for content editor
         document.querySelectorAll('.toolbar-btn').forEach(btn => {
@@ -1121,78 +1049,295 @@
             });
         });
 
-        // Authentication functionality
-        const loginScreen = document.getElementById('loginScreen');
-        const dashboardContainer = document.getElementById('dashboardContainer');
-        const loginForm = document.getElementById('loginForm');
-        const loginError = document.getElementById('loginError');
-        const logoutBtn = document.getElementById('logoutBtn');
-
         // Check if user is already logged in
-        if(localStorage.getItem('adminLoggedIn') === 'true') {
-            // User is already logged in, show dashboard
-            loginScreen.style.display = 'none';
-            dashboardContainer.style.display = 'block';
-        } else {
-            // User is not logged in, show login screen
-            loginScreen.style.display = 'flex';
-            dashboardContainer.style.display = 'none';
-        }
-
-        // Login form submission
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            // Simple authentication - in a real app, this would be more secure
-            if(username === 'admin' && password === 'jehovah123') {
-                // Successful login
-                localStorage.setItem('adminLoggedIn', 'true');
-                loginScreen.style.display = 'none';
-                dashboardContainer.style.display = 'block';
-
-                // Clear form
-                document.getElementById('username').value = '';
-                document.getElementById('password').value = '';
-
-                // Show success message
-                loginError.className = 'hidden mt-4 p-3 bg-green-100 text-green-700 rounded text-sm';
-                loginError.textContent = 'Login successful! Redirecting...';
-                loginError.style.display = 'block';
-
-                // Hide error after 2 seconds
-                setTimeout(function() {
-                    loginError.style.display = 'none';
-                }, 2000);
+        function checkAuthStatus() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                // Verify token is still valid by making a simple request
+                fetch(`${API_BASE_URL}/admin/dashboard-stats`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Token is valid, show dashboard
+                        loginScreen.style.display = 'none';
+                        dashboardContainer.style.display = 'block';
+                        
+                        // Set current user (we'll get this from a profile endpoint if available)
+                        welcomeUsername.textContent = 'Administrator'; // Placeholder
+                    } else {
+                        // Token is invalid, show login
+                        localStorage.removeItem('token');
+                        loginScreen.style.display = 'flex';
+                        dashboardContainer.style.display = 'none';
+                    }
+                })
+                .catch(() => {
+                    // Network error, show login
+                    localStorage.removeItem('token');
+                    loginScreen.style.display = 'flex';
+                    dashboardContainer.style.display = 'none';
+                });
             } else {
-                // Failed login
-                loginError.className = 'mt-4 p-3 bg-red-100 text-red-700 rounded text-sm';
-                loginError.textContent = 'Invalid username or password. Please try again.';
-                loginError.style.display = 'block';
-
-                // Clear password field
-                document.getElementById('password').value = '';
-            }
-        });
-
-        // Logout functionality
-        logoutBtn.addEventListener('click', () => {
-            if(confirm('Are you sure you want to logout?')) {
-                // Clear login status
-                localStorage.removeItem('adminLoggedIn');
-
-                // Show login screen
+                // No token, show login
                 loginScreen.style.display = 'flex';
                 dashboardContainer.style.display = 'none';
+            }
+        }
 
-                // Clear form and error message
-                document.getElementById('username').value = '';
-                document.getElementById('password').value = '';
-                loginError.style.display = 'none';
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthStatus();
+        });
+
+        // Global functions for inline event handlers
+        window.editTeamMember = function(index) {
+            const member = teamMembers[index];
+            document.getElementById('teamMemberName').value = member.name;
+            document.getElementById('teamMemberPosition').value = member.position;
+            // Note: We can't set the value of file input for security reasons
+            // So we'll just leave it empty and let user select a new image if needed
+
+            // Change button to update
+            const addButton = document.getElementById('addTeamMember');
+            addButton.textContent = 'Update Team Member';
+            addButton.onclick = async function() {
+                try {
+                    // Upload image if selected, otherwise keep the existing image
+                    let imageUrl = member.image; // Keep existing image by default
+                    if (document.getElementById('teamMemberImage').files[0]) {
+                        imageUrl = await uploadImage('teamMemberImage');
+                    }
+
+                    await updateTeamMember(member._id, {
+                        name: document.getElementById('teamMemberName').value,
+                        position: document.getElementById('teamMemberPosition').value,
+                        image: imageUrl
+                    });
+
+                    // Reset form and button
+                    document.getElementById('teamMemberName').value = '';
+                    document.getElementById('teamMemberPosition').value = '';
+                    document.getElementById('teamMemberImage').value = ''; // Clear file input
+                    addButton.textContent = 'Add Team Member';
+                    addButton.onclick = async function() {
+                        const name = document.getElementById('teamMemberName').value;
+                        const position = document.getElementById('teamMemberPosition').value;
+
+                        if(name && position) {
+                            try {
+                                // Upload image if selected
+                                let imageUrl = 'media/photos/default.jpg';
+                                if (document.getElementById('teamMemberImage').files[0]) {
+                                    imageUrl = await uploadImage('teamMemberImage');
+                                }
+
+                                await addTeamMember({ name, position, image: imageUrl });
+
+                                // Clear form
+                                document.getElementById('teamMemberName').value = '';
+                                document.getElementById('teamMemberPosition').value = '';
+                                document.getElementById('teamMemberImage').value = '';
+                            } catch (error) {
+                                alert('Error adding team member: ' + error.message);
+                            }
+                        } else {
+                            alert('Please fill in at least the name and position fields.');
+                        }
+                    };
+                } catch (error) {
+                    alert('Error updating team member: ' + error.message);
+                }
+            };
+        };
+
+        window.deleteTeamMember = function(index) {
+            const member = teamMembers[index];
+            if(confirm(`Are you sure you want to remove ${member.name} from the team list?`)) {
+                deleteTeamMember(member._id)
+                    .catch(error => alert('Error deleting team member: ' + error.message));
+            }
+        };
+
+        window.editTestimonial = function(index) {
+            const testimonial = testimonials[index];
+            document.getElementById('testimonialName').value = testimonial.name;
+            document.getElementById('testimonialRole').value = testimonial.role;
+            document.getElementById('testimonialContent').value = testimonial.content;
+            document.getElementById('testimonialRating').value = testimonial.rating;
+
+            // Change button to update
+            const addButton = document.getElementById('addTestimonial');
+            addButton.textContent = 'Update Testimonial';
+            addButton.onclick = async function() {
+                try {
+                    await updateTestimonial(testimonial._id, {
+                        name: document.getElementById('testimonialName').value,
+                        role: document.getElementById('testimonialRole').value,
+                        content: document.getElementById('testimonialContent').value,
+                        rating: parseInt(document.getElementById('testimonialRating').value),
+                        isActive: true
+                    });
+
+                    // Reset form and button
+                    document.getElementById('testimonialName').value = '';
+                    document.getElementById('testimonialRole').value = '';
+                    document.getElementById('testimonialContent').value = '';
+                    document.getElementById('testimonialRating').value = '5';
+                    addButton.textContent = 'Add Testimonial';
+                    addButton.onclick = function() {
+                        const name = document.getElementById('testimonialName').value;
+                        const role = document.getElementById('testimonialRole').value;
+                        const content = document.getElementById('testimonialContent').value;
+                        const rating = document.getElementById('testimonialRating').value;
+
+                        if(name && role && content) {
+                            addTestimonial({ 
+                                name, 
+                                role, 
+                                content, 
+                                rating: parseInt(rating),
+                                isActive: true
+                            })
+                            .catch(error => alert('Error adding testimonial: ' + error.message));
+
+                            document.getElementById('testimonialName').value = '';
+                            document.getElementById('testimonialRole').value = '';
+                            document.getElementById('testimonialContent').value = '';
+                            document.getElementById('testimonialRating').value = '5';
+                        } else {
+                            alert('Please fill in the name, role, and content fields.');
+                        }
+                    };
+                } catch (error) {
+                    alert('Error updating testimonial: ' + error.message);
+                }
+            };
+        };
+
+        window.deleteTestimonial = function(index) {
+            const testimonial = testimonials[index];
+            if(confirm(`Are you sure you want to delete the testimonial from "${testimonial.name}"?`)) {
+                deleteTestimonial(testimonial._id)
+                    .catch(error => alert('Error deleting testimonial: ' + error.message));
+            }
+        };
+
+        // Gallery functions
+        document.getElementById('addGalleryItem').addEventListener('click', async () => {
+            const caption = document.getElementById('galleryCaption').value;
+
+            if(caption) {
+                try {
+                    // Upload image
+                    let imageUrl = '';
+                    if (document.getElementById('galleryImageUrl').files[0]) {
+                        imageUrl = await uploadImage('galleryImageUrl');
+                    } else {
+                        alert('Please select an image to upload');
+                        return;
+                    }
+
+                    // Add to gallery items array
+                    galleryItems.push({ url: imageUrl, caption });
+
+                    // For now, we'll just render locally - in a real implementation, you'd save to backend
+                    // await apiCall('/content/gallery', { method: 'POST', body: JSON.stringify({ url: imageUrl, caption }) });
+
+                    renderGalleryItems();
+
+                    // Clear form
+                    document.getElementById('galleryCaption').value = '';
+                    document.getElementById('galleryImageUrl').value = '';
+                } catch (error) {
+                    alert('Error adding gallery item: ' + error.message);
+                }
+            } else {
+                alert('Please enter a caption for the image.');
             }
         });
+
+        window.editGalleryItem = function(index) {
+            const item = galleryItems[index];
+            // Note: We can't set the value of file input for security reasons
+            // So we'll just set the caption and let user select a new image if needed
+            document.getElementById('galleryCaption').value = item.caption;
+
+            // Change button to update
+            const addButton = document.getElementById('addGalleryItem');
+            addButton.textContent = 'Update Gallery Item';
+            addButton.onclick = async function() {
+                try {
+                    // Upload new image if selected, otherwise keep the existing image
+                    let imageUrl = item.url; // Keep existing image by default
+                    if (document.getElementById('galleryImageUrl').files[0]) {
+                        imageUrl = await uploadImage('galleryImageUrl');
+                    }
+
+                    // Update in gallery items array
+                    galleryItems[index] = { url: imageUrl, caption: document.getElementById('galleryCaption').value };
+
+                    // For now, we'll just render locally - in a real implementation, you'd update backend
+                    // await apiCall(`/content/gallery/${item._id}`, { method: 'PUT', body: JSON.stringify({ url: imageUrl, caption: document.getElementById('galleryCaption').value }) });
+
+                    renderGalleryItems();
+
+                    // Reset form and button
+                    document.getElementById('galleryCaption').value = '';
+                    document.getElementById('galleryImageUrl').value = ''; // Clear file input
+                    addButton.textContent = 'Add Gallery Item';
+                    addButton.onclick = async function() {
+                        const caption = document.getElementById('galleryCaption').value;
+
+                        if(caption) {
+                            try {
+                                // Upload image
+                                let imageUrl = '';
+                                if (document.getElementById('galleryImageUrl').files[0]) {
+                                    imageUrl = await uploadImage('galleryImageUrl');
+                                } else {
+                                    alert('Please select an image to upload');
+                                    return;
+                                }
+
+                                // Add to gallery items array
+                                galleryItems.push({ url: imageUrl, caption });
+
+                                renderGalleryItems();
+
+                                // Clear form
+                                document.getElementById('galleryCaption').value = '';
+                                document.getElementById('galleryImageUrl').value = '';
+                            } catch (error) {
+                                alert('Error adding gallery item: ' + error.message);
+                            }
+                        } else {
+                            alert('Please enter a caption for the image.');
+                        }
+                    };
+                } catch (error) {
+                    alert('Error updating gallery item: ' + error.message);
+                }
+            };
+        };
+
+        window.deleteGalleryItem = function(index) {
+            const item = galleryItems[index];
+            if(confirm(`Are you sure you want to remove this gallery item?`)) {
+                galleryItems.splice(index, 1);
+                renderGalleryItems();
+            }
+        };
+
+        window.editBlogPost = function(index) {
+            alert('Edit blog post functionality would be implemented here');
+        };
+
+        window.deleteBlogPost = function(index) {
+            alert('Delete blog post functionality would be implemented here');
+        };
     </script>
 </body>
 </html>

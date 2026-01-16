@@ -381,30 +381,36 @@
 
         // Load content from CMS system
         document.addEventListener('DOMContentLoaded', function() {
-            // Watch for changes in localStorage and update content accordingly
-            window.addEventListener('storage', function(e) {
-                if(e.key === 'cmsContentData') {
-                    loadContentFromCMS();
-                }
-            });
+            loadContentFromCMS();
         });
 
         // Function to load content from CMS
-        function loadContentFromCMS() {
-            // Load saved content from localStorage
-            const savedData = localStorage.getItem('cmsContentData');
-            if(savedData) {
-                const data = JSON.parse(savedData);
+        async function loadContentFromCMS() {
+            try {
+                // Load content from backend API
+                const response = await fetch('http://localhost:5000/api/content/missions');
+                if (response.ok) {
+                    const contentData = await response.json();
 
-                // Update page title if data exists
-                if(data.missionsTitle) {
-                    document.querySelector('h1.text-3xl').textContent = data.missionsTitle;
-                }
+                    // Find the missions content
+                    const missionsContent = contentData.find(item => item.page === 'missions' && item.section === 'main');
 
-                // Update intro text if data exists
-                if(data.missionsIntro) {
-                    document.querySelector('p.text-xl.max-w-3xl.mx-auto').textContent = data.missionsIntro;
+                    if (missionsContent && missionsContent.content) {
+                        const data = missionsContent.content;
+
+                        // Update page title if data exists
+                        if(data.missionsTitle) {
+                            document.querySelector('h1.text-3xl').textContent = data.missionsTitle;
+                        }
+
+                        // Update intro text if data exists
+                        if(data.missionsIntro) {
+                            document.querySelector('p.text-xl.max-w-3xl.mx-auto').textContent = data.missionsIntro;
+                        }
+                    }
                 }
+            } catch (error) {
+                console.error('Error loading content from CMS:', error);
             }
         }
 
