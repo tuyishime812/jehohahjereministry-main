@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Management Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+        }
+        .error {
+            background-color: #f2dede;
+            color: #a94442;
+            border: 1px solid #ebccd1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Content Management System Test</h1>
+    <p>This page tests if the content management system is working properly.</p>
+    
+    <div class="test-section">
+        <h2>Step 1: Test LocalStorage</h2>
+        <button onclick="testLocalStorage()">Test LocalStorage</button>
+        <div id="storageStatus"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 2: Test Content Saving</h2>
+        <label>Enter test content for home page:</label>
+        <textarea id="testContent" rows="4">This is test content that should appear on the website if the system is working!</textarea>
+        <button onclick="saveTestContent()">Save Test Content</button>
+        <div id="saveStatus"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 3: Test Content Loading</h2>
+        <button onclick="loadTestContent()">Load Saved Content</button>
+        <div id="loadStatus"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 4: Test Image Upload</h2>
+        <input type="file" id="imageUpload" accept="image/*" onchange="handleImageUpload(this)">
+        <div id="imageStatus"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 5: Test Contact Info</h2>
+        <label>Add phone number:</label>
+        <input type="text" id="phoneNumber" placeholder="Enter phone number (e.g., 0990342825)">
+        <button onclick="saveContactInfo()">Save Phone Number</button>
+        <div id="contactStatus"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 6: Test All Functions</h2>
+        <button onclick="runAllTests()">Run All Tests</button>
+        <div id="allTestsStatus"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 7: Clear All Data (Use with caution)</h2>
+        <button onclick="clearAllData()">Clear All Saved Content</button>
+        <div id="clearStatus"></div>
+    </div>
+
+    <script>
+        // Test LocalStorage functionality
+        function testLocalStorage() {
+            const statusDiv = document.getElementById('storageStatus');
+            try {
+                // Test if localStorage is working
+                localStorage.setItem('test', 'success');
+                const testValue = localStorage.getItem('test');
+                localStorage.removeItem('test');
+                
+                if(testValue === 'success') {
+                    statusDiv.innerHTML = '<div class="status success">✓ LocalStorage is working properly!</div>';
+                    return true;
+                } else {
+                    statusDiv.innerHTML = '<div class="status error">✗ LocalStorage is not working correctly</div>';
+                    return false;
+                }
+            } catch (e) {
+                statusDiv.innerHTML = '<div class="status error">✗ LocalStorage error: ' + e.message + '</div>';
+                return false;
+            }
+        }
+
+        // Save test content to localStorage
+        function saveTestContent() {
+            const content = document.getElementById('testContent').value;
+            const statusDiv = document.getElementById('saveStatus');
+            
+            try {
+                localStorage.setItem('homeContent', content);
+                statusDiv.innerHTML = '<div class="status success">✓ Content saved successfully to localStorage!</div>';
+                
+                // Also save to other page content for testing
+                localStorage.setItem('aboutContent', '<h2>About Page Test Content</h2><p>This is test content for the about page.</p>');
+                localStorage.setItem('contactContent', '<h2>Contact Page Test Content</h2><p>Contact us at test@example.com</p>');
+                
+                return true;
+            } catch (e) {
+                statusDiv.innerHTML = '<div class="status error">✗ Error saving content: ' + e.message + '</div>';
+                return false;
+            }
+        }
+
+        // Load test content from localStorage
+        function loadTestContent() {
+            const statusDiv = document.getElementById('loadStatus');
+            
+            try {
+                const content = localStorage.getItem('homeContent');
+                if(content) {
+                    statusDiv.innerHTML = '<div class="status success">✓ Content loaded successfully!</div>';
+                    statusDiv.innerHTML += '<div class="test-section"><h3>Saved Content Preview:</h3><div>' + content + '</div></div>';
+                    return true;
+                } else {
+                    statusDiv.innerHTML = '<div class="status error">✗ No content found in localStorage</div>';
+                    return false;
+                }
+            } catch (e) {
+                statusDiv.innerHTML = '<div class="status error">✗ Error loading content: ' + e.message + '</div>';
+                return false;
+            }
+        }
+
+        // Handle image upload
+        function handleImageUpload(input) {
+            const statusDiv = document.getElementById('imageStatus');
+            
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    try {
+                        // Save image to localStorage
+                        localStorage.setItem('customLogo', e.target.result);
+                        
+                        // Show preview
+                        statusDiv.innerHTML = '<div class="status success">✓ Image uploaded and saved successfully!</div>';
+                        statusDiv.innerHTML += '<div class="test-section"><h3>Image Preview:</h3><img src="' + e.target.result + '" style="max-width: 200px; max-height: 200px;"></div>';
+                        
+                        // Also save as hero background
+                        localStorage.setItem('customHeroBg', e.target.result);
+                    } catch (error) {
+                        statusDiv.innerHTML = '<div class="status error">✗ Error saving image: ' + error.message + '</div>';
+                    }
+                };
+                
+                reader.readAsDataURL(file);
+                
+                // Reset input
+                input.value = '';
+            } else {
+                statusDiv.innerHTML = '<div class="status error">✗ Please select an image file</div>';
+            }
+        }
+
+        // Save contact information
+        function saveContactInfo() {
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const statusDiv = document.getElementById('contactStatus');
+            
+            if(phoneNumber) {
+                try {
+                    // Create contact info array
+                    const contacts = JSON.parse(localStorage.getItem('phoneNumbers') || '[]');
+                    contacts.push(phoneNumber);
+                    localStorage.setItem('phoneNumbers', JSON.stringify(contacts));
+                    
+                    statusDiv.innerHTML = '<div class="status success">✓ Phone number saved successfully: ' + phoneNumber + '</div>';
+                    
+                    // Also save to contact_info table format for compatibility
+                    const contactInfo = JSON.parse(localStorage.getItem('contact_info') || '[]');
+                    contactInfo.push({
+                        contact_type: 'phone',
+                        contact_value: phoneNumber,
+                        label: phoneNumber,
+                        is_primary: contactInfo.length === 0
+                    });
+                    localStorage.setItem('contact_info', JSON.stringify(contactInfo));
+                    
+                    return true;
+                } catch (e) {
+                    statusDiv.innerHTML = '<div class="status error">✗ Error saving phone number: ' + e.message + '</div>';
+                    return false;
+                }
+            } else {
+                statusDiv.innerHTML = '<div class="status error">✗ Please enter a phone number</div>';
+                return false;
+            }
+        }
+
+        // Run all tests
+        function runAllTests() {
+            const statusDiv = document.getElementById('allTestsStatus');
+            let results = [];
+            
+            statusDiv.innerHTML = '<div class="status">Running all tests...</div>';
+            
+            // Test 1: LocalStorage
+            const test1 = testLocalStorage();
+            results.push('LocalStorage: ' + (test1 ? 'PASS' : 'FAIL'));
+            
+            // Test 2: Save content
+            const test2 = saveTestContent();
+            results.push('Save Content: ' + (test2 ? 'PASS' : 'FAIL'));
+            
+            // Test 3: Load content
+            const test3 = loadTestContent();
+            results.push('Load Content: ' + (test3 ? 'PASS' : 'FAIL'));
+            
+            // Test 4: Save contact info
+            const test4 = saveContactInfo();
+            results.push('Save Contact: ' + (test4 ? 'PASS' : 'FAIL'));
+            
+            // Compile results
+            const allPassed = results.every(result => result.includes('PASS'));
+            statusDiv.innerHTML = '<div class="status ' + (allPassed ? 'success' : 'error') + '">' +
+                                  '<h3>Test Results:</h3><ul><li>' + 
+                                  results.join('</li><li>') + 
+                                  '</li></ul>' +
+                                  '<p><strong>Overall Result: ' + (allPassed ? 'ALL TESTS PASSED! Content management system is working!' : 'SOME TESTS FAILED!') + '</strong></p>' +
+                                  '</div>';
+        }
+
+        // Clear all saved data
+        function clearAllData() {
+            const statusDiv = document.getElementById('clearStatus');
+            
+            if(confirm('Are you sure you want to clear ALL saved content? This cannot be undone.')) {
+                try {
+                    // Clear all content
+                    localStorage.removeItem('homeContent');
+                    localStorage.removeItem('aboutContent');
+                    localStorage.removeItem('contactContent');
+                    localStorage.removeItem('missionsContent');
+                    localStorage.removeItem('teamContent');
+                    localStorage.removeItem('galleryContent');
+                    localStorage.removeItem('customLogo');
+                    localStorage.removeItem('customHeroBg');
+                    localStorage.removeItem('phoneNumbers');
+                    localStorage.removeItem('whatsappNumbers');
+                    localStorage.removeItem('contact_info');
+                    localStorage.removeItem('testimonials');
+                    localStorage.removeItem('team_members');
+                    localStorage.removeItem('site_settings');
+                    
+                    statusDiv.innerHTML = '<div class="status success">✓ All saved data cleared successfully!</div>';
+                } catch (e) {
+                    statusDiv.innerHTML = '<div class="status error">✗ Error clearing data: ' + e.message + '</div>';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

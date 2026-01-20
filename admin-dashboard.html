@@ -3,301 +3,798 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - JehoHahJere Ministry</title>
+    <title>Admin Dashboard - Jehovah Jire Ministry</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
         }
-        .header {
-            background-color: #333;
+        .sidebar {
+            background: linear-gradient(to bottom, #1e3a8a, #1e40af);
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            z-index: 10;
+        }
+        .active-menu {
+            background-color: #3b82f6;
             color: white;
+        }
+        .menu-item:hover {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .editor-toolbar {
+            border: 1px solid #cbd5e0;
+            border-bottom: none;
+            border-radius: 0.5rem 0.5rem 0 0;
+            padding: 0.5rem;
+            background-color: #f8fafc;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .editor-container {
+            border: 1px solid #cbd5e0;
+            border-radius: 0 0 0.5rem 0.5rem;
+            overflow: hidden;
+        }
+        .editor {
+            min-height: 300px;
             padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        .logout-btn {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .logout-btn:hover {
-            background-color: #c0392b;
-        }
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        .card {
             background-color: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 0 0 0.5rem 0.5rem;
+            overflow-y: auto;
+            max-height: 400px;
         }
-        .card h3 {
-            margin-top: 0;
-            color: #333;
+        .stats-card {
+            transition: transform 0.3s ease;
         }
-        textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            min-height: 100px;
-            resize: vertical;
-            box-sizing: border-box;
+        .stats-card:hover {
+            transform: translateY(-5px);
         }
-        .save-btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 0.75rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 0.5rem;
+        .content-area {
+            background-color: #f8fafc;
         }
-        .save-btn:hover {
-            background-color: #45a049;
-        }
-        .upload-btn {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 0.75rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 0.5rem;
-        }
-        .upload-btn:hover {
-            background-color: #2980b9;
-        }
-        .preview-section {
-            margin-top: 2rem;
-        }
-        .preview-content {
-            background-color: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .nav-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-        }
-        .nav-link {
-            background-color: #3498db;
-            color: white;
-            padding: 0.5rem 1rem;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-        .nav-link:hover {
-            background-color: #2980b9;
-        }
-        .image-upload {
-            margin-top: 1rem;
-        }
-        .image-preview {
-            max-width: 100%;
-            max-height: 200px;
-            margin-top: 1rem;
-            display: none;
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .flex {
+                flex-direction: column;
+            }
+            .editor {
+                max-height: 200px;
+            }
         }
     </style>
 </head>
-<body>
-    <div class="header">
-        <h1>Admin Dashboard</h1>
-        <button class="logout-btn" onclick="logout()">Logout</button>
+<body class="bg-gray-100">
+    <div class="flex">
+        <!-- Sidebar -->
+        <div class="sidebar w-64 text-white flex flex-col min-h-screen">
+            <div class="p-6">
+                <h1 class="text-2xl font-bold flex items-center">
+                    <i class="fas fa-crown mr-3"></i> Ministry CMS
+                </h1>
+                <p class="text-blue-200 text-sm mt-1">Content Management System</p>
+            </div>
+            
+            <nav class="flex-1 px-4">
+                <div class="space-y-2">
+                    <a href="#" class="tab-button active-menu menu-item flex items-center px-4 py-3 rounded-lg text-white font-medium">
+                        <i class="fas fa-home mr-3"></i> Home Page
+                    </a>
+                    <a href="#" class="tab-button menu-item flex items-center px-4 py-3 rounded-lg text-blue-100 hover:text-white font-medium">
+                        <i class="fas fa-info-circle mr-3"></i> About Page
+                    </a>
+                    <a href="#" class="tab-button menu-item flex items-center px-4 py-3 rounded-lg text-blue-100 hover:text-white font-medium">
+                        <i class="fas fa-envelope mr-3"></i> Contact Page
+                    </a>
+                    <a href="#" class="tab-button menu-item flex items-center px-4 py-3 rounded-lg text-blue-100 hover:text-white font-medium">
+                        <i class="fas fa-bullseye mr-3"></i> Missions Page
+                    </a>
+                    <a href="#" class="tab-button menu-item flex items-center px-4 py-3 rounded-lg text-blue-100 hover:text-white font-medium">
+                        <i class="fas fa-users mr-3"></i> Team Page
+                    </a>
+                    <a href="#" class="tab-button menu-item flex items-center px-4 py-3 rounded-lg text-blue-100 hover:text-white font-medium">
+                        <i class="fas fa-images mr-3"></i> Gallery Page
+                    </a>
+                    <a href="#" class="tab-button menu-item flex items-center px-4 py-3 rounded-lg text-blue-100 hover:text-white font-medium">
+                        <i class="fas fa-phone mr-3"></i> Contact Info
+                    </a>
+                    <a href="#" class="tab-button menu-item flex items-center px-4 py-3 rounded-lg text-blue-100 hover:text-white font-medium">
+                        <i class="fas fa-cog mr-3"></i> Settings
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="p-4 border-t border-blue-700">
+                <button onclick="logout()" class="w-full flex items-center px-4 py-3 rounded-lg text-blue-100 hover:bg-blue-700 hover:text-white">
+                    <i class="fas fa-sign-out-alt mr-3"></i> Logout
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 ml-64">
+            <!-- Top Bar -->
+            <header class="bg-white shadow-sm sticky top-0 z-10">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <div>
+                        <h2 class="text-xl font-semibold text-gray-800">Content Management</h2>
+                        <p class="text-sm text-gray-500">Edit your website content</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <i class="fas fa-bell text-gray-500"></i>
+                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span class="ml-2 text-gray-700">Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Stats Cards and Content Area -->
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <div class="stats-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-lg bg-blue-100 text-blue-600">
+                                <i class="fas fa-home text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-gray-500 text-sm">Home Page</h3>
+                                <p class="text-2xl font-bold">Edited</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-lg bg-green-100 text-green-600">
+                                <i class="fas fa-info-circle text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-gray-500 text-sm">About Page</h3>
+                                <p class="text-2xl font-bold">Edited</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-lg bg-purple-100 text-purple-600">
+                                <i class="fas fa-bullseye text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-gray-500 text-sm">Missions Page</h3>
+                                <p class="text-2xl font-bold">Edited</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-lg bg-yellow-100 text-yellow-600">
+                                <i class="fas fa-users text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-gray-500 text-sm">Team Page</h3>
+                                <p class="text-2xl font-bold">Edited</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page Content Sections -->
+                <div class="page-content" id="home-page">
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Home Page Content</h3>
+                            <button onclick="saveContent('homeContent')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-save mr-2"></i> Save Changes
+                            </button>
+                        </div>
+                        
+                        <div class="editor-toolbar">
+                            <div class="flex space-x-2 overflow-x-auto">
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertUnorderedList" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertOrderedList" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="createLink" title="Insert Link"><i class="fas fa-link"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" id="insertImageButton" title="Insert Image"><i class="fas fa-image"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h1>" title="Heading 1"><i class="fas fa-heading"></i> H1</button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h2>" title="Heading 2"><i class="fas fa-heading"></i> H2</button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h3>" title="Heading 3"><i class="fas fa-heading"></i> H3</button>
+                            </div>
+                        </div>
+                        <div class="editor-container">
+                            <div class="editor" id="homeContent" contenteditable="true" placeholder="Start typing your content here..."></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-content hidden" id="about-page">
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">About Page Content</h3>
+                            <button onclick="saveContent('aboutContent')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-save mr-2"></i> Save Changes
+                            </button>
+                        </div>
+                        
+                        <div class="editor-toolbar">
+                            <div class="flex space-x-2 overflow-x-auto">
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertUnorderedList" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertOrderedList" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="createLink" title="Insert Link"><i class="fas fa-link"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" id="insertImageButton2" title="Insert Image"><i class="fas fa-image"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h1>" title="Heading 1"><i class="fas fa-heading"></i> H1</button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h2>" title="Heading 2"><i class="fas fa-heading"></i> H2</button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h3>" title="Heading 3"><i class="fas fa-heading"></i> H3</button>
+                            </div>
+                        </div>
+                        <div class="editor-container">
+                            <div class="editor" id="aboutContent" contenteditable="true" placeholder="Start typing your content here..."></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-content hidden" id="contact-page">
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Contact Page Content</h3>
+                            <button onclick="saveContent('contactContent')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-save mr-2"></i> Save Changes
+                            </button>
+                        </div>
+                        
+                        <div class="editor-toolbar">
+                            <div class="flex space-x-2 overflow-x-auto">
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertUnorderedList" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertOrderedList" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="createLink" title="Insert Link"><i class="fas fa-link"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" id="insertImageButton3" title="Insert Image"><i class="fas fa-image"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h1>" title="Heading 1"><i class="fas fa-heading"></i> H1</button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h2>" title="Heading 2"><i class="fas fa-heading"></i> H2</button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h3>" title="Heading 3"><i class="fas fa-heading"></i> H3</button>
+                            </div>
+                        </div>
+                        <div class="editor-container">
+                            <div class="editor" id="contactContent" contenteditable="true" placeholder="Start typing your content here..."></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-content hidden" id="missions-page">
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Missions Page Content</h3>
+                            <button onclick="saveContent('missionsContent')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-save mr-2"></i> Save Changes
+                            </button>
+                        </div>
+                        
+                        <div class="editor-toolbar">
+                            <div class="flex space-x-2 overflow-x-auto">
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertUnorderedList" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertOrderedList" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="createLink" title="Insert Link"><i class="fas fa-link"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" id="insertImageButton4" title="Insert Image"><i class="fas fa-image"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h1>" title="Heading 1"><i class="fas fa-heading"></i> H1</button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h2>" title="Heading 2"><i class="fas fa-heading"></i> H2</button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h3>" title="Heading 3"><i class="fas fa-heading"></i> H3</button>
+                            </div>
+                        </div>
+                        <div class="editor-container">
+                            <div class="editor" id="missionsContent" contenteditable="true" placeholder="Start typing your content here..."></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-content hidden" id="team-page">
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Team Page Content</h3>
+                            <button onclick="saveContent('teamContent')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-save mr-2"></i> Save Changes
+                            </button>
+                        </div>
+                        
+                        <div class="editor-toolbar">
+                            <div class="flex space-x-2 overflow-x-auto">
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertUnorderedList" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertOrderedList" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="createLink" title="Insert Link"><i class="fas fa-link"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" id="insertImageButton5" title="Insert Image"><i class="fas fa-image"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h1>" title="Heading 1"><i class="fas fa-heading"></i> H1</button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h2>" title="Heading 2"><i class="fas fa-heading"></i> H2</button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h3>" title="Heading 3"><i class="fas fa-heading"></i> H3</button>
+                            </div>
+                        </div>
+                        <div class="editor-container">
+                            <div class="editor" id="teamContent" contenteditable="true" placeholder="Start typing your content here..."></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-content hidden" id="gallery-page">
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Gallery Page Content</h3>
+                            <button onclick="saveContent('galleryContent')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-save mr-2"></i> Save Changes
+                            </button>
+                        </div>
+                        
+                        <div class="editor-toolbar">
+                            <div class="flex space-x-2 overflow-x-auto">
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertUnorderedList" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="insertOrderedList" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="createLink" title="Insert Link"><i class="fas fa-link"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" id="insertImageButton6" title="Insert Image"><i class="fas fa-image"></i></button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h1>" title="Heading 1"><i class="fas fa-heading"></i> H1</button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h2>" title="Heading 2"><i class="fas fa-heading"></i> H2</button>
+                                <button type="button" class="toolbar-btn px-3 py-1 bg-gray-100 rounded hover:bg-gray-200" data-command="formatBlock" data-value="<h3>" title="Heading 3"><i class="fas fa-heading"></i> H3</button>
+                            </div>
+                        </div>
+                        <div class="editor-container">
+                            <div class="editor" id="galleryContent" contenteditable="true" placeholder="Start typing your content here..."></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-content hidden" id="contact-info-page">
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Contact Information</h3>
+                            <button onclick="saveContactInfo()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-save mr-2"></i> Save Contact Info
+                            </button>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-800 mb-3">Phone Numbers</h4>
+                                <div id="phoneNumbersContainer">
+                                    <div class="flex items-center mb-2">
+                                        <input type="text" class="contact-number-input flex-grow px-3 py-2 border rounded-lg" value="+265 993 506 106" placeholder="Phone number">
+                                        <button type="button" class="ml-2 bg-red-500 text-white px-3 py-2 rounded-lg" onclick="removeContactField(this)">Remove</button>
+                                    </div>
+                                    <div class="flex items-center mb-2">
+                                        <input type="text" class="contact-number-input flex-grow px-3 py-2 border rounded-lg" value="+265 984 345 690" placeholder="Phone number">
+                                        <button type="button" class="ml-2 bg-red-500 text-white px-3 py-2 rounded-lg" onclick="removeContactField(this)">Remove</button>
+                                    </div>
+                                    <div class="flex items-center mb-2">
+                                        <input type="text" class="contact-number-input flex-grow px-3 py-2 border rounded-lg" value="+265 894 846 843" placeholder="Phone number">
+                                        <button type="button" class="ml-2 bg-red-500 text-white px-3 py-2 rounded-lg" onclick="removeContactField(this)">Remove</button>
+                                    </div>
+                                </div>
+                                <button type="button" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg mt-2" onclick="addContactField('phone')">Add Phone Number</button>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-800 mb-3">WhatsApp Numbers</h4>
+                                <div id="whatsappNumbersContainer">
+                                    <div class="flex items-center mb-2">
+                                        <input type="text" class="whatsapp-number-input flex-grow px-3 py-2 border rounded-lg" value="+265 993 506 106" placeholder="WhatsApp number">
+                                        <button type="button" class="ml-2 bg-red-500 text-white px-3 py-2 rounded-lg" onclick="removeContactField(this)">Remove</button>
+                                    </div>
+                                    <div class="flex items-center mb-2">
+                                        <input type="text" class="whatsapp-number-input flex-grow px-3 py-2 border rounded-lg" value="+265 984 345 690" placeholder="WhatsApp number">
+                                        <button type="button" class="ml-2 bg-red-500 text-white px-3 py-2 rounded-lg" onclick="removeContactField(this)">Remove</button>
+                                    </div>
+                                </div>
+                                <button type="button" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg mt-2" onclick="addContactField('whatsapp')">Add WhatsApp Number</button>
+                                
+                                <h4 class="text-lg font-semibold text-gray-800 mb-3 mt-6">Add New Phone Number</h4>
+                                <div class="flex items-center">
+                                    <input type="text" id="newPhoneNumber" class="flex-grow px-3 py-2 border rounded-lg" placeholder="Enter phone number (e.g., 0990342825)">
+                                    <button type="button" class="ml-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg" onclick="addSpecificPhoneNumber()">Add Number</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-content hidden" id="settings-page">
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold text-gray-800">Site Settings</h3>
+                            <button onclick="saveSiteSettings()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-save mr-2"></i> Save Settings
+                            </button>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Site Title</label>
+                                <input type="text" id="siteTitle" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Enter site title">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Site Description</label>
+                                <input type="text" id="siteDescription" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Enter site description">
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-3">Media Management</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2">Upload Logo</label>
+                                    <input type="file" id="logoUpload" accept="image/*" class="w-full text-sm text-gray-500
+                                        file:mr-4 file:py-2 file:px-4
+                                        file:rounded-lg file:border-0
+                                        file:text-sm file:font-semibold
+                                        file:bg-blue-50 file:text-blue-700
+                                        hover:file:bg-blue-100" onchange="uploadImageDirect(this, 'customLogo')">
+                                    <button type="button" class="mt-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg" onclick="document.getElementById('logoUpload').click()">
+                                        <i class="fas fa-upload mr-2"></i> Upload Logo
+                                    </button>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2">Upload Hero Background</label>
+                                    <input type="file" id="heroBgUpload" accept="image/*" class="w-full text-sm text-gray-500
+                                        file:mr-4 file:py-2 file:px-4
+                                        file:rounded-lg file:border-0
+                                        file:text-sm file:font-semibold
+                                        file:bg-blue-50 file:text-blue-700
+                                        hover:file:bg-blue-100" onchange="uploadImageDirect(this, 'customHeroBg')">
+                                    <button type="button" class="mt-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg" onclick="document.getElementById('heroBgUpload').click()">
+                                        <i class="fas fa-upload mr-2"></i> Upload Background
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="container">
-        <div class="dashboard-grid">
-            <!-- Home Page Content -->
-            <div class="card">
-                <h3>Home Page Content</h3>
-                <textarea id="homeContent" placeholder="Enter home page content here..."></textarea>
-                <button class="save-btn" onclick="saveContent('homeContent')">Save Home Content</button>
-            </div>
-
-            <!-- About Page Content -->
-            <div class="card">
-                <h3>About Page Content</h3>
-                <textarea id="aboutContent" placeholder="Enter about page content here..."></textarea>
-                <button class="save-btn" onclick="saveContent('aboutContent')">Save About Content</button>
-            </div>
-
-            <!-- Contact Page Content -->
-            <div class="card">
-                <h3>Contact Page Content</h3>
-                <textarea id="contactContent" placeholder="Enter contact page content here..."></textarea>
-                <button class="save-btn" onclick="saveContent('contactContent')">Save Contact Content</button>
-            </div>
-
-            <!-- Missions Page Content -->
-            <div class="card">
-                <h3>Missions Page Content</h3>
-                <textarea id="missionsContent" placeholder="Enter missions page content here..."></textarea>
-                <button class="save-btn" onclick="saveContent('missionsContent')">Save Missions Content</button>
-            </div>
-
-            <!-- Team Page Content -->
-            <div class="card">
-                <h3>Team Page Content</h3>
-                <textarea id="teamContent" placeholder="Enter team page content here..."></textarea>
-                <button class="save-btn" onclick="saveContent('teamContent')">Save Team Content</button>
-            </div>
-
-            <!-- Gallery Page Content -->
-            <div class="card">
-                <h3>Gallery Page Content</h3>
-                <textarea id="galleryContent" placeholder="Enter gallery page content here..."></textarea>
-                <button class="save-btn" onclick="saveContent('galleryContent')">Save Gallery Content</button>
-            </div>
-
-            <!-- Image Upload Section -->
-            <div class="card">
-                <h3>Logo Image</h3>
-                <input type="file" id="logoUpload" accept="image/*" onchange="previewImage(this, 'logoPreview')">
-                <button class="upload-btn" onclick="uploadImage('logoUpload', 'customLogo')">Upload Logo</button>
-                <img id="logoPreview" class="image-preview" alt="Logo Preview">
-            </div>
-
-            <div class="card">
-                <h3>Hero Background Image</h3>
-                <input type="file" id="heroBgUpload" accept="image/*" onchange="previewImage(this, 'heroBgPreview')">
-                <button class="upload-btn" onclick="uploadImage('heroBgUpload', 'customHeroBg')">Upload Hero Background</button>
-                <img id="heroBgPreview" class="image-preview" alt="Hero Background Preview">
-            </div>
-        </div>
-
-        <div class="preview-section">
-            <h2>Preview</h2>
-            <div class="preview-content" id="previewContent">
-                Select content to preview...
-            </div>
-        </div>
-
-        <div class="nav-links">
-            <a href="index.html" class="nav-link" target="_blank">View Home Page</a>
-            <a href="about.html" class="nav-link" target="_blank">View About Page</a>
-            <a href="contact.html" class="nav-link" target="_blank">View Contact Page</a>
-            <a href="missions.html" class="nav-link" target="_blank">View Missions Page</a>
-            <a href="team.html" class="nav-link" target="_blank">View Team Page</a>
-            <a href="gallery.html" class="nav-link" target="_blank">View Gallery Page</a>
-        </div>
-    </div>
-
+    <!-- Hidden file inputs for image uploads -->
+    <input type="file" id="imageUpload" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
+    <input type="file" id="imageUpload2" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
+    <input type="file" id="imageUpload3" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
+    <input type="file" id="imageUpload4" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
+    <input type="file" id="imageUpload5" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
+    <input type="file" id="imageUpload6" accept="image/*" class="hidden" onchange="handleImageUpload(this)">
+    
     <script>
         // Check if admin is logged in
         if (!localStorage.getItem('isAdminLoggedIn')) {
             window.location.href = 'admin.html';
         }
 
+        // Tab switching functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all buttons and content
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active-menu', 'text-white');
+                    btn.classList.add('text-blue-100');
+                });
+                
+                document.querySelectorAll('.page-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active-menu', 'text-white');
+                this.classList.remove('text-blue-100');
+                
+                // Show corresponding content
+                const pageId = this.textContent.trim().split(' ')[0].toLowerCase() + '-page';
+                document.getElementById(pageId).classList.remove('hidden');
+            });
+        });
+
         // Load saved content on page load
         document.addEventListener('DOMContentLoaded', function() {
             loadSavedContent();
+            loadContactInfo();
+            loadSiteSettings();
         });
 
-        // Function to save content
+        // Function to save content to localStorage
         function saveContent(elementId) {
-            const content = document.getElementById(elementId).value;
+            const content = document.getElementById(elementId).innerHTML;
             localStorage.setItem(elementId, content);
-            alert('Content saved successfully!');
-
-            // Update preview
-            document.getElementById('previewContent').innerHTML = content;
+            alert('Content saved successfully! Changes will be visible on the website.');
         }
 
-        // Function to load saved content
+        // Function to load saved content from localStorage
         function loadSavedContent() {
             const elements = [
                 'homeContent',
-                'aboutContent',
+                'aboutContent', 
                 'contactContent',
                 'missionsContent',
                 'teamContent',
                 'galleryContent'
             ];
-
+            
             elements.forEach(id => {
                 const savedContent = localStorage.getItem(id);
                 if (savedContent) {
-                    document.getElementById(id).value = savedContent;
+                    document.getElementById(id).innerHTML = savedContent;
                 }
             });
+        }
 
-            // Load image previews if they exist
-            const logoPreview = localStorage.getItem('customLogo');
-            if(logoPreview) {
-                document.getElementById('logoPreview').src = logoPreview;
-                document.getElementById('logoPreview').style.display = 'block';
-            }
+        // Function to save contact information
+        function saveContactInfo() {
+            // Get all phone numbers
+            const phoneInputs = document.querySelectorAll('.contact-number-input');
+            const phoneNumbers = [];
+            phoneInputs.forEach(input => {
+                if (input.value.trim()) {
+                    phoneNumbers.push(input.value.trim());
+                }
+            });
+            
+            // Get all WhatsApp numbers
+            const whatsappInputs = document.querySelectorAll('.whatsapp-number-input');
+            const whatsappNumbers = [];
+            whatsappInputs.forEach(input => {
+                if (input.value.trim()) {
+                    whatsappNumbers.push(input.value.trim());
+                }
+            });
+            
+            // Save to localStorage
+            localStorage.setItem('phoneNumbers', JSON.stringify(phoneNumbers));
+            localStorage.setItem('whatsappNumbers', JSON.stringify(whatsappNumbers));
+            
+            alert('Contact information saved successfully!');
+        }
 
-            const heroBgPreview = localStorage.getItem('customHeroBg');
-            if(heroBgPreview) {
-                document.getElementById('heroBgPreview').src = heroBgPreview;
-                document.getElementById('heroBgPreview').style.display = 'block';
+        // Function to load contact information
+        function loadContactInfo() {
+            // Load phone numbers
+            const phoneNumbers = JSON.parse(localStorage.getItem('phoneNumbers') || '[]');
+            const phoneContainer = document.getElementById('phoneNumbersContainer');
+            if (phoneNumbers.length > 0) {
+                phoneContainer.innerHTML = '';
+                phoneNumbers.forEach(number => {
+                    const phoneDiv = document.createElement('div');
+                    phoneDiv.className = 'flex items-center mb-2';
+                    phoneDiv.innerHTML = `
+                        <input type="text" class="contact-number-input flex-grow px-3 py-2 border rounded-lg" value="${number}" placeholder="Phone number">
+                        <button type="button" class="ml-2 bg-red-500 text-white px-3 py-2 rounded-lg" onclick="removeContactField(this)">Remove</button>
+                    `;
+                    phoneContainer.appendChild(phoneDiv);
+                });
             }
+            
+            // Load WhatsApp numbers
+            const whatsappNumbers = JSON.parse(localStorage.getItem('whatsappNumbers') || '[]');
+            const whatsappContainer = document.getElementById('whatsappNumbersContainer');
+            if (whatsappNumbers.length > 0) {
+                whatsappContainer.innerHTML = '';
+                whatsappNumbers.forEach(number => {
+                    const whatsappDiv = document.createElement('div');
+                    whatsappDiv.className = 'flex items-center mb-2';
+                    whatsappDiv.innerHTML = `
+                        <input type="text" class="whatsapp-number-input flex-grow px-3 py-2 border rounded-lg" value="${number}" placeholder="WhatsApp number">
+                        <button type="button" class="ml-2 bg-red-500 text-white px-3 py-2 rounded-lg" onclick="removeContactField(this)">Remove</button>
+                    `;
+                    whatsappContainer.appendChild(whatsappDiv);
+                });
+            }
+        }
+
+        // Function to add contact field
+        function addContactField(type) {
+            const container = type === 'phone' ? 
+                document.getElementById('phoneNumbersContainer') : 
+                document.getElementById('whatsappNumbersContainer');
+            
+            const fieldDiv = document.createElement('div');
+            fieldDiv.className = 'flex items-center mb-2';
+            fieldDiv.innerHTML = `
+                <input type="text" class="${type}-number-input flex-grow px-3 py-2 border rounded-lg" 
+                       placeholder="${type === 'phone' ? 'Phone' : 'WhatsApp'} number">
+                <button type="button" class="ml-2 bg-red-500 text-white px-3 py-2 rounded-lg" 
+                        onclick="removeContactField(this)">Remove</button>
+            `;
+            container.appendChild(fieldDiv);
+        }
+
+        // Function to add specific phone number
+        function addSpecificPhoneNumber() {
+            const input = document.getElementById('newPhoneNumber');
+            const number = input.value.trim();
+            
+            if (number) {
+                const phoneContainer = document.getElementById('phoneNumbersContainer');
+                const phoneDiv = document.createElement('div');
+                phoneDiv.className = 'flex items-center mb-2';
+                phoneDiv.innerHTML = `
+                    <input type="text" class="contact-number-input flex-grow px-3 py-2 border rounded-lg" value="${number}" placeholder="Phone number">
+                    <button type="button" class="ml-2 bg-red-500 text-white px-3 py-2 rounded-lg" onclick="removeContactField(this)">Remove</button>
+                `;
+                phoneContainer.appendChild(phoneDiv);
+                
+                // Clear the input
+                input.value = '';
+                
+                // Save the updated contact info
+                saveContactInfo();
+            } else {
+                alert('Please enter a phone number.');
+            }
+        }
+
+        // Function to remove contact field
+        function removeContactField(button) {
+            button.parentElement.remove();
+        }
+
+        // Function to save site settings
+        function saveSiteSettings() {
+            const title = document.getElementById('siteTitle').value;
+            const description = document.getElementById('siteDescription').value;
+            
+            localStorage.setItem('siteTitle', title);
+            localStorage.setItem('siteDescription', description);
+            
+            alert('Site settings saved successfully!');
+        }
+
+        // Function to load site settings
+        function loadSiteSettings() {
+            const title = localStorage.getItem('siteTitle');
+            const description = localStorage.getItem('siteDescription');
+            
+            if (title) document.getElementById('siteTitle').value = title;
+            if (description) document.getElementById('siteDescription').value = description;
         }
 
         // Function to logout
         function logout() {
             localStorage.removeItem('isAdminLoggedIn');
+            localStorage.removeItem('adminUsername');
             window.location.href = 'admin.html';
         }
 
-        // Add event listeners to textareas for live preview
-        document.querySelectorAll('textarea').forEach(textarea => {
-            textarea.addEventListener('input', function() {
-                document.getElementById('previewContent').innerHTML = this.value;
+        // Add event listeners to the editor toolbar buttons
+        document.querySelectorAll('.toolbar-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const command = this.getAttribute('data-command');
+                const value = this.getAttribute('data-value');
+
+                // Focus on the active editor before executing command
+                const activeEditor = document.querySelector('.page-content:not(.hidden) .editor');
+                if(activeEditor) {
+                    activeEditor.focus();
+
+                    if(command === 'createLink') {
+                        const url = prompt('Enter the URL:');
+                        if(url) {
+                            document.execCommand(command, false, url);
+                        }
+                    } else if(command === 'insertImage') {
+                        // Trigger the hidden file input for image upload
+                        const activeEditorIndex = Array.from(document.querySelectorAll('.page-content')).indexOf(activeEditor.closest('.page-content'));
+                        const imageUploadInputs = document.querySelectorAll('input[id^="imageUpload"]');
+                        imageUploadInputs[activeEditorIndex].click();
+                    } else {
+                        document.execCommand(command, false, value || null);
+                    }
+                }
             });
         });
 
-        // Function to preview uploaded image
-        function previewImage(input, previewId) {
+        // Special handlers for the insert image buttons
+        document.getElementById('insertImageButton').addEventListener('click', function() {
+            document.getElementById('imageUpload').click();
+        });
+
+        document.getElementById('insertImageButton2').addEventListener('click', function() {
+            document.getElementById('imageUpload2').click();
+        });
+
+        document.getElementById('insertImageButton3').addEventListener('click', function() {
+            document.getElementById('imageUpload3').click();
+        });
+
+        document.getElementById('insertImageButton4').addEventListener('click', function() {
+            document.getElementById('imageUpload4').click();
+        });
+
+        document.getElementById('insertImageButton5').addEventListener('click', function() {
+            document.getElementById('imageUpload5').click();
+        });
+
+        document.getElementById('insertImageButton6').addEventListener('click', function() {
+            document.getElementById('imageUpload6').click();
+        });
+
+        // Handle image upload
+        function handleImageUpload(input) {
             if (input.files && input.files[0]) {
+                const file = input.files[0];
                 const reader = new FileReader();
 
                 reader.onload = function(e) {
-                    document.getElementById(previewId).src = e.target.result;
-                    document.getElementById(previewId).style.display = 'block';
+                    // Insert the image into the active editor
+                    const activeEditor = document.querySelector('.page-content:not(.hidden) .editor');
+                    if(activeEditor) {
+                        activeEditor.focus();
+
+                        // Create an image element
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style.maxWidth = '100%';
+                        img.style.height = 'auto';
+                        img.alt = 'Uploaded image';
+                        img.className = 'uploaded-image';
+
+                        // Insert the image at the cursor position
+                        const selection = window.getSelection();
+                        if(selection.rangeCount > 0) {
+                            const range = selection.getRangeAt(0);
+                            range.deleteContents();
+                            range.insertNode(img);
+                        } else {
+                            activeEditor.appendChild(img);
+                        }
+                    }
                 }
 
-                reader.readAsDataURL(input.files[0]);
+                reader.readAsDataURL(file);
+
+                // Reset the file input
+                input.value = '';
             }
         }
 
-        // Function to upload image
-        function uploadImage(inputId, storageKey) {
-            const fileInput = document.getElementById(inputId);
-            if (fileInput.files && fileInput.files[0]) {
+        // Function to upload image directly to localStorage
+        function uploadImageDirect(input, storageKey) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
                 const reader = new FileReader();
 
                 reader.onload = function(e) {
+                    // Store image data URL in localStorage
                     localStorage.setItem(storageKey, e.target.result);
-                    alert('Image uploaded successfully!');
-
-                    // Reload the page to see changes
-                    location.reload();
+                    alert('Image uploaded successfully! Changes will be visible on the website.');
                 }
 
-                reader.readAsDataURL(fileInput.files[0]);
+                reader.readAsDataURL(file);
+
+                // Reset the file input
+                input.value = '';
             } else {
                 alert('Please select an image file.');
             }

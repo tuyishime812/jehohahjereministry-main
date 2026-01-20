@@ -1199,25 +1199,54 @@
             alert('Preview refreshed! Changes will be visible when you view the website.');
         }
 
-        // Function to upload image directly to Supabase
+        // Function to upload image directly to Supabase Storage
         async function uploadImageDirect(input, storageKey) {
             if (input.files && input.files[0]) {
                 const file = input.files[0];
 
-                // For now, we'll store in localStorage as Supabase storage setup requires additional configuration
-                const reader = new FileReader();
+                try {
+                    // Upload file to Supabase storage in the 'media' bucket
+                    const { data, error } = await supabaseClient
+                        .storage
+                        .from('media')  // 'media' is the bucket name
+                        .upload(`images/${Date.now()}_${file.name}`, file, {
+                            cacheControl: '3600',
+                            upsert: true
+                        });
 
-                reader.onload = function(e) {
-                    // Store image data URL in localStorage
-                    localStorage.setItem(storageKey, e.target.result);
+                    if (error) throw error;
 
-                    // Also save to Supabase if needed
-                    saveMediaToSupabase(storageKey, e.target.result);
+                    // Get the public URL of the uploaded file
+                    const { data: publicUrlData } = supabaseClient
+                        .storage
+                        .from('media')
+                        .getPublicUrl(data.path);
+
+                    // Save the public URL to the media table in the database
+                    const { error: dbError } = await supabaseClient
+                        .from('media')
+                        .upsert({
+                            key: storageKey,
+                            value: publicUrlData.publicUrl,  // Use the public URL instead of data URL
+                            updated_at: new Date().toISOString()
+                        }, { onConflict: ['key'] });
+
+                    if (dbError) throw dbError;
 
                     alert('Image uploaded successfully! Changes will be visible on the website.');
-                }
+                } catch (error) {
+                    console.error('Error uploading image to Supabase storage:', error);
+                    alert(`Error uploading image: ${error.message}`);
 
-                reader.readAsDataURL(file);
+                    // Fallback: Store as data URL in localStorage if storage upload fails
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        localStorage.setItem(storageKey, e.target.result);
+                        saveMediaToSupabase(storageKey, e.target.result);
+                        alert('Image saved locally. Changes will be visible on the website.');
+                    };
+                    reader.readAsDataURL(file);
+                }
 
                 // Reset the file input
                 input.value = '';
@@ -1226,7 +1255,7 @@
             }
         }
 
-        // Function to save media to Supabase
+        // Function to save media to Supabase database (fallback)
         async function saveMediaToSupabase(key, value) {
             try {
                 const { data, error } = await supabaseClient

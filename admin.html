@@ -29,82 +29,28 @@
             text-align: center;
             animation: fadeIn 0.5s ease-out;
         }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .error-message {
+            color: #e53e3e;
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
         .logo {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 1.5rem;
+            width: 80px;
+            height: 80px;
             background: linear-gradient(135deg, #3b82f6, #2563eb);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 2.5rem;
+            font-size: 1.5rem;
             font-weight: bold;
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #374151;
-            font-weight: 500;
-        }
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 2px solid #d1d5db;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        input[type="text"]:focus,
-        input[type="password"]:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-        }
-        button {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-        }
-        .error-message {
-            color: #ef4444;
-            margin-top: 0.5rem;
-            text-align: center;
-            font-weight: 500;
-        }
-        .back-link {
-            display: inline-block;
-            margin-top: 1.5rem;
-            color: #3b82f6;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        .back-link:hover {
-            color: #2563eb;
-            text-decoration: underline;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            margin: 0 auto 1.5rem;
         }
     </style>
 </head>
@@ -113,20 +59,20 @@
         <div class="logo">
             <i class="fas fa-crown"></i>
         </div>
-        <h2 class="text-2xl font-bold text-gray-800 mb-2">Admin Portal</h2>
-        <p class="text-gray-600 mb-6">Sign in to access the administration panel</p>
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Admin Panel</h2>
+        <p class="text-gray-600 mb-6">Sign in to access the admin panel</p>
         
         <form id="adminLoginForm">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
+                <input type="text" id="username" name="username" value="jehovah" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <div class="mb-6">
+                <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
+                <input type="password" id="password" name="password" value="jehovah123" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
             </div>
-            <button type="submit">
-                <i class="fas fa-sign-in-alt mr-2"></i> Sign In
+            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white py-3 px-4 rounded-lg font-semibold transition duration-300 shadow-lg">
+                <i class="fas fa-lock mr-2"></i> Login
             </button>
         </form>
         <div id="errorMessage" class="error-message" style="display: none;"></div>
@@ -137,33 +83,32 @@
             Password: <code class="bg-gray-100 px-2 py-1 rounded">jehovah123</code>
         </p>
         
-        <a href="index.html" class="back-link">
+        <a href="index.html" class="mt-4 inline-block text-blue-600 hover:text-blue-800 flex items-center justify-center">
             <i class="fas fa-arrow-left mr-2"></i> Back to Website
         </a>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-
+            
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const errorMessage = document.getElementById('errorMessage');
-
+            
             // Check credentials
             if(username === 'jehovah' && password === 'jehovah123') {
-                // Store admin session
+                // Store admin session in localStorage
                 localStorage.setItem('isAdminLoggedIn', 'true');
                 localStorage.setItem('adminUsername', username);
-
+                
                 // Redirect to admin dashboard
                 window.location.href = 'admin-cms.html';
             } else {
                 errorMessage.textContent = 'Invalid username or password. Please try again.';
                 errorMessage.style.display = 'block';
-
-                // Shake animation for error
+                
+                // Add shake animation for error
                 const container = document.querySelector('.login-container');
                 container.style.animation = 'shake 0.5s';
                 setTimeout(() => {
@@ -171,7 +116,7 @@
                 }, 500);
             }
         });
-
+        
         // Add shake animation for errors
         const style = document.createElement('style');
         style.textContent = `
